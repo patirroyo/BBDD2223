@@ -1,0 +1,35 @@
+erDiagram
+    DIETA||--o{SEGUIMIENTO : tener
+    SEGUIMIENTO}o--||ANIMAL : tener
+    SEGUIMIENTO{
+        Date fecha_inicio PK
+        Date fecha_fin PK
+    }
+    DIETA{
+        String codDieta PK
+        String nombre
+        String finalidad
+        String observaciones
+    }
+    ANIMAL{
+        String codAnimal PK
+        String tipoAnimal
+        Double peso
+        Year anyoNacimiento
+        String utilidadAnimal
+        String otrosDatos
+    }
+    DIETA||--|{ALIMENTO : constituir
+    ALIMENTO{
+        String nombreAlimento PK
+        String tipoAlimento
+        Double cantidadAlimento PK
+        Double costeAlimento PK
+    }
+    ALIMENTO}o--|{NUTRIENTES : contener
+    NUTRIENTES{
+        String nombreNutriente PK
+        Double cantidadNutriente
+        String estadoNutriente
+        String otrosDatos
+    }

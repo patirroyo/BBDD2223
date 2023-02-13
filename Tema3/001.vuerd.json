@@ -1,0 +1,731 @@
+{
+  "canvas": {
+    "version": "2.2.11",
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": -8.799999999999999,
+    "scrollLeft": 0,
+    "zoomLevel": 1,
+    "show": {
+      "tableComment": true,
+      "columnComment": false,
+      "columnDataType": true,
+      "columnDefault": true,
+      "columnAutoIncrement": false,
+      "columnPrimaryKey": true,
+      "columnUnique": true,
+      "columnNotNull": true,
+      "relationship": true
+    },
+    "database": "MySQL",
+    "databaseName": "",
+    "canvasType": "ERD",
+    "language": "GraphQL",
+    "tableCase": "pascalCase",
+    "columnCase": "camelCase",
+    "highlightTheme": "VS2015",
+    "bracketType": "none",
+    "setting": {
+      "relationshipDataTypeSync": true,
+      "relationshipOptimization": true,
+      "columnOrder": [
+        "columnName",
+        "columnDataType",
+        "columnNotNull",
+        "columnUnique",
+        "columnAutoIncrement",
+        "columnDefault",
+        "columnComment"
+      ]
+    },
+    "pluginSerializationMap": {}
+  },
+  "table": {
+    "tables": [
+      {
+        "name": "ALUMNO",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "e1dffeda-554d-4573-b13c-4b69f8fee10d"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0fce840c-d3a3-4aa0-b275-7968fc9667af"
+          },
+          {
+            "name": "fecha_nacimiento",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 109.49688720703125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "844b6c03-afe2-489a-a503-ad97358f90f1"
+          },
+          {
+            "name": "domicilio",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "728256d3-8662-4b58-bcff-1457fdd523ca"
+          },
+          {
+            "name": "codigo_historial",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 98.62886047363281,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "53d1f959-cb7e-46e8-9cd0-34a689417b61"
+          },
+          {
+            "name": "codigo_curso",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 82.82089233398438,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "017dd040-e5c2-4da4-876d-4d42892d8486"
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 587.9045,
+          "top": 59.6823,
+          "zIndex": 193,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "b5aafffe-f070-416e-9f2f-056affd2596a"
+      },
+      {
+        "name": "CURSO",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "a52133be-bf35-44ab-897b-7378844ad074"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "004ac9fd-d414-4a90-b3f5-ae9389a6d26a"
+          },
+          {
+            "name": "codigo_seccion",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 94.37786865234375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "43018867-107b-4fa1-8ad4-c872bd335dd5"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 644.1899,
+          "top": 356.0858,
+          "zIndex": 145,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "34cd5108-e601-4bc7-b7e6-1a429cf645d8"
+      },
+      {
+        "name": "SECCION",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0f83e907-6a03-40f5-b30f-91a684b42864"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "bac1d5fa-f48a-4f58-bd1c-5da8e1762e1f"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 612.5074,
+          "top": 588.9364,
+          "zIndex": 116,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "09fe7cb8-a05d-4239-bf66-5b23c426b251"
+      },
+      {
+        "name": "HISTORIAL_ACADEMICO",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "86c68bbe-68f7-4130-80f1-90bfda883c07"
+          },
+          {
+            "name": "fecha_historia",
+            "comment": "",
+            "dataType": "Date",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 87.33189392089844,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "414396c2-9af9-4f8b-82d8-17d4782297bf"
+          },
+          {
+            "name": "observaciones",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 89.73687744140625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "66e83d27-f899-4b99-b154-94805c9bf3e5"
+          },
+          {
+            "name": "nota_media",
+            "comment": "",
+            "dataType": "DECIMAL",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 73.78593444824219,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0ef71eba-21c6-453e-9b05-25c643204f7d"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1185.8572,
+          "top": 70.7621,
+          "zIndex": 148,
+          "widthName": 149.27691650390625,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "82eb6720-0eb4-4fca-af02-b469e2df08d1"
+      },
+      {
+        "name": "ALUMNO_ACTIVIDAD",
+        "comment": "",
+        "columns": [
+          {
+            "name": "cod_actividad",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": true,
+              "widthName": 84.69290161132812,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "69ff53c2-99c3-4421-87e6-17fe4b3636d6"
+          },
+          {
+            "name": "codigo_alumno",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": true,
+              "widthName": 95.82090759277344,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9b88f2a6-40d4-44f3-88bf-ffa5db870de4"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 5.6673,
+          "top": 88.889,
+          "zIndex": 189,
+          "widthName": 131.2198944091797,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "94f30fad-75c2-47c3-8f22-16d87e7183c5"
+      },
+      {
+        "name": "ACTIVIDAD_EXTRAESCOLAR",
+        "comment": "",
+        "columns": [
+          {
+            "name": "cod_actividad",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": true,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 84.69290161132812,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "00c86460-3353-4fc2-8812-1ef7dc30fa7e"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0b6e0fb4-8c3c-48c2-827a-24d09ce400a4"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 28.8886,
+          "top": 346.6983,
+          "zIndex": 104,
+          "widthName": 169.0498809814453,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "9e040354-885c-4b57-9fbd-020e2e127d3a"
+      }
+    ],
+    "indexes": []
+  },
+  "memo": {
+    "memos": [
+      {
+        "value": "codigo es siempre alfanumérico",
+        "ui": {
+          "active": false,
+          "left": 405.6000000000003,
+          "top": 253.6,
+          "zIndex": 86,
+          "width": 127,
+          "height": 100
+        },
+        "id": "9f6804b5-5a9e-49c4-8afe-4cc2340c1207"
+      }
+    ]
+  },
+  "relationship": {
+    "relationships": [
+      {
+        "identification": false,
+        "relationshipType": "OneOnly",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "82eb6720-0eb4-4fca-af02-b469e2df08d1",
+          "columnIds": [
+            "86c68bbe-68f7-4130-80f1-90bfda883c07"
+          ],
+          "x": 1185.8572,
+          "y": 146.2621,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "b5aafffe-f070-416e-9f2f-056affd2596a",
+          "columnIds": [
+            "53d1f959-cb7e-46e8-9cd0-34a689417b61"
+          ],
+          "x": 946.4013872070312,
+          "y": 155.6823,
+          "direction": "right"
+        },
+        "constraintName": "fk_historial_academico_to_alumno",
+        "visible": true,
+        "id": "97bf6c1a-9eac-435d-ac5e-86c432002619"
+      },
+      {
+        "identification": true,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "9e040354-885c-4b57-9fbd-020e2e127d3a",
+          "columnIds": [
+            "00c86460-3353-4fc2-8812-1ef7dc30fa7e"
+          ],
+          "x": 195.73505080566406,
+          "y": 346.6983,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "94f30fad-75c2-47c3-8f22-16d87e7183c5",
+          "columnIds": [
+            "69ff53c2-99c3-4421-87e6-17fe4b3636d6"
+          ],
+          "x": 178.07775379638673,
+          "y": 198.889,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_actividad_extraescolar_to_alumno_actividad",
+        "visible": true,
+        "id": "7e1cf730-2b6c-4cfe-af3e-a882b4e07369"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "09fe7cb8-a05d-4239-bf66-5b23c426b251",
+          "columnIds": [
+            "0f83e907-6a03-40f5-b30f-91a684b42864"
+          ],
+          "x": 767.0074,
+          "y": 588.9364,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "34cd5108-e601-4bc7-b7e6-1a429cf645d8",
+          "columnIds": [
+            "43018867-107b-4fa1-8ad4-c872bd335dd5"
+          ],
+          "x": 815.8788343261718,
+          "y": 486.5858,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_seccion_to_curso",
+        "visible": true,
+        "id": "7b1faa8e-0a7b-4f26-9edb-4b864f3943d1"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "34cd5108-e601-4bc7-b7e6-1a429cf645d8",
+          "columnIds": [
+            "a52133be-bf35-44ab-897b-7378844ad074"
+          ],
+          "x": 815.8788343261718,
+          "y": 356.0858,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "b5aafffe-f070-416e-9f2f-056affd2596a",
+          "columnIds": [
+            "017dd040-e5c2-4da4-876d-4d42892d8486"
+          ],
+          "x": 767.1529436035156,
+          "y": 251.6823,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_curso_to_alumno",
+        "visible": true,
+        "id": "ab40a808-197d-4fe9-b947-014609c4279b"
+      },
+      {
+        "identification": true,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "b5aafffe-f070-416e-9f2f-056affd2596a",
+          "columnIds": [
+            "e1dffeda-554d-4573-b13c-4b69f8fee10d"
+          ],
+          "x": 587.9045,
+          "y": 155.6823,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "94f30fad-75c2-47c3-8f22-16d87e7183c5",
+          "columnIds": [
+            "9b88f2a6-40d4-44f3-88bf-ffa5db870de4"
+          ],
+          "x": 350.48820759277345,
+          "y": 143.889,
+          "direction": "right"
+        },
+        "constraintName": "fk_alumno_to_alumno_actividad",
+        "visible": true,
+        "id": "c4e4ff5f-a130-4d9a-8421-b6f2274e0970"
+      }
+    ]
+  }
+}

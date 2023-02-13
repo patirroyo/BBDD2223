@@ -1,0 +1,66 @@
+erDiagram
+    AFILIADO{
+        String numSocio PK
+        String nombre
+        String apellidos
+        String domicilio
+        String localidad
+        String provincia
+        String movil
+        Date fechaNacimiento
+        Int licencia
+    }
+    AFILIADO||--o{PARTICIPACION : participar
+    PARTICIPACION}|--||EVENTO : registrar
+    EVENTO{
+        String nombre PK
+        Date fecha
+        String observaciones
+    }
+    PEZ{
+        Int orden FK
+        String nombre PK 
+        String caracteristicas
+    }
+    LUGAR{
+        String nombre PK
+        String Localidad PK
+        String Provincia PK
+    }   
+    EVENTO}o--||LUGAR : realizar
+    EVENTO||--o{CAPTURA_EVENTO : producir
+    CAPTURA||--o|CAPTURA_PARTICULAR : DT
+    CAPTURA||--o|CAPTURA_EVENTO : DT
+    CAPTURA}|--||PEZ : pescar
+    EVENTO||--o{CAPTURA_EVENTO : producir
+    AFILIADO||--o{CAPTURA : realiza    
+    CAPTURA{
+        Int orden PK 
+        Double talla
+        Double peso 
+    }    
+    EVENTO||--o{CAPTURA_EVENTO : producir
+    CAPTURA_PARTICULAR{
+        Int orden FK
+        Date fechaCaptura
+        Time hora
+    }
+    CAPTURA_EVENTO{
+        Int orden FK
+        Time hora
+    }
+    PARTICIPACION{
+        String numSocio FK
+        Int capturas_realizadas
+        Int puntos_obtenidos
+        String trofeo
+    }
+    PEZ}|--|{LUGAR: vivir
+    LUGAR||--|{CONDICIONES_VEDA : tener
+    CONDICIONES_VEDA{
+        String nombre FK
+        Double talla_minima
+        Int num_maximo_ejemplares
+        Int  coste_uso_lugar
+        String trofeo
+    }

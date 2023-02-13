@@ -1,0 +1,35 @@
+erDiagram
+    AFILIADO }|--|| SINDICATO : pertenecer
+    AFILIADO {
+        String dni PK
+        String nombre
+        String apellidos
+        String domicilio
+        int movil
+        String mail
+    }
+    SINDICATO{
+        String nombre PK
+        String domicilio_sede
+        int num_afiliados
+    }
+    AFILIADO }|--o{ACTIVIDAD : participar
+    ACTIVIDAD{
+        String nombre_actividad PK "DT"
+        Date fecha_realizacion
+        String lugar
+    }
+    CURSO_FORMACION{
+        String nombre_profesor
+        String objetivo PK
+        int horas
+        String dias_impartido
+        int numero_alumnos
+    }
+    ACTIVIDAD||--o|CURSO_FORMACION : "o es"
+    ACTIVIDAD||--o|CHARLA : "o es"
+    CHARLA{
+        String ponente PK
+        String trayectoria_ponente
+        String web_referencia
+    }

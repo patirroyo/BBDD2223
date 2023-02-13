@@ -1,0 +1,78 @@
+erDiagram
+    %%% Club de Tiempo Libre
+    EVENTO}o--|{TRAMO : recorrer
+    EVENTO||--||RENDIMIENTO_EVENTOS :obtener
+    EVENTO}|--|{ESTADISTICA_PARTICIPANTE : participar
+    PARTICIPANTE||--|{ESTADISTICA_PARTICIPANTE : obtener
+    PARTICIPANTE||--o|SOCIO : DP
+    PARTICIPANTE||--o|SOCIO_OTROS_CLUBES : DP
+    SOCIO_OTROS_CLUBES}|--||CLUB_EXTERNO : pertenecer
+
+    
+    EVENTO{
+        String codigo_evento PK
+        String nombre
+        Date fecha
+        String lugar_inicio
+        String lugar_destino
+        String od_evento
+    }
+    TRAMO{
+        String nombre PK
+        String km
+        String grado_peligrosidad
+        String tlfno_urgencias
+        String direccion_refugio
+        String provincia
+        String localidad
+        String od_tramo
+    }
+    PARTICIPANTE{
+        String dni PK
+        String nombre
+        String apellidos
+        String direccion
+        String pais
+        String provincia
+        String localidad
+        String telefono
+        String fecha_nacimiento
+        String edad
+        String e-mail
+        
+    }
+    ESTADISTICA_PARTICIPANTE{
+        String hora_salida
+        String hora_llegada
+        String velocidad
+        String dorsal PK
+    }
+%%%Son DP porque pueden ser cualquiera de los 2 tipos
+%%% de socio o no ser socios de nada
+    SOCIO{
+        String numero_socio PK
+        String modalidad
+        String fecha_ingreso
+        String cueota_anual
+    }
+    SOCIO_OTROS_CLUBES{
+        String licencia PK
+    }
+    CLUB_EXTERNO{
+        String cif PK
+        String nombre
+        String direccion
+        String pais
+        String provincia
+        String localidad
+        String telefono
+        String fax
+        String presidente
+        String numero_afiliados
+    }
+    RENDIMIENTO_EVENTOS{
+        String tiempo_invertido
+        String velocidad_media
+        String total_participantes
+        String observaciones
+    }

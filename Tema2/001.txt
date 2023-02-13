@@ -1,0 +1,27 @@
+erDiagram
+    ALUMNO }|--o{ ACTIVIDAD_EXTRAESCOLAR : apuntar
+    ALUMNO {
+        String nombre PK "sobreentiendo que nombre es el conjunto de nombre + apellidos"
+        dateFormat fecha_nacimiento
+        String domicilio
+    }
+    ACTIVIDAD_EXTRAESCOLAR{
+        String nombre PK
+    }
+    ALUMNO }|--||CURSO : matricular
+    CURSO{
+        String nombre PK
+        int numero_alumnos
+    }
+    CURSO }|--|| SECCION : pertenecer
+    SECCION{
+        String nombre PK
+    }
+    ALUMNO||--|| HISTORIAL_ACADEMICO : disponer
+    HISTORIAL_ACADEMICO{
+        int cod_historial PK
+        dateFormat fecha_entrada
+        String obs
+        Decimal nota_media
+    }
+	

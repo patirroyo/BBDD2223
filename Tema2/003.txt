@@ -1,0 +1,42 @@
+erDiagram
+    EMPLEADO}|--|| SUPERMERCADO : contratar
+    SUPERMERCADO{
+        String nombre PK
+        String direccion PK
+        int zip_code PK
+        String telefono
+        Date fechaInauguracion       
+    }
+    EMPLEADO}|--|| SECCION : desempenar
+    SECCION{
+        int codigo PK
+        int nombre
+        int caracteristicas
+    }
+    EMPLEADO{
+        String dni PK
+        String nombre
+        String apellidos
+        String direccion
+        int zip_code
+        String telefono
+        Date fechaAntiguedad
+    }
+    EMPLEADO}|--o|EMPLEADO : jefe
+    SECCION}|--|{PROVEEDOR : reponer
+    PROVEEDOR{
+        String cif PK
+        String nombre
+        String direccion
+        String telefono        
+    }
+    CLIENTE }|--|{SUPERMERCADO : comprar
+    CLIENTE{
+        String dni PK
+        String nombre
+        String apellidos
+        String telefono
+        int zip_code
+        Date fechaNacimiento
+        int edad
+    }

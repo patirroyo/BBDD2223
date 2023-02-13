@@ -1,0 +1,43 @@
+erDiagram
+    CONCESIONARIO}o--||CIUDAD : distribuir
+    CONCESIONARIO {
+        int codigo PK
+        int nombre
+    }
+    CIUDAD{
+        int codigo PK
+        int nombre
+    }
+    EMPLEADO}|--||CONCESIONARIO : trabajar
+    EMPLEADO{
+        String dni PK
+        String nombre
+        String apellidos
+        String domicilio
+        String num_telefono
+        Date fecha_inicio
+        String tiempo_trabajado
+    }
+    EMPLEADO||--o{VENTA : realizar
+    VENTA{
+        String forma_pago PK
+        Date fecha_venta PK
+    }
+    CLIENTE||--|{VENTA : comprar
+    CLIENTE}o--||CIUDAD : pertenecer
+    CLIENTE{
+        String dni PK 
+        String nombre
+        String apellidos
+        String telefono
+        String domicilio
+    }
+    COCHE||--o|VENTA : estar
+    COCHE{
+        String codigo PK 
+        String descripcion
+        String marca
+        String modelo
+        String matricula
+    }
+

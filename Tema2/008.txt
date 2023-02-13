@@ -1,0 +1,60 @@
+erDiagram
+    PARTICIPANTE||--o|JUGADOR : DT
+    PARTICIPANTE||--o|ARBITRO : DT
+    PARTICIPANTE{
+        Int numeroParticipante PK 
+        String nombre
+        String direccion
+        String telContacto
+        String campeonatos
+    } 
+    JUGADOR{
+        Int nivelJuego
+    }
+    ARBITRO{
+        Date anyoComienzo
+    }
+    PAIS||--o{PARTICIPANTE : enviar
+    PAIS{
+        Int numPais PK
+        String nombre
+        Int numClubAjedrez
+    }
+    PARTIDA{
+        Int numPartida PK
+        Date horaComienzo
+        Date horaFin
+        String nomJugadorBlancas FK
+        String nomJugadorNegras FK
+        Int entradasVendidas
+    }
+    ARBITRO||--|{PARTIDA : arbitrar
+    JUGADOR}|--|{PARTIDA : participar
+    PARTIDA||--|{MOVIMIENTOS : registrar
+    PARTIDA}|--||SALA: celebrar
+    SALA{
+        String nombreSala PK
+        Int capacidad
+        String medioRetransmision
+        }
+    MOVIMIENTOS{
+        Int numMovimiento PK
+        String fichaDesplazada
+        String posicionDesplazamiento
+        String color
+        String comentario
+    }
+    PARTICIPANTE||--o{ALOJAMIENTO : tener
+    ALOJAMIENTO}o--||HOTEL : registro
+    ALOJAMIENTO{
+        Date fechEntrada PK
+        Date fechSalida PK
+    }
+    HOTEL{
+        String cif PK
+        String nombre
+        String direccion
+        String telefono            
+    }
+    HOTEL||--o{SALA : disponer
+

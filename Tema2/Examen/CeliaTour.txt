@@ -1,0 +1,121 @@
+erDiagram
+   ESCENA{
+    Int id PK 
+    String nombre_descriptivo
+    String ruta_archivo
+    Double pitch
+    Double yaw
+    Int id_mapa
+    Double top_mapa
+    Double left_mapa    
+   }%%%Considero que el id es único y un codigo numérico (para todas las entidades)
+   %%%Añado las el id del mapa al que pertecenece cada escena, pues solo pertenece a uno, también añado las coordenadas que ocupa en ese mapa
+   ESCENA||--|{HOTSPOT : contener
+   HOTSPOT{
+    Int id PK 
+    String titulo_descriptivo
+    String texto
+    Double pitch
+    Double yaw
+    String tipo
+   }
+   %%%La entidad HOTSPOT se especializa de forma disjunta total, por ello las especializaciones no tienen PK, al igual que las especializaciones de las especializaciones tampoco.
+   HOTSPOT||--o|HOTSPOT_SALTO : DT
+   HOTSPOT||--o|HOTSPOT_AUDIO : DT
+   HOTSPOT||--o|HOTSPOT_VIDEO : DT
+   HOTSPOT||--o|HOTSPOT_ESCALERA : DT
+   HOTSPOT||--o|HOTSPOT_PANEL : DT
+   HOTSPOT_ESCALERA{
+    Int id
+   }
+   HOTSPOT_SALTO{
+    Int id_escena_origen FK
+    Int id_escena_destino FK
+    Double pitch_escena_destino FK
+    Double yaw_escena_destino FK
+   }
+   HOTSPOT_AUDIO{
+    Int id 
+    String descripcion
+    String ruta_archivo
+    String tipo
+   }
+   HOTSPOT_AUDIO||--o|HOTSPOT_AUDIO_VISITA : DT
+   HOTSPOT_AUDIO||--o|HOTSPOT_AUDIO_AUDIODESCRIPCION : DT
+   HOTSPOT_AUDIO_AUDIODESCRIPCION{
+    Int id
+   }
+   HOTSPOT_VIDEO{
+    Int id
+    String descripcion
+    String ruta_absoluta
+   }
+   HOTSPOT_PANEL{
+    String descripcion 
+   }
+   HOTSPOT_PANEL||--o|ARCHIVO_PDF : asociar
+   ARCHIVO_PDF{
+    Int id PK 
+    String ruta_archivo
+    String panel_asociado
+   }
+   %%% Entiendo que si puedo asociar archivos a los paneles tendré que tenerlos identificados como mínimo con un id y una ruta, también con el panel al que pertenecen
+  
+   IMAGEN{
+    Int id PK 
+    String ruta_relativa
+    String titulo
+    String texto
+    Date fecha_subida
+   }
+   HOTSPOT_PANEL||--||ESCENA : asociar
+   HOTSPOT_PANEL}o--|{IMAGEN : contener
+    %%%no se especifica claramente que todas las imagenes tengan que estar en un panel
+   HOTSPOT_PANEL|O--||IMAGEN : imagen_destacada
+   %%% Entiendo que una imagen puede o no ser la imagen destacada en un panel y que cada panel solo tiene una imagen destacada
+   ESCENA}|--||MAPA : asignar
+   MAPA{
+    Int id PK
+    String ruta_relativa
+    String titulo
+    Int id_escena_inicio
+   }
+   VISITA_GUIADA{
+    Int id_mapa_inicial PK
+    Int id_escena_inicial PK
+    
+   }
+   VISITA_GUIADA||--||REGISTRO_ESCENA: comprender
+   REGISTRO_ESCENA||--|{ESCENA: compreder
+   REGISTRO_ESCENA{
+    Int id_escena PK
+    Int id_hotspot_audio_visita PK
+    String titulo_escena_visita
+   }
+   REGISTRO_ESCENA||--|{HOTSPOT_AUDIO_VISITA: contener
+   HOTSPOT_AUDIO_VISITA{
+    Int id PK
+   }
+   VISITA_PUNTOS_DESTACADOS||--|{ESCENA:formar
+   VISITA_PUNTOS_DESTACADOS{
+    Int id_escena PK
+    String titulo
+   }
+   BIBLIIOTECA{
+    Int id_libro PK
+    String titulo
+    Sting autor 
+    String editorial
+    String lugar
+    Date fecha_edicion
+    String ISBN
+    Boolean apaisado
+    Boolean historico
+   }
+   USUARIOS{
+    Int id PK 
+    String nombre_apellidos
+    String mail
+    String password
+    String tipo
+   }

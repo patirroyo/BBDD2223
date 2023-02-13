@@ -1,0 +1,1029 @@
+{
+  "canvas": {
+    "version": "2.2.11",
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": -265.80000000000047,
+    "scrollLeft": -527.4000000000001,
+    "zoomLevel": 0.8,
+    "show": {
+      "tableComment": true,
+      "columnComment": false,
+      "columnDataType": true,
+      "columnDefault": true,
+      "columnAutoIncrement": true,
+      "columnPrimaryKey": true,
+      "columnUnique": true,
+      "columnNotNull": true,
+      "relationship": true
+    },
+    "database": "MySQL",
+    "databaseName": "",
+    "canvasType": "ERD",
+    "language": "GraphQL",
+    "tableCase": "pascalCase",
+    "columnCase": "camelCase",
+    "highlightTheme": "VS2015",
+    "bracketType": "none",
+    "setting": {
+      "relationshipDataTypeSync": true,
+      "relationshipOptimization": false,
+      "columnOrder": [
+        "columnName",
+        "columnDataType",
+        "columnNotNull",
+        "columnUnique",
+        "columnAutoIncrement",
+        "columnDefault",
+        "columnComment"
+      ]
+    },
+    "pluginSerializationMap": {}
+  },
+  "table": {
+    "tables": [
+      {
+        "name": "TRAYECTO",
+        "comment": "",
+        "columns": [
+          {
+            "name": "numero_trayecto",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 99.55078125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "27576f4c-1d7e-4b7d-af1a-db094f6aee83"
+          },
+          {
+            "name": "hora_salida",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 69.21533203125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "c460e7eb-cc60-4e14-8a49-018ff89c5bbc"
+          },
+          {
+            "name": "hora_llegada",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 77.17529296875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "ce3f0925-c205-46f2-81d8-b547c27f8e67"
+          },
+          {
+            "name": "serie_locomotora",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 101.71533203125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "1756b7c0-2644-4652-8650-adb090c7206a"
+          },
+          {
+            "name": "codigo_estacion_salida",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 137.154296875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "ab52c2b0-3b07-425f-9490-11ff7bfab279"
+          },
+          {
+            "name": "codigo_estacion_llegada",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 145.1142578125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4a288426-9e40-450e-a515-f023542197c3"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 978,
+          "top": 149,
+          "zIndex": 5,
+          "widthName": 71.595703125,
+          "widthComment": 60,
+          "color": "#FFEB3B"
+        },
+        "visible": true,
+        "id": "22ddd764-0063-46bc-b50c-3888edbd91ac"
+      },
+      {
+        "name": "PARADA",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo_estacion",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 95.9580078125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "bb7370f3-a8e8-4f2b-93f4-9499ff4a553e"
+          },
+          {
+            "name": "numero_trayecto",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 99.55078125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f304fba9-b418-4f73-91d6-4efa98991076"
+          },
+          {
+            "name": "hora_llegada",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 77.17529296875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8753090e-3b36-43ca-98e1-167ecd78cd19"
+          },
+          {
+            "name": "hora_salida",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 69.21533203125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "c7bab559-f6b8-4f28-8f1c-2902075fb64b"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 435,
+          "top": 367,
+          "zIndex": 6,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": "#FF9800"
+        },
+        "visible": true,
+        "id": "9be93d54-ae46-4760-ad17-fd8e57645c51"
+      },
+      {
+        "name": "ESTACION",
+        "comment": "",
+        "columns": [
+          {
+            "name": "codigo_estacion",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 95.9580078125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9d4f7a70-0d9e-4bd6-8e43-7d7cc18a1f6d"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "cdf385e4-f6cd-4bb4-b7d4-830acc688cdb"
+          },
+          {
+            "name": "ciudad",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "bcad6a25-892f-4950-8469-ba4cb8e9f6ff"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 435,
+          "top": 726,
+          "zIndex": 4,
+          "widthName": 67.4951171875,
+          "widthComment": 60,
+          "color": "#F44336"
+        },
+        "visible": true,
+        "id": "377a67ca-7b41-42b2-8bb6-f15760490a8f"
+      },
+      {
+        "name": "PLAZA_DISPONIBLE",
+        "comment": "",
+        "columns": [
+          {
+            "name": "numero_trayecto",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": true,
+              "widthName": 99.55078125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4fce4cd8-f11c-4734-8a74-c866d62782ea"
+          },
+          {
+            "name": "num_vagon",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 69.93896484375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9f7daf52-2802-440f-acf9-1483e0e464a5"
+          },
+          {
+            "name": "num_asiento",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 76.43896484375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "3bd0030a-7e7d-4d9a-939a-0b4078dcdcd4"
+          },
+          {
+            "name": "tipo",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "c84ada10-e03c-41d5-9942-a013a4cd7d08"
+          },
+          {
+            "name": "tarifa",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5df1164d-485f-422b-b126-789af24ab026"
+          },
+          {
+            "name": "ocupado",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.8544921875,
+              "widthDefault": 60
+            },
+            "id": "a286a4db-7804-4c9c-9b7c-105bb2ec9c8f"
+          },
+          {
+            "name": "cod_cliente",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 67.76806640625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "875bd7c6-77ee-42d4-af54-78a862d3572e"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 998,
+          "top": 494,
+          "zIndex": 3,
+          "widthName": 128.43896484375,
+          "widthComment": 60,
+          "color": "#4CAF50"
+        },
+        "visible": true,
+        "id": "5b08adc7-cf30-445d-a3a3-13a4b6c7170a"
+      },
+      {
+        "name": "CLIENTE",
+        "comment": "",
+        "columns": [
+          {
+            "name": "cod_cliente",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 67.76806640625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "b6c95a72-7e90-4ed3-9786-3f48b69206c0"
+          },
+          {
+            "name": "nombre",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "73a9ede1-a09e-417f-86ac-d80c4b77742e"
+          },
+          {
+            "name": "apellidos",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "8adae8d6-56bc-4500-8525-6bfeeb0b2bbb"
+          },
+          {
+            "name": "fecha_hora_compra",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 117.62890625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8b123286-61cd-4c47-9419-731366217c9c"
+          },
+          {
+            "name": "forma_pago",
+            "comment": "",
+            "dataType": "",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.3798828125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "857b7748-42f4-4244-916f-100bd2f05a62"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 993,
+          "top": 853,
+          "zIndex": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": "#FFEB3B"
+        },
+        "visible": true,
+        "id": "94634dec-9713-4083-bf58-9c311c1eb5ec"
+      },
+      {
+        "name": "LOCOMOTORA",
+        "comment": "",
+        "columns": [
+          {
+            "name": "serie",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f2d44b64-0680-4cd1-8d15-9958e508c14c"
+          },
+          {
+            "name": "descripción",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 67.75537109375,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "5d846806-3cb5-4f44-81cf-69c8bd51c81f"
+          },
+          {
+            "name": "año_puesta_funcionamiento",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 165.3505859375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "92b70244-c8a0-4e43-b88c-585476088a97"
+          },
+          {
+            "name": "velocidad_max",
+            "comment": "",
+            "dataType": "INT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 88.71533203125,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8e94d192-91b7-464e-a05a-2a2f879f3b50"
+          },
+          {
+            "name": "fabricante",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 64.60693359375,
+              "widthDefault": 60
+            },
+            "id": "83989fe3-1035-4cd2-9109-dbe7da9c65a6"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1540,
+          "top": 502,
+          "zIndex": 2,
+          "widthName": 95.666015625,
+          "widthComment": 60,
+          "color": "#F44336"
+        },
+        "visible": true,
+        "id": "8bd25840-0a95-4d29-8159-0fec65c06d64"
+      }
+    ],
+    "indexes": []
+  },
+  "memo": {
+    "memos": []
+  },
+  "relationship": {
+    "relationships": [
+      {
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "377a67ca-7b41-42b2-8bb6-f15760490a8f",
+          "columnIds": [
+            "9d4f7a70-0d9e-4bd6-8e43-7d7cc18a1f6d"
+          ],
+          "x": 619.782470703125,
+          "y": 726,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "9be93d54-ae46-4760-ad17-fd8e57645c51",
+          "columnIds": [
+            "bb7370f3-a8e8-4f2b-93f4-9499ff4a553e"
+          ],
+          "x": 619.275390625,
+          "y": 518,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_estacion_to_parada",
+        "visible": true,
+        "id": "620a184c-2343-490f-ba96-f562cf38ba44"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "22ddd764-0063-46bc-b50c-3888edbd91ac",
+          "columnIds": [
+            "27576f4c-1d7e-4b7d-af1a-db094f6aee83"
+          ],
+          "x": 978,
+          "y": 181,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "9be93d54-ae46-4760-ad17-fd8e57645c51",
+          "columnIds": [
+            "f304fba9-b418-4f73-91d6-4efa98991076"
+          ],
+          "x": 803.55078125,
+          "y": 442.5,
+          "direction": "right"
+        },
+        "constraintName": "fk_trayecto_to_parada",
+        "visible": true,
+        "id": "df6415c0-b276-4d7d-ace8-14ee477e4529"
+      },
+      {
+        "identification": true,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "22ddd764-0063-46bc-b50c-3888edbd91ac",
+          "columnIds": [
+            "27576f4c-1d7e-4b7d-af1a-db094f6aee83"
+          ],
+          "x": 1185.05712890625,
+          "y": 341,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "5b08adc7-cf30-445d-a3a3-13a4b6c7170a",
+          "columnIds": [
+            "4fce4cd8-f11c-4734-8a74-c866d62782ea"
+          ],
+          "x": 1184.70263671875,
+          "y": 494,
+          "direction": "top"
+        },
+        "constraintName": "fk_trayecto_to_plaza_disponible",
+        "visible": true,
+        "id": "d16680ca-bd94-4a5d-96d7-3e8bf12a9c04"
+      },
+      {
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "94634dec-9713-4083-bf58-9c311c1eb5ec",
+          "columnIds": [
+            "b6c95a72-7e90-4ed3-9786-3f48b69206c0"
+          ],
+          "x": 1188.617919921875,
+          "y": 853,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "5b08adc7-cf30-445d-a3a3-13a4b6c7170a",
+          "columnIds": [
+            "875bd7c6-77ee-42d4-af54-78a862d3572e"
+          ],
+          "x": 1184.70263671875,
+          "y": 706.5,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_cliente_to_plaza_disponible",
+        "visible": true,
+        "id": "4afe0a9a-356d-4fa8-9311-c959ef5224d3"
+      },
+      {
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "8bd25840-0a95-4d29-8159-0fec65c06d64",
+          "columnIds": [
+            "f2d44b64-0680-4cd1-8d15-9958e508c14c"
+          ],
+          "x": 1540,
+          "y": 587.75,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "22ddd764-0063-46bc-b50c-3888edbd91ac",
+          "columnIds": [
+            "1756b7c0-2644-4652-8650-adb090c7206a"
+          ],
+          "x": 1392.1142578125,
+          "y": 245,
+          "direction": "right"
+        },
+        "constraintName": "fk_locomotora_to_trayecto",
+        "visible": true,
+        "id": "dd9ae1f0-098a-4313-8af3-702f4d33d7fe"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneOnly",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "377a67ca-7b41-42b2-8bb6-f15760490a8f",
+          "columnIds": [
+            "9d4f7a70-0d9e-4bd6-8e43-7d7cc18a1f6d"
+          ],
+          "x": 804.56494140625,
+          "y": 758.625,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "22ddd764-0063-46bc-b50c-3888edbd91ac",
+          "columnIds": [
+            "ab52c2b0-3b07-425f-9490-11ff7bfab279"
+          ],
+          "x": 978,
+          "y": 245,
+          "direction": "left"
+        },
+        "constraintName": "fk_estacion_to_trayecto",
+        "visible": true,
+        "id": "86378bf6-4cb0-4997-9a12-aebaa42dbe20"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneOnly",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "377a67ca-7b41-42b2-8bb6-f15760490a8f",
+          "columnIds": [
+            "9d4f7a70-0d9e-4bd6-8e43-7d7cc18a1f6d"
+          ],
+          "x": 804.56494140625,
+          "y": 823.875,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "22ddd764-0063-46bc-b50c-3888edbd91ac",
+          "columnIds": [
+            "4a288426-9e40-450e-a515-f023542197c3"
+          ],
+          "x": 978,
+          "y": 309,
+          "direction": "left"
+        },
+        "constraintName": "fk_estacion_to_trayecto",
+        "visible": true,
+        "id": "33768875-41b7-4446-851b-f088f37d72bd"
+      }
+    ]
+  }
+}

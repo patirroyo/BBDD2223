@@ -1,0 +1,45 @@
+erDiagram
+   ESTACION{
+    Int codigo_estacion PK
+    String nombre
+    String ciudad
+   }
+   TRAYECTO{
+    Int numero_trayecto PK
+    Date hora_salida
+    Date hora_llegada
+    String cod_estacion_salida FK
+    String cod_estacion_destino FK
+   }
+   PARADA{
+    String codigo_estacion FK
+    Date hora_llegada
+    Date hora_salida
+   }
+   PLAZA_DISPONIBLE{
+    String numero_trayecto FK
+    Int num_vagon
+    Int num_asiento
+    String tipo
+    Int tarfia
+    Boolean ocupado
+   }
+   CLIENTE{
+    Int codigo_cliente PK
+    String nombre
+    String apellidos
+    Date fecha_hora_compra
+    String forma_pago
+   }
+   LOCOMOTORA{
+    String descripcion
+    Int serie PK
+    Date agno_puesta_funcionamento
+    Int velocidad_max
+    String fabricante
+   }
+   TRAYECTO||--|{PARADA:tener
+   PARADA}o--||ESTACION:tener
+   TRAYECTO||--o{PLAZA_DISPONIBLE:tener
+   PLAZA_DISPONIBLE}o--o|CLIENTE:comprar
+   TRAYECTO}o--||LOCOMOTORA:emplear

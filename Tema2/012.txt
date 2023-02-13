@@ -1,0 +1,83 @@
+erDiagram
+    
+    SOCIO||--O|ALUMNO: DT
+    SOCIO||--O|NO_ALUMNO: DT
+    SOCIO||--O|MONITOR: DT
+    SOCIO{
+        Int num_socio PK
+        String nombre
+        String apellidos
+        Date fecha_nacimiento
+        Int edad
+        String domicilio
+        String movil
+        String email
+        String otros_datos
+    }
+    ALUMNO{
+        String nombre_padre
+        String nombre_madre
+        Int movil_contacto
+    }
+    MONITOR{
+        Date fecha_comienzo
+        String cualidades_personales
+    }
+    NO_ALUMNO{
+        String nombre_padre
+        String nombre_madre
+        Int movil_contacto
+        String descripcion_personal 
+    }
+    ALUMNO}|--||SECCION : pertenecer
+    NO_ALUMNO}|--||SECCION : pertenecer
+    NO_ALUMNO}o--||COLEGIO : pertenecer
+    COLEGIO{
+        String nombre PK
+        String domicilio
+        Int telefono
+    }
+    SECCION{
+        Int codigo PK 
+        String nombre
+        String caracteristicas
+    }
+    ALUMNO}|--O{ACTIVIDAD : participar
+    NO_ALUMNO}|--O{ACTIVIDAD : participar
+    ACTIVIDAD{
+        Int numero PK 
+        String nombre
+        Double precio
+        Date dia_desarrollo
+        Date hora_inicio
+        Date hora_fin
+    }
+    ACTIVIDAD}o--||LUGAR : desarrollar
+    MONITOR||--O{ACTIVIDAD : dirigir
+    LUGAR{
+        String nombre PK 
+        String ubicacion PK 
+        String caracteristicas
+    }
+    ACTIVIDAD||--||VALORACION : recibir
+    ACTIVIDAD||--|{REGISTRO_MATERIAL : generar
+    MATERIAL||--|{REGISTRO_MATERIAL: usar
+    MATERIAL{
+        Int codigo
+        String nombre
+        String lugar_guardado
+    }
+    ACTIVIDAD||--||VALORACION : recibir
+    REGISTRO_MATERIAL{
+        Int numero_actividad PK
+        Int codigo_material PK
+    }
+    VALORACION{
+        Int numero_actividad PK
+        Double tiempo_final_empleado
+        String incidencias
+        String sugerencias
+        String web_fotos
+        Int puntuacion
+
+    }

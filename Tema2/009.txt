@@ -1,0 +1,56 @@
+erDiagram
+   CENTRO_ESCOLAR|o--||LOCALIDAD: pertenecer
+   TRABAJADOR}|--||CENTRO_ESCOLAR: trabaja
+   TRABAJADOR{
+    String dni PK 
+    String nombre
+    String direccion
+    String telefono
+    Date fecha_alta
+   } 
+   CENTRO_ESCOLAR{
+    String cif PK 
+    String nombre
+    String director_titular
+    String domicilio
+    String telefono
+    String provincia
+   }
+   TRABAJADOR||--o|PROFESOR : DT
+   TRABAJADOR||--o|PERSONAL_SERVICIOS : DT
+   PROFESOR{
+    String nivel_estudios
+    String especialidad
+   }
+   PERSONAL_SERVICIOS{
+    Decimal pago_SS
+    Decimal porcentaje_retencionIRPF
+   }
+   PROFESOR||--|{REGISTRO_HORAS:tener
+   SECCION{
+    String nombre PK 
+    Int cantidad_cursos
+    String horario_escolar
+   }
+   REGISTRO_HORAS}|--||SECCION:pertenecer
+   CURSO}|--||SECCION:pertenecer
+   CURSO{
+    Int cod_curso PK 
+    Int num_alumnos
+   }
+   REGISTRO_HORAS{
+    Double num_horas PK
+   }
+   CENTRO_ESCOLAR||--o{ACTIVIDADES_EXTRAESCOLARES:ofrecer
+   ACTIVIDADES_EXTRAESCOLARES{
+    String nombre PK
+    String responsable
+    Date fecha_comienzo
+    Date fecha_finalizacion
+    String horario
+   }
+   LOCALIDAD{
+    Int codigo PK
+    String nombre
+    Int num_habitantes
+   }

@@ -1,0 +1,51 @@
+erDiagram
+    GENERO}|--||FAMILIA : pertenecer
+    ESPECIE}|--||GENERO : pertenecer
+    ESPECIE||--o{EJEMPLAR : pertenecer
+    FAMILIA{
+        String nombreFamilia PK
+    }
+    GENERO{
+        String nombreGenero PK
+    }
+    ESPECIE{
+        String nombreEspecie
+        String nombreCientifico PK
+    }
+    EJEMPLAR{
+        String nombreComun PK
+        Date fechaCaptura PK
+        time horaCaptura PK
+        Double tamanyo
+        String localidad
+        String provincia
+    }
+    EJEMPLAR||--o|OBSERVAR : DT
+    EJEMPLAR||--o|COLECCIONAR : DT
+    PERSONA{
+        String dni PK 
+        String nombre
+        String apellidos
+        String domicilio
+        String municipio
+        String provincia
+        String movil
+        String email
+    }
+   PERSONA||--o{EJEMPLAR : capturar
+   PERSONA||--o|COLECCION : tener
+   COLECCION||--|{COLECCIONAR : contener
+   OBSERVAR{
+    int tiempoEstudio
+    Sttring analisisObservacion
+   }
+   COLECCIONAR{
+    Double precioejemplar
+    String comentarios
+   }
+   COLECCION{
+    String tituloColeccion PK
+    Date fechaInicio
+    Double precioEstimado
+    String cuidado
+   }

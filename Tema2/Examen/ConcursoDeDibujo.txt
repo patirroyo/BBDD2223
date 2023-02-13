@@ -1,0 +1,61 @@
+erDiagram
+PARTICIPANTE||--o|PARTICIPANTE_PROFESIONAL:DT
+PARTICIPANTE||--o|PARTICIPANTE_AFICIONADO:DT
+PARTICIPANTE{
+    Int orden PK 
+    String nombre
+    String direccion
+    String telefono
+    String otros_datos   
+}
+PARTICIPANTE_PROFESIONAL{
+    String empresa
+    String nivel_estudios
+}
+PARTICIPANTE_AFICIONADO{
+    Date anno_comienzo
+}
+PROVINCIA||--|{PARTICIPANTE:enviar
+PROVINCIA{
+    String nombre PK 
+    Int numero_centros_ensennanza
+}
+DIBUJO{
+    Int numero PK
+    String titulo
+    Date dia_comienzo
+    Date dia_finalizacion
+    Int tiempo 
+
+}
+PARTICIPANTE_AFICIONADO}|--||DIBUJO:crear
+PARTICIPANTE_PROFESIONAL||--||DIBUJO:crear
+DIBUJO}o--||AULA:crear
+%%%entiendo que tengo un registro previo de las aulas y por ello puede que alguna no se utilice si no es necesario.
+AULA}|--||RESIDENCIA:disponer
+AULA{
+    String nombre PK 
+    Int metros_cuadrados
+    String caracteristicas
+}
+DIBUJO}|--|{MATERIAL:usar
+%%%Entiendo por material tipo de material, por lo que un mismo tipo (acuarela) puede ser usado en varios dibujos y el dibujo puede estar hecho por varios materiales (acuarela, temperas, lápices de colores...)
+MATERIAL{
+    Int codigo PK 
+    String nombre
+}
+RESIDENCIA{
+    String cif PK 
+    String nombre
+    String direccion
+    String num_telefono
+}
+RESIDENCIA||--|{REGISTRO_ALOJAMIENTO: alojar
+PARTICIPANTE||--o|REGISTRO_ALOJAMIENTO:alojar
+REGISTRO_ALOJAMIENTO{
+    Int orden_participante PK
+    String cif_residencia 
+    Date fecha_entrada_residencia 
+    Date fecha_salida_residencia 
+}
+%%%Aunque la entidad REGISTRO_ALOJAMIENTO no es necesaria, pues los datos se pueden añadir a la entidad participante, la añado de esta manera para que si hubiera un participante de la misma ciudad donde se realiza el concurso no necesitaría el alojamiento y así puede determinar una relación 0 o 1.
