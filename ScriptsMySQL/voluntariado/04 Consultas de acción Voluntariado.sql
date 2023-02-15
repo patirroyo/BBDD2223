@@ -74,21 +74,99 @@ INSERT INTO poblaciones(nombrePoblacion, provincia)
 
 -- 73. Asignar la tarea de Administrativo a :15 personas con conocimientos de ingles ESCRITO o francés ESCRITO Medios o Altos, con nivel medio o alto de informática
 
+SELECT COUNT(*)
+FROM preferencias;
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 1, v.IdVoluntarios -- Puesto el 1 para asignar la preferencia a IdTarea y el resto de la subconsulta a IdVolunario porque está detrás de la coma.
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.escrito IN ('Medio', 'Alto')
+ AND i.idioma IN ('Inglés', 'Francés')
+ AND v.nivelInformatica IN ('Medio', 'Alto')
+LIMIT 15;
+
 
 -- 74. Asignar la tarea de Traducción /Interprete a:
     -- a. 39 personas que tengan nivel Alto de inglés HABLADO.
 
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 3, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Inglés'
+LIMIT 39;
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 4, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Inglés'
+LIMIT 39;
     -- b. 10 personas que tengan nivel Alto de francés HABLADO.
 
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 3, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Francés'
+LIMIT 10;
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 4, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Francés'
+LIMIT 10;
+
     -- c. 2 personas que tengan nivel Alto de alemán HABLADO.
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 3, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Alemán'
+LIMIT 2;
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 4, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Alemán'
+LIMIT 2;
 
     -- d. 2 personas que tengan nivel Alto de italiano HABLADO
 
 
 -- Realizar la siguiente consulta para poder realizar las sql a continuación indicadas
--- ALTER TABLE voluntariado.voluntarios ADD Puesto VARCHAR(20) NULL;
--- ALTER TABLE voluntariado.Voluntarios_OLD ADD Puesto VARCHAR(20)
--- NULL;
+ ALTER TABLE voluntariado.voluntarios ADD Puesto VARCHAR(20) NULL;
+ ALTER TABLE voluntariado.Voluntarios_OLD ADD Puesto VARCHAR(20) NULL;
 
 
 -- 75. Asignar en la tabla voluntarios la columna puesto con el valor “Informática” a:15 personas con nivel alto de informática y hayan elegido Tareas Informática con preferencia 1 o 2.
