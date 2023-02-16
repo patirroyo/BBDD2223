@@ -163,6 +163,51 @@ LIMIT 2;
 
     -- d. 2 personas que tengan nivel Alto de italiano HABLADO
 
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 3, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Italiano'
+LIMIT 2;
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 4, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Italiano'
+LIMIT 2;
+
+    -- e. 2 personas que tengan nivel Alto de ruso HABLADO.
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 3, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Ruso'
+LIMIT 2;
+
+INSERT INTO preferencias(IdTarea, IdVoluntario)
+SELECT 4, v.IdVoluntarios
+FROM voluntarios v,
+    nivel n,
+    idiomas i
+WHERE v.IdVoluntarios = n.IdVoluntario
+ AND n.IdIdioma = i.Ididioma
+ AND n.hablado = 'Alto'
+ AND i.idioma ='Ruso'
+LIMIT 2;
 
 -- Realizar la siguiente consulta para poder realizar las sql a continuación indicadas
  ALTER TABLE voluntariado.voluntarios ADD Puesto VARCHAR(20) NULL;
@@ -170,20 +215,99 @@ LIMIT 2;
 
 
 -- 75. Asignar en la tabla voluntarios la columna puesto con el valor “Informática” a:15 personas con nivel alto de informática y hayan elegido Tareas Informática con preferencia 1 o 2.
+UPDATE voluntarios
+SET Puesto ="Informática"
+WHERE IdVoluntarios IN(
+    SELECT IdVoluntarios
+    FROM (
+        SELECT v1.IdVoluntarios
+        FROM voluntarios v1,preferencias p ,tareas t
+        WHERE v1.IdVoluntarios =p.IdVoluntario
+            AND p.Preferencia in("1","2")
+            AND p.IdTarea =t.IdTarea
+            AND t.nombre ="Informática"
+            AND v1.nivelInformatica ="Alto"
+        LIMIT 15
+        ) AS t -- Every derived table must have its own alias
+);
 
+/*UPDATE voluntarios v1
+JOIN preferencias p ON v1.IdVoluntarios =p.IdVoluntario
+JOIN tareas t ON p.IdTarea =t.IdTarea SET Puesto ="Informática"
+WHERE p.Preferencia IN("1","2")
+    AND t.nombre ="Informática"
+    AND v1.nivelInformatica ="Alto"
+LIMIT 15;
+*/
 
 -- 76. Asignar en la tabla voluntarios old la columna Puesto con el valor “Protocolo” a: 20 personas que hayan elegido Tareas Protocolo con preferencia 1 o 2, tengan nivel medio escrito de cualquier idioma.
 
-
+UPDATE Voluntarios_OLD v
+SET v.Puesto = 'Protocolo'
+WHERE Idvoluntario IN(
+    SELECT IdVoluntario
+    FROM (
+        SELECT v2.Idvoluntario
+        FROM Voluntarios_OLD v2,
+             tareas t,
+             preferencias p,
+             nivel n
+        WHERE v2.Idvoluntario = p.IdVoluntario
+            AND p.IdTarea = t.IdTarea
+            AND n.IdVoluntario = v2.Idvoluntario
+            AND t.nombre = 'Protocolo'
+            AND p.Preferencia IN(1, 2)
+            AND n.escrito = 'medio'
+         ) AS t
+    )
+LIMIT 15;
 
 -- 77. Asignar en la tabla voluntarios old la columna puesto con el valor “Conducción” a:
     -- a. 10 personas con carnet de conducir tipo C.
 
+UPDATE Voluntarios_OLD v
+SET v.Puesto = 'Condución'
+WHERE v.CarnetC = 'si'
+LIMIT 10;
+
     -- b. 60 personas con carnet de conducir tipo B que tengan nivel hablado bajo o medio de algún idioma y que preferiblemente sean de Jaca o Huesca o Zaragoza.
 
+UPDATE Voluntarios_OLD v
+SET v.Puesto = 'Condución'
+WHERE v.CarnetB = 'si'
+AND Idvoluntario IN(
+        SELECT Idvoluntario
+        FROM (
+            SELECT v2.Idvoluntario
+            FROM Voluntarios_OLD v2,
+                nivel n
+            WHERE v2.Idvoluntario = n.IdVoluntario
+                AND n.hablado IN('bajo', 'medio')
+                AND v2.Poblacion IN('Jaca', 'Huesca', 'Zaragoza')
+            ) AS t
+    )
+LIMIT 60;
 
 -- 78. Asignar en la tabla voluntarios la columna puesto el valor “Sanitario” a: 30 personas, que hayan elegido Tareas Sanitarias con preferencia 1 o 2 y preferiblemente tengan la situación laboral de trabajadores en caso contrario de estudiante.
 
+UPDATE Voluntarios v
+SET v.Puesto = 'Sanitario'
+WHERE Idvoluntario IN(
+        SELECT Idvoluntario
+        FROM (
+            SELECT v2.Idvoluntario
+            FROM voluntarios v2,
+                preferencias p,
+                laboral l,
+                tareas t
+            WHERE v2.Idvoluntario = p.IdVoluntario
+                AND v2.idLabor = l.IdLabor
+                AND t.IdTarea = p.IdTarea
+                AND p.Preferencia IN(1, 2)
+                AND t.nombre = 'Sanitaria'
+            ) AS t
+    )
+LIMIT 30;
 
 
 -- 79. Asignar en la tabla voluntarios la columna puesto el valor “Comunicación” a: 30 personas que hayan elegido Tareas Comunicación con preferencia 1 ó 2.
