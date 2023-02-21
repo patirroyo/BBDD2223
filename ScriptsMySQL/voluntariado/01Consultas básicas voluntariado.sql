@@ -396,7 +396,7 @@ SELECT v.nombre ,
 				CONCAT_WS('-',LEFT (l.localidad , 1), RIGHT (l.localidad, 1)) AS primerayultima
 FROM voluntarios v,
 			localidades l 
-WHERE v.idLocalidad = l.idLocalidad 
+WHERE v.idLocalidad = l.idLocalidad;
 
 
 -- 35.	Seleccionar el campo nombre, población, otro al que llamaremos usuario, que contenga las tres primeras posiciones del nombre junto con las tres ultimas posiciones de la población y el idvoluntario y otro al que llamaremos clave que contenga los dígitos 3 y 4 del codigo postal junto con el idvoluntario y el mes de nacimiento.
