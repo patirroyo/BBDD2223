@@ -38,13 +38,15 @@ WHERE TITULO LIKE 'H%';
 -- 44. Borrar todos los registros de películas cuya modalidad sea ESTRENO
 DELETE p.*
 FROM Peliculas AS p,
-     Tipopeliculas AS tp
+    Tipopeliculas AS tp
 WHERE p.CODIGOPELICULA = tp.CODIGOENTREGA
     AND tp.MODALIDAD = 'Estreno';
 
 -- 45. Borrar todos los registros de películas del género de TERROR
 
-DELETE p.* FROM Peliculas AS p INNER JOIN Generos AS g
+DELETE p.*
+FROM Peliculas AS p
+INNER JOIN Generos AS g
 ON p.GENERO = g.CODIGOGENERO
 AND g.NOMBREGENERO ='Terror';
 
@@ -53,8 +55,8 @@ AND g.NOMBREGENERO ='Terror';
 
 DELETE p.*
 FROM Peliculas AS p,
-     Generos AS g,
-     Alquileres AS a
+    Generos AS g,
+    Alquileres AS a
 WHERE p.GENERO = g.CODIGOGENERO
     AND p.CODIGOPELICULA = a.CODIGOPELICULA
     AND g.NOMBREGENERO = 'Aventuras'
@@ -68,26 +70,25 @@ INSERT INTO Generos(CODIGOGENERO, NOMBREGENERO)
 -- 48. Añadir un registro nuevo en la tabla de clientes cuya información corresponda a vuestros datos personales.
 
 INSERT INTO Clientes(NOMBRECLIENTE, APELLIDO1CLIENTE, APELLIDO2CLIENTE)
-	VALUES('Alberto', 'Saz', 'Simón');
+    VALUES('Alberto', 'Saz', 'Simón');
 
 
 -- 49. Crear una tabla vacía (llamada CopiaGeneros) con los mismos campos de la tabla de Generos. Traspasar toda la información de Generos a CopiaGeneros.
 
 CREATE TABLE CopiaGeneros(
-	CODIGOGENERO integer not null,
-	nombregenero varchar(100)
-	)	AS /*optativo*/	SELECT g.CODIGOGENERO , g.NOMBREGENERO
-			FROM Generos g ;
-		
+    CODIGOGENERO integer not null,
+    nombregenero varchar(100)
+    )	AS /*optativo*/	SELECT g.CODIGOGENERO , g.NOMBREGENERO
+        FROM Generos g ;
+
 /* 
- CREATE TABLE CopiaGeneros LIKE Generos; Crea la tabla con la estructura idéntica, pero faltan los insert
+CREATE TABLE CopiaGeneros LIKE Generos; Crea la tabla con la estructura idéntica, pero faltan los insert
  * 
  * para arreglarlo:
  * 
-INSERT  INTO CopiaGeneros SELECT * FROM Generos ;
+INSERT INTO CopiaGeneros SELECT * FROM Generos ;
 */
-		
-		
+
 -- 50. Eliminar los registros de la tabla de CopiaGeneros cuyo nombre comience por C
 
 DELETE FROM CopiaGeneros c
@@ -104,12 +105,13 @@ WHERE g.NOMBREGENERO LIKE 'C%';
 -- 52. Crear una tabla vacía (llamada Infantiles) con los mismos campos de la tabla de Peliculas. Traspasar todos los registros de la tabla Peliculas a la tabla Infantiles, que tengan como genero Infantil, Aventuras, Ciencia-ficción
 
 CREATE TABLE Infantiles LIKE Peliculas;
-INSERT INTO Infantiles(
-	SELECT p.*
-	FROM Peliculas p , Generos g 
-	WHERE p.GENERO  = g.CODIGOGENERO 
-		AND g.NOMBREGENERO IN ('Infantil', 'Aventuras', 'Ciencia-ficcion')
-	);
+INSERT INTO Infantiles
+    (
+    SELECT p.*
+    FROM Peliculas p , Generos g
+    WHERE p.GENERO  = g.CODIGOGENERO
+        AND g.NOMBREGENERO IN ('Infantil', 'Aventuras', 'Ciencia-ficcion')
+    );
 
 -- 53. Dividir la tabla de clientes en dos tablas llamadas Capital y Provincias con la misma estructura, en la primera guardaremos todos los registros de clientes que sean de Zaragoza y en Provincias el resto.
 
@@ -134,17 +136,17 @@ SET c.CODIGOPOSTAL = 50900;
 
 UPDATE Clientes c
     SET c.OBSERVACIONES = CONCAT_WS('', LEFT(c.NOMBRECLIENTE, 3),
-                                RIGHT(c.APELLIDO2CLIENTE, 2),
-                                CAST(MID(c.TELEFONO, 4, 3) AS CHAR));
+                                    RIGHT(c.APELLIDO2CLIENTE, 2),
+                                    CAST(MID(c.TELEFONO, 4, 3) AS CHAR));
 
 
 -- 56. Modificar el campo de Observaciones de la tabla de clientes para que a todos los que se dieron de alta en el mes de Abril del 99 les aparezca el mensaje de BONIFICADO
 
 UPDATE Clientes c
-SET c.OBSERVACIONES = 'Bonificado'
+SET c.OBSERVACIONES = 'BONIFICADO'
 WHERE YEAR (c.FECHALTA) = 1999 
-	AND MONTH (c.FECHALTA) = 4; 
-		
+    AND MONTH (c.FECHALTA) = 4;
+
 
 -- 57. Modificar el campo de Ciudad de la tabla de clientes para que todos los que residan en Zaragoza les aparezca la ciudad en mayúsculas.
 
