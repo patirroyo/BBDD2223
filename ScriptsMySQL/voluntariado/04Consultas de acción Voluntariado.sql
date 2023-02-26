@@ -377,23 +377,9 @@ LIMIT 30;
 
 -- 82. Asignar en la tabla voluntarios old la labor de Promoción a: 30 personas que hayan elegido Tareas Promocion con preferencia 1 ó 2 ó 3 ó 4
 
-UPDATE voluntarios v
+UPDATE Voluntarios_OLD v
 SET v.Puesto = 'Promoción'
-WHERE Idvoluntarios IN(
-        SELECT Idvoluntarios
-        FROM (
-            SELECT v2.IdVoluntarios
-            FROM voluntarios v2,
-                preferencias p,
-                laboral l,
-                tareas t
-            WHERE v2.Idvoluntarios = p.IdVoluntario
-                AND v2.idLabor = l.IdLabor
-                AND t.IdTarea = p.IdTarea
-                AND p.Preferencia IN(1, 2, 3, 4)
-                AND t.nombre = 'Promoción'
-            ) AS t
-    )
+WHERE v.TareasPromocion IN (1, 2, 3, 4)
 LIMIT 30;
 
 -- 83. Asignar en la tabla voluntarios la columna puesto el valor “Apoyo” a: 60 personas que practiquen esquí
