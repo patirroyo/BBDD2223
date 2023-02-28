@@ -46,6 +46,7 @@ WHERE p.numero_pokedex = pfe.numero_pokedex
                         estadisticas_base eb2
                     WHERE p2.numero_pokedex = pt2.numero_pokedex
                         AND pt2.id_tipo = t2.id_tipo
+                        AND p2.numero_pokedex = eb2.numero_pokedex
                         AND t2.nombre = 'roca'
                     )
 ORDER BY eb.defensa;
