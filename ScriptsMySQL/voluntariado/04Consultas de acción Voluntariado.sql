@@ -76,6 +76,7 @@ INSERT INTO poblaciones(nombrePoblacion, provincia)
 
 SELECT COUNT(*)
 FROM preferencias;
+
 INSERT INTO preferencias(IdTarea, IdVoluntario)
 SELECT 1, v.IdVoluntarios -- Puesto el 1 para asignar la preferencia a IdTarea y el resto de la subconsulta a IdVolunario porque está detrás de la coma.
 FROM voluntarios v,
@@ -288,6 +289,17 @@ AND Idvoluntario IN(
     )
 LIMIT 60;
 
+UPDATE Voluntarios_OLD v
+SET v.Puesto = 'Condución'
+WHERE v.CarnetB = 'si'
+AND Poblacion IN ('Jaca', 'Huesca', 'Zaragoza')
+AND (InglesHa IN ('bajo', 'medio')
+    OR FrancesHa IN ('bajo', 'medio')
+    OR AlemanHa IN ('bajo', 'medio')
+    OR ItalianoHa IN ('bajo', 'medio'))
+LIMIT 60;
+
+
 -- 78. Asignar en la tabla voluntarios la columna puesto el valor “Sanitario” a: 30 personas, que hayan elegido Tareas Sanitarias con preferencia 1 o 2 y preferiblemente tengan la situación laboral de trabajadores en caso contrario de estudiante.
 
 UPDATE voluntarios v
@@ -413,7 +425,7 @@ LIMIT 30;
 UPDATE voluntarios v
 SET v.Puesto = 'Voluntarios'
 WHERE v.peso != ''
-ORDER BY CAST(v.peso AS UNSIGNED) ASC
+ORDER BY CAST(v.peso AS UNSIGNED) ASC -- CAST(v.peso AS UNSIGNED) para convertir el peso a entero sin signo.
 LIMIT 30;
 
 -- 86. Asignar en la tabla voluntarios la columna puesto el valor “Información” a: 30 personas
