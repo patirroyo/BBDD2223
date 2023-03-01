@@ -4,11 +4,43 @@
 #
 # 1    Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
 
+-- SQL1
+SELECT DISTINCT c.id,
+        c.nombre,
+        c.apellido1,
+        c.apellido2
+FROM cliente c,
+    pedido p
+WHERE c.id = p.id_cliente
+ORDER BY c.apellido1,
+        c.apellido2;
 
+-- SQL2
+SELECT DISTINCT c.id,
+        c.nombre,
+        c.apellido1,
+        c.apellido2
+FROM cliente c INNER JOIN pedido p
+    ON c.id = p.id_cliente
+ORDER BY c.apellido1,
+        c.apellido2;
 
 # 2    Devuelve un listado que muestre todos los pedidos que ha realizado cada cliente. El resultado debe mostrar todos los datos de los pedidos y del cliente. El listado debe mostrar los datos de los clientes ordenados alfabéticamente.
 
+-- SQL1
+SELECT c.*,
+        p.*
+FROM cliente c,
+    pedido p
+WHERE c.id = p.id_cliente
+ORDER BY c.apellido1, c.apellido2;
 
+-- SQL2
+SELECT c.*,
+        p.*
+FROM cliente c INNER JOIN pedido p
+    ON c.id = p.id_cliente
+ORDER BY c.apellido1, c.apellido2;
 
 # 3    Devuelve un listado que muestre todos los pedidos en los que ha participado un comercial. El resultado debe mostrar todos los datos de los pedidos y de los comerciales. El listado debe mostrar los datos de los comerciales ordenados alfabéticamente.
 
