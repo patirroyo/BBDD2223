@@ -44,10 +44,32 @@ ORDER BY c.apellido1, c.apellido2;
 
 # 3    Devuelve un listado que muestre todos los pedidos en los que ha participado un comercial. El resultado debe mostrar todos los datos de los pedidos y de los comerciales. El listado debe mostrar los datos de los comerciales ordenados alfabéticamente.
 
+-- SQL1
+SELECT p.*,
+        c.*
+FROM pedido p,
+    comercial c
+WHERE p.id_comercial = c.id
+ORDER BY c.apellido1, c.apellido2;
 
+-- SQL2
+SELECT p.*,
+        c.*
+FROM pedido p INNER JOIN comercial c
+    ON p.id_comercial = c.id
+ORDER BY c.apellido1, c.apellido2;
 
 # 4    Devuelve un listado que muestre todos los clientes, con todos los pedidos que han realizado y con los datos de los comerciales asociados a cada pedido.
 
+-- SQL1
+SELECT c.*,
+       p.*,
+        co.*
+FROM cliente c,
+    pedido p,
+    comercial co
+WHERE p.id_cliente = c.id
+    AND p.id_comercial = co.id;
 
 
 # 5    Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
