@@ -219,6 +219,8 @@ WHERE  e.id IS NULL;
 
 # 4    Devuelve un listado con todos los empleados junto con los datos de los departamentos donde trabajan. El listado debe incluir los empleados que no tienen ningún departamento asociado y los departamentos que no tienen ningún empleado asociado. Ordene el listado alfabéticamente por el nombre del departamento.
 
+-- En MySQL no hay FULL OUTER JOIN, pero es lo que deberíamos usar
+
 SELECT e.nombre,
         d.nombre
 FROM empleado e LEFT JOIN departamento d
