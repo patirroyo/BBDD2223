@@ -63,7 +63,7 @@ ORDER BY c.apellido1, c.apellido2;
 
 -- SQL1
 SELECT c.*,
-       p.*,
+        p.*,
         co.*
 FROM cliente c,
     pedido p,
@@ -71,17 +71,106 @@ FROM cliente c,
 WHERE p.id_cliente = c.id
     AND p.id_comercial = co.id;
 
+-- SQL2
+SELECT c.*,
+        p.*,
+        co.*
+FROM cliente c
+    INNER JOIN pedido p
+        ON c.id = p.id_cliente
+    INNER JOIN comercial co
+        ON p.id_comercial = co.id;
 
 # 5    Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
 
+-- SQL1
+SELECT c.id,
+       c.nombre,
+       c.apellido1,
+       YEAR(p.fecha) AS year,
+       p.total
+FROM cliente c,
+    pedido p
+WHERE p.id_cliente = c.id
+    AND YEAR(p.fecha) = 2017
+    AND p.total BETWEEN 300 AND 1000;
 
+-- SQL2
+SELECT c.id,
+       c.nombre,
+       c.apellido1,
+       YEAR(p.fecha) AS year,
+       p.total
+FROM cliente c INNER JOIN pedido p
+    ON c.id = p.id_cliente
+WHERE YEAR(p.fecha) = 2017
+    AND p.total BETWEEN 300 AND 1000;
 
 # 6    Devuelve el nombre y los apellidos de todos los comerciales que ha participado en algún pedido realizado por María Santana Moreno.
 
+-- SQL1
+SELECT DISTINCT co.nombre,
+       co.apellido1,
+       co.apellido2
+FROM cliente c,
+     pedido p,
+     comercial co
+WHERE c.id = p.id_cliente
+    AND p.id_comercial = co.id
+    AND c.id =
+        (SELECT c1.id
+        FROM cliente c1
+        WHERE c1.nombre = 'María'
+            AND c1.apellido1 = 'Santana'
+            AND c1.apellido2 = 'Moreno'
+        );
 
+SELECT DISTINCT co.nombre,
+       co.apellido1,
+       co.apellido2
+FROM cliente c
+    INNER JOIN pedido p
+        ON c.id = p.id_cliente
+    INNER JOIN comercial co
+        ON p.id_comercial = co.id
+WHERE c.id =
+        (SELECT c1.id
+        FROM cliente c1
+        WHERE c1.nombre = 'María'
+            AND c1.apellido1 = 'Santana'
+            AND c1.apellido2 = 'Moreno'
+        );
 
 # 7    Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
 
+-- SQL1
+SELECT DISTINCT c.nombre
+FROM cliente c,
+     pedido p,
+     comercial co
+WHERE c.id = p.id_cliente
+    AND p.id_comercial = co.id
+    AND co.id =
+        (SELECT co1.id
+        FROM comercial co1
+        WHERE co1.nombre = 'Daniel'
+            AND co1.apellido1 = 'Sáez'
+            AND co1.apellido2 = 'Vega'
+        );
+
+SELECT DISTINCT c.nombre
+FROM cliente c
+    INNER JOIN pedido p
+        ON c.id = p.id_cliente
+    INNER JOIN comercial co
+        ON p.id_comercial = co.id
+WHERE co.id =
+        (SELECT co1.id
+        FROM comercial co1
+        WHERE co1.nombre = 'Daniel'
+            AND co1.apellido1 = 'Sáez'
+            AND co1.apellido2 = 'Vega'
+        );
 
 
 # 1.3.5 Consultas multitabla (Composición externa)
