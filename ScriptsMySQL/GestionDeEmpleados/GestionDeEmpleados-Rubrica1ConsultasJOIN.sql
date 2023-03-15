@@ -221,27 +221,29 @@ WHERE  e.id IS NULL;
 
 -- En MySQL no hay FULL OUTER JOIN, pero es lo que deberíamos usar
 
-SELECT e.nombre,
-        d.nombre
+SELECT e.nombre AS en,
+        d.nombre AS dn
 FROM empleado e LEFT JOIN departamento d
     ON d.id = e.id_departamento
 UNION
-SELECT e2.nombre,
-        d2.nombre
+SELECT e2.nombre AS en,
+        d2.nombre AS dn
 FROM empleado e2 RIGHT JOIN departamento d2
-    ON d2.id = e2.id_departamento;
+    ON d2.id = e2.id_departamento
+ORDER BY dn;
 
 
 # 5    Devuelve un listado con los empleados que no tienen ningún departamento asociado y los departamentos que no tienen ningún empleado asociado. Ordene el listado alfabéticamente por el nombre del departamento.
 
-SELECT e.nombre,
-        d.nombre
+SELECT e.nombre AS en,
+        d.nombre AS dn
 FROM empleado e LEFT JOIN departamento d
     ON d.id = e.id_departamento
 WHERE d.id IS NULL
-UNION
-SELECT e2.nombre,
-        d2.nombre
+UNION ALL
+SELECT e2.nombre AS en,
+        d2.nombre AS dn
 FROM empleado e2 RIGHT JOIN departamento d2
     ON d2.id = e2.id_departamento
-WHERE e2.id IS NULL;
+WHERE e2.id IS NULL
+ORDER BY dn;
