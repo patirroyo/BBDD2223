@@ -240,7 +240,8 @@ SELECT co.id,
         'comercial' AS 'Tipo'
 FROM comercial co LEFT JOIN pedido p
     ON co.id = p.id_comercial
-WHERE p.id IS NULL;
+WHERE p.id IS NULL
+ORDER BY apellido1;
 
 # 6    ¿Se podrían realizar las consultas anteriores con NATURAL LEFT JOIN o NATURAL RIGHT JOIN? Justifique su respuesta.
 
