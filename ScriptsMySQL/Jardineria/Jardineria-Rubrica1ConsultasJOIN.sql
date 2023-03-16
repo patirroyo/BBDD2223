@@ -391,6 +391,7 @@ WHERE dp.codigo_producto IS NULL;
 
 # 10    Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.
 
+-- esta consulta no es correcta:
 SELECT DISTINCT o.codigo_oficina,
        o.ciudad
 FROM oficina o
@@ -398,33 +399,38 @@ FROM oficina o
         ON o.codigo_oficina = e.codigo_oficina
     INNER JOIN cliente c
         ON c.codigo_empleado_rep_ventas = e.codigo_empleado
-    NATURAL JOIN pedido p
-    NATURAL JOIN detalle_pedido dp
+    INNER JOIN pedido p
+        ON c.codigo_cliente = p.codigo_cliente
+    INNER JOIN detalle_pedido dp
+        ON p.codigo_pedido = dp.codigo_pedido
     INNER JOIN producto p2
         ON dp.codigo_producto = p2.codigo_producto
-    NATURAL JOIN gama_producto gp
+    INNER JOIN gama_producto gp
+        ON p2.gama = gp.gama
 WHERE gp.gama = 'Frutales'
     AND e.codigo_empleado IS NULL;
 
--- con subconsulta
+-- con subconsulta si que es correcta:
 
 SELECT DISTINCT o.codigo_oficina,
        o.ciudad
 FROM oficina o
-WHERE o.codigo_oficina NOT IN (
+WHERE o.codigo_oficina NOT IN
+    (
     SELECT o2.codigo_oficina
-    FROM cliente c
-        INNER JOIN empleado e2
-            ON c.codigo_empleado_rep_ventas = e2.codigo_empleado
-        INNER JOIN oficina o2
-            ON e2.codigo_oficina = o2.codigo_oficina
+    FROM oficina o2
+        INNER JOIN empleado e
+            ON o2.codigo_oficina = e.codigo_oficina
+        INNER JOIN cliente c
+            ON c.codigo_empleado_rep_ventas = e.codigo_empleado
         INNER JOIN pedido p
-            ON p.codigo_cliente = c.codigo_cliente
+            ON c.codigo_cliente = p.codigo_cliente
         INNER JOIN detalle_pedido dp
-            ON dp.codigo_pedido = p.codigo_pedido
+            ON p.codigo_pedido = dp.codigo_pedido
         INNER JOIN producto p2
             ON dp.codigo_producto = p2.codigo_producto
-        NATURAL JOIN gama_producto gp
+        INNER JOIN gama_producto gp
+            ON p2.gama = gp.gama
     WHERE gp.gama = 'Frutales'
     );
 
