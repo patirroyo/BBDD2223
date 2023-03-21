@@ -1,6 +1,28 @@
 # 1.8.1 Procedimientos sin sentencias SQL
+-- Lo primero que hay que hacer es cambiar el delimitador:
+DELIMITER $$
+-- Luego CREATE PROCEDURE, BEGIN y termino con END;
+CREATE PROCEDURE listar_productos(IN gama VARCHAR(50))
+    -- IN paso por valor, metes el valor en tu código y haces lo que quieres con él pero sin modificar el dato original, es decir se pasa una copia.
+    -- INOUT paso por referencia: si se modifica el dato, se modifica el valor original, se pasará el valor original, no una copia.
+    -- OUT son variables de salida, variables que quiero que contengan información. Como devolver un valor, simplemente las declaro (Declare) y ya las puedo usar.
+        -- DECLARE gama;
+        -- CALL listar_productos(gama);
+
+BEGIN
+    SELECT *
+    FROM producto
+    WHERE producto.gama = gama;
+END $$
+-- Cuando acabamos lo volvemos a cambiar:
+DELIMITER ;
+-- llamamos al procedimiento
+CALL listar_productos('Frutales');
+
 
 # Escribe un procedimiento que no tenga ningún parámetro de entrada ni de salida y que muestre el texto ¡Hola mundo!.
+
+
 
 # Escribe un procedimiento que reciba un número real de entrada y muestre un mensaje indicando si el número es positivo, negativo o cero.
 
