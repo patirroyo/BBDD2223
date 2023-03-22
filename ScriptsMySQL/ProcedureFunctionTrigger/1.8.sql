@@ -23,8 +23,11 @@ CREATE PROCEDURE signo_numero(IN numero INT)
     CASE
         WHEN numero > 0 THEN SELECT 'El número es positivo';
         WHEN numero < 0 THEN SELECT 'El número es negativo';
-        ELSE SELECT 'El número es cero'
+        ELSE SELECT 'El número es cero';
     END CASE $$
+
+DELIMITER ;
+CALL signo_numero(0);
 
 # Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor un número real, y un parámetro de salida, con una cadena de caracteres indicando si el número es positivo, negativo o cero.
 
