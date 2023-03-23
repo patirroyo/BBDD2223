@@ -38,7 +38,7 @@ SHOW INDEX FROM pedido;
 CREATE INDEX pedido_codigo_cliente_IDX USING BTREE ON jardineria.pedido (codigo_cliente);
 CREATE INDEX cliente_nombre_cliente_IDX USING BTREE ON jardineria.cliente (nombre_cliente);
 
-SELECT *
+EXPLAIN SELECT *
 FROM cliente INNER JOIN pedido
 ON cliente.codigo_cliente = pedido.codigo_cliente
 WHERE cliente.nombre_cliente LIKE 'A%';
@@ -47,39 +47,112 @@ WHERE cliente.nombre_cliente LIKE 'A%';
 
 -- 5. ¿Por qué no es posible optimizar el tiempo de ejecución de las siguientes consultas, incluso haciendo uso de índices?
 
--- SELECT *
--- FROM cliente INNER JOIN pedido
--- ON cliente.codigo_cliente = pedido.codigo_cliente
--- WHERE cliente.nombre_cliente LIKE '%A%';
---
--- SELECT *
--- FROM cliente INNER JOIN pedido
--- ON cliente.codigo_cliente = pedido.codigo_cliente
--- WHERE cliente.nombre_cliente LIKE '%A';
+EXPLAIN SELECT *
+FROM cliente INNER JOIN pedido
+ON cliente.codigo_cliente = pedido.codigo_cliente
+WHERE cliente.nombre_cliente LIKE '%A%';
 
--- la funcioon like usa por debajo el coalesce y esa opereacionno se ejecuta contra los indices creados
+EXPLAIN SELECT *
+FROM cliente INNER JOIN pedido
+ON cliente.codigo_cliente = pedido.codigo_cliente
+WHERE cliente.nombre_cliente LIKE '%A';
+
+-- la funcioon like usa por debajo el coalesce y esa opereacion no se ejecuta contra los indices creados
 
 -- 6. Crea un índice de tipo FULLTEXT sobre las columnas nombre y descripcion de la tabla producto.
 
+CREATE FULLTEXT INDEX idx_nombre_descripcion ON producto(nombre, descripcion);
+
+SHOW INDEX FROM producto;
 
 -- 7. Una vez creado el índice del ejercicio anterior realiza las siguientes consultas haciendo uso de la función MATCH, para buscar todos los productos que:
 -- Contienen la palabra planta en el nombre o en la descripción. Realice una consulta para cada uno de los modos de búsqueda full-text que existen en MySQL (IN NATURAL LANGUAGE MODE, IN BOOLEAN MODE y WITH QUERY EXPANSION) y compare los resultados que ha obtenido en cada caso.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('planta' IN NATURAL LANGUAGE MODE);
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('+planta' IN BOOLEAN MODE);
+
+-- Permite utilizar operadores de búsqueda (+ (AND) con esta palabra, -(NOT) sin esta palabra, si no pongo nada es como un OR)
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('planta' WITH QUERY EXPANSION);
+
 -- Contienen la palabra planta seguida de cualquier carácter o conjunto de caracteres, en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('planta*' IN BOOLEAN MODE);
+
 -- Empiezan con la palabra planta en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('planta*' IN BOOLEAN MODE) -- en vez de WHERE también funciona con un HAVING
+    AND nombre LIKE 'planta%' OR descripcion LIKE 'planta%';
+
 -- Contienen la palabra tronco o la palabra árbol en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('tronco árbol' IN BOOLEAN MODE);
+
 -- Contienen la palabra tronco y la palabra árbol en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('+tronco +árbol' IN BOOLEAN MODE);
+
+
 -- Contienen la palabra tronco pero no contienen la palabra árbol en el nombre o en la descripción.
--- Contiene la frase proviene de las costas en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('+tronco -árbol' IN BOOLEAN MODE);
+
+
+-- Contiene la frase 'proviene de las costas' en el nombre o en la descripción.
+
+SELECT *
+FROM producto
+WHERE MATCH(nombre, descripcion) AGAINST ('"proviene de las costas"' IN BOOLEAN MODE);
 
 
 -- 8. Crea un índice de tipo INDEX compuesto por las columnas apellido_contacto y nombre_contacto de la tabla cliente.
 
+CREATE INDEX idx_apellido_nombre ON cliente(apellido_contacto, nombre_contacto);
+
+SHOW INDEX FROM cliente;
 
 -- 9. Una vez creado el índice del ejercicio anterior realice las siguientes consultas haciendo uso de EXPLAIN:
 -- Busca el cliente Javier Villar. ¿Cuántas filas se han examinado hasta encontrar el resultado?
+
+EXPLAIN SELECT *
+FROM cliente c
+WHERE c.nombre_contacto = 'Javier'
+    AND c.apellido_contacto = 'Villar';
+
+-- Solamente se ha examinado 1 fila para encontrar el resultado.
+
 -- Busca el ciente anterior utilizando solamente el apellido Villar. ¿Cuántas filas se han examinado hasta encontrar el resultado?
+
+EXPLAIN SELECT *
+FROM cliente c
+WHERE c.apellido_contacto = 'Villar';
+
+-- Solamente se ha examinado 1 fila para encontrar el resultado.
+
 -- Busca el ciente anterior utilizando solamente el nombre Javier. ¿Cuántas filas se han examinado hasta encontrar el resultado? ¿Qué ha ocurrido en este caso?
 
+EXPLAIN SELECT *
+FROM cliente c
+WHERE c.nombre_contacto = 'Javier';
+
+-- se haN examinado 36 filaS para encontrar el resultado.
 
 -- 10. Calcula cuál podría ser un buen valor para crear un índice sobre un prefijo de la columna nombre_cliente de la tabla cliente. Tenga en cuenta que un buen valor será aquel que nos permita utilizar el menor número de caracteres para diferenciar todos los valores que existen en la columna sobre la que estamos creando el índice.
 
