@@ -31,6 +31,21 @@ CALL signo_numero(0);
 
 # Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor un número real, y un parámetro de salida, con una cadena de caracteres indicando si el número es positivo, negativo o cero.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS signo_numero $$
+
+CREATE PROCEDURE signo_numero(IN numero INT, OUT salida VARCHAR(30))
+
+    CASE
+        WHEN numero > 0 THEN SET salida = 'El número es positivo';
+        WHEN numero < 0 THEN SET salida = 'El número es negativo';
+        ELSE SET salida = 'El número es cero';
+    END CASE $$
+
+DELIMITER ;
+CALL signo_numero(2, @resultado);
+SELECT @resultado;
+
 # Escribe un procedimiento que reciba un número real de entrada, que representa el valor de la nota de un alumno, y muestre un mensaje indicando qué nota ha obtenido teniendo en cuenta las siguientes condiciones:
 # [0,5) = Insuficiente
 # [5,6) = Aprobado
@@ -39,10 +54,42 @@ CALL signo_numero(0);
 # [9, 10] = Sobresaliente
 # En cualquier otro caso la nota no será válida.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calificaciones $$
+
+CREATE PROCEDURE calificaciones(IN numero REAL)
+    CASE
+        WHEN numero >= 0 AND numero < 5 THEN SELECT 'Insuficiente';
+        WHEN numero >= 5 AND numero < 6 THEN SELECT 'Aprobado';
+        WHEN numero >= 6 AND numero < 7 THEN SELECT 'Bien';
+        WHEN numero >= 7 AND numero < 9 THEN SELECT 'Notable';
+        WHEN numero >= 9 AND numero <= 10 THEN SELECT 'Sobresaliente';
+        ELSE SELECT 'Nota no valida';
+    END CASE
+$$
+
+DELIMITER ;
+CALL calificaciones(10);
 
 # Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor de la nota en formato numérico y un parámetro de salida, con una cadena de texto indicando la nota correspondiente.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calificaciones $$
 
+CREATE PROCEDURE calificaciones(IN numero REAL, OUT calificacion VARCHAR(20))
+    CASE
+        WHEN numero >= 0 AND numero < 5 THEN SET calificacion = 'Insuficiente';
+        WHEN numero >= 5 AND numero < 6 THEN SET calificacion = 'Aprobado';
+        WHEN numero >= 6 AND numero < 7 THEN SET calificacion = 'Bien';
+        WHEN numero >= 7 AND numero < 9 THEN SET calificacion = 'Notable';
+        WHEN numero >= 9 AND numero <= 10 THEN SET calificacion = 'Sobresaliente';
+        ELSE SELECT 'Nota no valida';
+    END CASE
+$$
+
+DELIMITER ;
+CALL calificaciones(5.4, @nota);
+SELECT @nota;
 
 # Resuelva el procedimiento diseñado en el ejercicio anterior haciendo uso de la estructura de control CASE.
 
