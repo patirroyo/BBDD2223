@@ -243,6 +243,24 @@ FROM comercial co LEFT JOIN pedido p
 WHERE p.id IS NULL
 ORDER BY apellido1;
 
+/*
+En MariaDB hay que ser más específico para conseguir lo mismo:
+
+Select nombre, ap1, ap2, tipo
+from
+(
+SELECT c.nombre as nombre, c.apellido1 as ap1, c.apellido2 as ap2, "cliente" as tipo
+FROM cliente c left join pedido p
+on c.id = p.id_cliente
+where p.id_cliente is NULL
+union
+SELECT c.nombre as nombre , c.apellido1 as ap1, c.apellido2 as ap2, "comercial" as tipo
+FROM comercial c left join pedido p
+on c.id = p.id_comercial
+where p.id_comercial is NULL
+) res
+ORDER by ap1, ap2, nombre;*/
+
 # 6    ¿Se podrían realizar las consultas anteriores con NATURAL LEFT JOIN o NATURAL RIGHT JOIN? Justifique su respuesta.
 
 /* No habríamos podido porque los nombres de las columnas id habrían dado problemas porque todas se llaman igual pero no corresponde con lo que nos interesaría juntar*/
