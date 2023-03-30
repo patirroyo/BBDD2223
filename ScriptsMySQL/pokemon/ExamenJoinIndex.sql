@@ -60,7 +60,7 @@ SELECT DISTINCT m.id_movimiento,
 		IF(es.efecto_secundario IS NULL, '', es.efecto_secundario) as efecto_secundario
 FROM movimiento m
 	INNER JOIN tipo t
-		ON m.id_tipo = t.id_tipo_ataque
+		ON m.id_tipo = t.id_tipo
 	LEFT JOIN movimiento_efecto_secundario mes
 		ON m.id_movimiento = mes.id_movimiento
 	LEFT JOIN efecto_secundario es
@@ -125,7 +125,7 @@ WHERE t.nombre = 'Fuego';
 la tabla movimientos y busca aquellos ataques
 que causa daño y probabilidad*/
 
-CREATE FULLTEXT INDEX idx_descripcion2 ON pokemon27.movimiento(descripcion);
+CREATE FULLTEXT INDEX idx_descripcion2 ON movimiento(descripcion);
 
 SELECT *
 FROM movimiento
