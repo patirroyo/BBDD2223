@@ -77,6 +77,29 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS calificaciones $$
 
 CREATE PROCEDURE calificaciones(IN numero REAL, OUT calificacion VARCHAR(20))
+    IF numero >= 0 AND numero < 5 THEN SET calificacion = 'Insuficiente';
+        ELSE IF numero >= 5 AND numero < 6 THEN SET calificacion = 'Aprobado';
+            ELSE IF numero >= 6 AND numero < 7 THEN SET calificacion = 'Bien';
+                ELSE IF numero >= 7 AND numero < 9 THEN SET calificacion = 'Notable';
+                    ELSE IF numero >= 9 AND numero <= 10 THEN SET calificacion = 'Sobresaliente';
+                        ELSE SELECT 'Nota no valida';
+                    END IF;
+                END IF;
+            END IF;
+        END IF;
+    END IF
+$$
+
+DELIMITER ;
+CALL calificaciones(8, @nota);
+SELECT @nota;
+
+# Resuelva el procedimiento diseñado en el ejercicio anterior haciendo uso de la estructura de control CASE.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calificaciones $$
+
+CREATE PROCEDURE calificaciones(IN numero REAL, OUT calificacion VARCHAR(20))
     CASE
         WHEN numero >= 0 AND numero < 5 THEN SET calificacion = 'Insuficiente';
         WHEN numero >= 5 AND numero < 6 THEN SET calificacion = 'Aprobado';
@@ -91,20 +114,64 @@ DELIMITER ;
 CALL calificaciones(5.4, @nota);
 SELECT @nota;
 
-# Resuelva el procedimiento diseñado en el ejercicio anterior haciendo uso de la estructura de control CASE.
-
-
 
 # Escribe un procedimiento que reciba como parámetro de entrada un valor numérico que represente un día de la semana y que devuelva una cadena de caracteres con el nombre del día de la semana correspondiente. Por ejemplo, para el valor de entrada 1 debería devolver la cadena lunes.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS diasDeLaSemana $$
+
+CREATE PROCEDURE diasDeLaSemana(IN dia INT)
+    CASE
+        WHEN dia = 1 THEN SELECT 'Lunes';
+        WHEN dia = 2 THEN SELECT 'Martes';
+        WHEN dia = 3 THEN SELECT 'Miércoles';
+        WHEN dia = 4 THEN SELECT 'Jueves';
+        WHEN dia = 5 THEN SELECT 'Viernes';
+        WHEN dia = 6 THEN SELECT 'Sábado';
+        WHEN dia = 7 THEN SELECT 'Domingo';
+        ELSE SELECT 'día no valido';
+    END CASE
+$$
+
+DELIMITER ;
+CALL diasDeLaSemana(6);
 
 # 1.8.2 Procedimientos con sentencias SQL
 
 # Escribe un procedimiento que reciba el nombre de un país como parámetro de entrada y realice una consulta sobre la tabla cliente para obtener todos los clientes que existen en la tabla de ese país.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS clientesPorPais $$
+
+CREATE PROCEDURE clientesPorPais(IN pais VARCHAR(20))
+    BEGIN
+        SELECT c.*
+        FROM cliente c
+        WHERE c.pais = pais;
+    END
+$$
+
+DELIMITER ;
+CALL clientesPorPais('Spain');
 
 
 # Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida el pago de máximo valor realizado para esa forma de pago. Deberá hacer uso de la tabla pago de la base de datos jardineria.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS pagoMax $$
+
+CREATE PROCEDURE pagoMax(IN metodo VARCHAR(20))
+    BEGIN
+        SELECT p.id_transaccion,
+                p.forma_pago,
+                p.total
+        FROM pago p
+        WHERE p.forma_pago = metodo
+        ORDER BY p.total DESC
+        LIMIT 1;
+    END $$
+DELIMITER ;
+CALL pagoMax('Transferencia');
 
 
 
