@@ -16,7 +16,7 @@
 	      <img src="./imagenes/sz.jpg">
 	   </div>
 	   <div class="texto1">
-	      <h1> XXIV Edición Premio Nacional Don Bosco </h1>
+	      <h1> XXIV Edici&oacute;n Premio Nacional Don Bosco </h1>
 	   </div>
    </div>
    <div class="menu">
@@ -26,11 +26,29 @@
 		<li><a href="#"> Opcion 3 </a></li>
 		</ul>
    </div>
+
+<?php
+$str = "A 'quote' is <b>bold</b>";
+$str1 = "<h1> XXIV EdiciÃ³n Premio Nacional Don Bosco </h1>";
+
+
+// Outputs: A 'quote' is &lt;b&gt;bold&lt;/b&gt;
+echo htmlentities($str1);
+?>
+<p>
+<?php
+$str = "A 'quote' is <b>bold</b>";
+
+// Outputs: A &#039;quote&#039; is &lt;b&gt;bold&lt;/b&gt;
+echo htmlentities($str1, ENT_QUOTES);
+?>
+
 <!--    
     <div class="publicidad">
    
    </div>
  -->  
+
  <div class="principal">
 		<?php
 
