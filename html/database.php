@@ -4,7 +4,7 @@
 	<?php
 
 echo "conectando a database";
-$mysqli = mysqli_connect("192.168.1.122", "user1", "contrasena", "pokemon1");
+$mysqli = mysqli_connect("172.17.0.2", "root", "adminadmin", "pokemondb");
 echo "<p>conectado a database<p>";
 if (!$mysqli) {
 	echo "<p>Error: No se pudo conectar a MySQL." . PHP_EOL;
