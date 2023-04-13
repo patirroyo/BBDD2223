@@ -9,7 +9,7 @@ echo "<p>conectado a database<p>";
 if (!$mysqli) {
 	echo "<p>Error: No se pudo conectar a MySQL." . PHP_EOL;
 	echo "<p>error de depuración: " . mysqli_connect_error() . PHP_EOL;
-	echo "<p>error de depuración: " . mysqli_connect_error() . PHP_EOL;
+	echo "<p>errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
 	exit;
     }
 echo "<p>Éxito: Se realizó una conexión apropiada a MySQL! La base de datos mi_bd es genial." . PHP_EOL;
@@ -25,9 +25,8 @@ $sql = 'Insert into pokemon(nombre,altura,peso) values("'.$nombre.'",'.$altura.'
 echo $sql;
 mysqli_query($mysqli, $sql);
 
-    
-    mysqli_close($mysqli);
-    echo "<p>Conexión cerrada<p>";
+mysqli_close($mysqli);
+echo "<p>Conexión cerrada<p>";
 ?>
     </body>
 </html>
