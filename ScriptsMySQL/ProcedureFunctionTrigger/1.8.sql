@@ -177,50 +177,169 @@ CALL pagoMax('Transferencia');
 
 # Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida los siguientes valores teniendo en cuenta la forma de pago seleccionada como parámetro de entrada:
 # el pago de máximo valor,
+DELIMITER $$
+DROP PROCEDURE IF EXISTS pagoMax $$
 
+CREATE PROCEDURE pagoMax(IN metodoPago VARCHAR(20))
+    BEGIN
+        SELECT p.id_transaccion,
+                p.forma_pago,
+                p.total
+        FROM pago p
+        WHERE p.forma_pago = metodoPago
+        ORDER BY p.total DESC
+        LIMIT 1;
+    END $$
+DELIMITER ;
+CALL pagoMax('PayPal');
 
 # el pago de mínimo valor,
+DELIMITER $$
+DROP PROCEDURE IF EXISTS pagoMin $$
 
+CREATE PROCEDURE pagoMin(IN metodoPago VARCHAR(20))
+    BEGIN
+        SELECT p.id_transaccion,
+                p.forma_pago,
+                p.total
+        FROM pago p
+        WHERE p.forma_pago = metodoPago
+        ORDER BY p.total ASC
+        LIMIT 1;
+    END $$
+DELIMITER ;
+CALL pagoMin('PayPal');
 
 # el valor medio de los pagos realizados,
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS pagoAVG $$
+
+CREATE PROCEDURE pagoAVG(IN metodoPago VARCHAR(20))
+    BEGIN
+        SELECT  p.forma_pago,
+                AVG(p.total)
+        FROM pago p
+        WHERE p.forma_pago = metodoPago
+        GROUP BY p.forma_pago;
+    END $$
+DELIMITER ;
+CALL pagoAVG('Cheque');
 
 # la suma de todos los pagos,
+DELIMITER $$
+DROP PROCEDURE IF EXISTS pagoTotal $$
 
+CREATE PROCEDURE pagoTotal(IN metodoPago VARCHAR(20))
+    BEGIN
+        SELECT  p.forma_pago,
+                SUM(p.total)
+        FROM pago p
+        WHERE p.forma_pago = metodoPago
+        GROUP BY p.forma_pago;
+    END $$
+DELIMITER ;
+CALL pagoTotal('PayPal');
 
 # el número de pagos realizados para esa forma de pago.
+DELIMITER $$
+DROP PROCEDURE IF EXISTS numPagos $$
 
+CREATE PROCEDURE numPagos(IN metodoPago VARCHAR(20))
+    BEGIN
+        SELECT  p.forma_pago,
+                COUNT(p.total)
+        FROM pago p
+        WHERE p.forma_pago = metodoPago
+        GROUP BY p.forma_pago;
+    END $$
+DELIMITER ;
+CALL numPagos('PayPal');
 
 # Deberá hacer uso de la tabla pago de la base de datos jardineria.
 
 
-
-
 # Crea una base de datos llamada procedimientos que contenga una tabla llamada cuadrados. La tabla cuadrados debe tener dos columnas de tipo INT UNSIGNED, una columna llamada número y otra columna llamada cuadrado.
 
+CREATE DATABASE IF NOT EXISTS procedimientos;
+USE procedimientos;
+DROP TABLE IF EXISTS cuadrados;
+CREATE TABLE IF NOT EXISTS cuadrados(
+    numero INT UNSIGNED,
+    cuadrado INT UNSIGNED
+);
 
 
 # Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_cuadrados con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y calculará el valor de los cuadrados de los primeros números naturales hasta el valor introducido como parámetro. El valor del números y de sus cuadrados deberán ser almacenados en la tabla cuadrados que hemos creado previamente.
-#
-# Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de la tabla antes de insertar los nuevos valores de los cuadrados que va a calcular.
-#
 
+# Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de la tabla antes de insertar los nuevos valores de los cuadrados que va a calcular.
 
 # Utilice un bucle WHILE para resolver el procedimiento.
-#
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_cuadrados $$
+
+CREATE PROCEDURE calcular_cuadrados(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT;
+        SET contador = 0;
+        DELETE FROM cuadrados;
+        WHILE contador <= tope DO
+            INSERT INTO cuadrados VALUES (contador, contador*contador);
+            SET contador = contador + 1;
+        END WHILE;
+    END $$
+DELIMITER ;
+CALL calcular_cuadrados(5);
 
 
 # Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_cuadrados $$
 
+CREATE PROCEDURE calcular_cuadrados(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT;
+        SET contador = 0;
+        DELETE FROM cuadrados;
+        REPEAT
+            INSERT INTO cuadrados VALUES (contador, contador*contador);
+            SET contador = contador + 1;
+        UNTIL contador > tope
+        END REPEAT ;
+    END $$
+DELIMITER ;
+CALL calcular_cuadrados(5);
 
 # Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_cuadrados $$
 
+CREATE PROCEDURE calcular_cuadrados(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT;
+        SET contador = 0;
+        DELETE FROM cuadrados;
+        bucle: LOOP
+            IF contador > tope THEN
+                LEAVE bucle;
+            END IF;
+            INSERT INTO cuadrados VALUES (contador, contador*contador);
+            SET contador = contador + 1;
+        END LOOP ;
+    END $$
+DELIMITER ;
+CALL calcular_cuadrados(5);
 
 
 # Crea una base de datos llamada procedimientos que contenga una tabla llamada ejercicio. La tabla debe tener una única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 
 
+CREATE DATABASE IF NOT EXISTS procedimientos;
+USE procedimientos;
+DROP TABLE IF EXISTS ejercicios;
+CREATE TABLE IF NOT EXISTS ejercicios(
+    numero INT UNSIGNED);
 
 # Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_números con las siguientes características. El procedimiento recibe un parámetro de entrada llamado valor_inicial de tipo INT UNSIGNED y deberá almacenar en la tabla ejercicio toda la secuencia de números desde el valor inicial pasado como entrada hasta el 1.
 
@@ -229,35 +348,119 @@ CALL pagoMax('Transferencia');
 
 # Utilice un bucle WHILE para resolver el procedimiento.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_numeros $$
+
+CREATE PROCEDURE calcular_numeros(IN valor_inicial INT UNSIGNED)
+    BEGIN
+        DELETE FROM ejercicios;
+        WHILE valor_inicial > 0 DO
+            INSERT INTO ejercicios VALUES (valor_inicial);
+            SET valor_inicial = valor_inicial - 1;
+        END WHILE;
+    END $$
+DELIMITER ;
+CALL calcular_numeros(50);
 
 
 # Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_numeros $$
 
+CREATE PROCEDURE calcular_numeros(IN valor_inicial INT UNSIGNED)
+    BEGIN
+        DELETE FROM ejercicios;
+        REPEAT
+            INSERT INTO ejercicios VALUES (valor_inicial);
+            SET valor_inicial = valor_inicial - 1;
+        UNTIL valor_inicial < 1
+        END REPEAT;
+    END $$
+DELIMITER ;
+CALL calcular_numeros(40);
 
 # Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_numeros $$
 
+CREATE PROCEDURE calcular_numeros(IN valor_inicial INT UNSIGNED)
+    BEGIN
+        DELETE FROM ejercicios;
+        bucle: LOOP
+            IF valor_inicial < 1 THEN
+                LEAVE bucle;
+            END IF;
+            INSERT INTO ejercicios VALUES (valor_inicial);
+            SET valor_inicial = valor_inicial - 1;
+        END LOOP ;
+    END $$
+DELIMITER ;
+CALL calcular_numeros(30);
 
 # Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 
-
+CREATE DATABASE IF NOT EXISTS procedimientos;
+USE procedimientos;
+DROP TABLE IF EXISTS pares;
+DROP TABLE IF EXISTS impares;
+CREATE TABLE IF NOT EXISTS pares(
+    numero INT UNSIGNED);
+CREATE TABLE IF NOT EXISTS impares(
+    numero INT UNSIGNED);
 
 
 # Una vez creada la base de datos y las tablas deberá crear un procedimiento llamado calcular_pares_impares con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y deberá almacenar en la tabla pares aquellos números pares que existan entre el número 1 el valor introducido como parámetro. Habrá que realizar la misma operación para almacenar los números impares en la tabla impares.
 
-
-
 # Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
-
-
-
 
 # Utilice un bucle WHILE para resolver el procedimiento.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_pares_impares $$
+
+CREATE PROCEDURE calcular_pares_impares(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT UNSIGNED;
+        SET contador = 1;
+        DELETE FROM pares;
+        DELETE FROM impares;
+        WHILE contador <= tope DO
+            IF contador%2 = 0 THEN
+                INSERT INTO pares VALUES (contador);
+            ELSE
+                INSERT INTO impares VALUES (contador);
+            END IF;
+            SET contador = contador + 1;
+        END WHILE;
+    END $$
+DELIMITER ;
+CALL calcular_pares_impares(50);
 
 # Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_pares_impares $$
+
+CREATE PROCEDURE calcular_pares_impares(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT UNSIGNED;
+        SET contador = 1;
+        DELETE FROM pares;
+        DELETE FROM impares;
+        REPEAT
+            IF contador%2 = 0 THEN
+                INSERT INTO pares VALUES (contador);
+            ELSE
+                INSERT INTO impares VALUES (contador);
+            END IF;
+            SET contador = contador + 1;
+        UNTIL contador > tope
+        END REPEAT;
+    END $$
+DELIMITER ;
+CALL calcular_pares_impares(40);
 
 # Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
@@ -331,20 +534,75 @@ CALL pagoMax('Transferencia');
 # 1.8.7 Cursores
 #
 # Escribe las sentencias SQL necesarias para crear una base de datos llamada test, una tabla llamada alumnos y 4 sentencias de inserción para inicializar la tabla. La tabla alumnos está formada por las siguientes columnas:
-# id (entero sin signo y clave primaria)
-# nombre (cadena de caracteres)
-# apellido1 (cadena de caracteres)
-# apellido2 (cadena de caracteres
-# fecha_nacimiento (fecha)
+
+    # id (entero sin signo y clave primaria)
+    # nombre (cadena de caracteres)
+    # apellido1 (cadena de caracteres)
+    # apellido2 (cadena de caracteres
+    # fecha_nacimiento (fecha)
+
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+DROP TABLE IF EXISTS alumno;
+CREATE TABLE IF NOT EXISTS alumno(
+    id INT UNSIGNED,
+    nombre VARCHAR(50),
+    apellido1 VARCHAR(50),
+    apellido2 VARCHAR(50),
+    fecha_nacimiento DATETIME,
+    PRIMARY KEY (id)
+);
+
 # Una vez creada la tabla se decide añadir una nueva columna a la tabla llamada edad que será un valor calculado a partir de la columna fecha_nacimiento. Escriba la sentencia SQL necesaria para modificar la tabla y añadir la nueva columna.
-#
+ALTER TABLE alumno ADD COLUMN edad int;
+
 # Escriba una función llamada calcular_edad que reciba una fecha y devuelva el número de años que han pasado desde la fecha actual hasta la fecha pasada como parámetro:
 #
 # Función: calcular_edad
 # Entrada: Fecha
 # Salida: Número de años (entero)
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS calcular_edad;
+CREATE FUNCTION calcular_edad(fnac DATETIME)
+RETURNS INT DETERMINISTIC
+BEGIN
+    DECLARE edad INT;
+    SET edad = YEAR(NOW())-YEAR(fnac);
+    RETURN edad;
+END $$
+
 # Ahora escriba un procedimiento que permita calcular la edad de todos los alumnmos que ya existen en la tabla. Para esto será necesario crear un procedimiento llamado actualizar_columna_edad que calcule la edad de cada alumno y actualice la tabla. Este procedimiento hará uso de la función calcular_edad que hemos creado en el paso anterior.
-#
+
+DROP PROCEDURE IF EXISTS actualizar_columna_edad;
+CREATE PROCEDURE actualizar_columna_edad()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE id_a INT;
+    DECLARE edad INT;
+    DECLARE fnac DATETIME;
+    DECLARE cur1 CURSOR FOR SELECT id, fecha_nacimiento FROM alumno;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    OPEN cur1;
+    bucle: LOOP
+        FETCH cur1
+        INTO id_a,
+            fnac;
+        SET edad = 0;
+        IF done = 1 THEN
+            LEAVE bucle;
+        END IF;
+        START TRANSACTION;
+            UPDATE alumno
+            SET edad = calcular_edad(fnac)
+            WHERE id = id_a;
+        COMMIT;
+    END LOOP bucle;
+    CLOSE cur1;
+END $$
+DELIMITER ;
+CALL actualizar_columna_edad();
+
 # Modifica la tabla alumnos del ejercicio anterior para añadir una nueva columna email. Una vez que hemos modificado la tabla necesitamos asignarle una dirección de correo electrónico de forma automática.
 # Escriba un procedimiento llamado crear_email que dados los parámetros de entrada: nombre, apellido1, apellido2 y dominio, cree una dirección de email y la devuelva como salida.
 #
