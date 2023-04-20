@@ -1,6 +1,6 @@
 # 1.8.1 Procedimientos sin sentencias SQL
 
-# Escribe un procedimiento que no tenga ningún parámetro de entrada ni de salida y que muestre el texto ¡Hola mundo!.
+# 1. Escribe un procedimiento que no tenga ningún parámetro de entrada ni de salida y que muestre el texto ¡Hola mundo!.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS hello_world $$
@@ -13,7 +13,7 @@ END $$
 DELIMITER ;
 CALL hello_world();
 
-# Escribe un procedimiento que reciba un número real de entrada y muestre un mensaje indicando si el número es positivo, negativo o cero.
+# 2. Escribe un procedimiento que reciba un número real de entrada y muestre un mensaje indicando si el número es positivo, negativo o cero.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS signo_numero $$
@@ -29,7 +29,7 @@ CREATE PROCEDURE signo_numero(IN numero INT)
 DELIMITER ;
 CALL signo_numero(0);
 
-# Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor un número real, y un parámetro de salida, con una cadena de caracteres indicando si el número es positivo, negativo o cero.
+# 3. Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor un número real, y un parámetro de salida, con una cadena de caracteres indicando si el número es positivo, negativo o cero.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS signo_numero $$
@@ -46,7 +46,7 @@ DELIMITER ;
 CALL signo_numero(2, @resultado);
 SELECT @resultado;
 
-# Escribe un procedimiento que reciba un número real de entrada, que representa el valor de la nota de un alumno, y muestre un mensaje indicando qué nota ha obtenido teniendo en cuenta las siguientes condiciones:
+# 4. Escribe un procedimiento que reciba un número real de entrada, que representa el valor de la nota de un alumno, y muestre un mensaje indicando qué nota ha obtenido teniendo en cuenta las siguientes condiciones:
 # [0,5) = Insuficiente
 # [5,6) = Aprobado
 # [6, 7) = Bien
@@ -71,7 +71,7 @@ $$
 DELIMITER ;
 CALL calificaciones(10);
 
-# Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor de la nota en formato numérico y un parámetro de salida, con una cadena de texto indicando la nota correspondiente.
+# 5. Modifique el procedimiento diseñado en el ejercicio anterior para que tenga un parámetro de entrada, con el valor de la nota en formato numérico y un parámetro de salida, con una cadena de texto indicando la nota correspondiente.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calificaciones $$
@@ -94,7 +94,7 @@ DELIMITER ;
 CALL calificaciones(8, @nota);
 SELECT @nota;
 
-# Resuelva el procedimiento diseñado en el ejercicio anterior haciendo uso de la estructura de control CASE.
+# 6. Resuelva el procedimiento diseñado en el ejercicio anterior haciendo uso de la estructura de control CASE.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calificaciones $$
@@ -115,7 +115,7 @@ CALL calificaciones(5.4, @nota);
 SELECT @nota;
 
 
-# Escribe un procedimiento que reciba como parámetro de entrada un valor numérico que represente un día de la semana y que devuelva una cadena de caracteres con el nombre del día de la semana correspondiente. Por ejemplo, para el valor de entrada 1 debería devolver la cadena lunes.
+# 7. Escribe un procedimiento que reciba como parámetro de entrada un valor numérico que represente un día de la semana y que devuelva una cadena de caracteres con el nombre del día de la semana correspondiente. Por ejemplo, para el valor de entrada 1 debería devolver la cadena lunes.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS diasDeLaSemana $$
@@ -138,7 +138,7 @@ CALL diasDeLaSemana(6);
 
 # 1.8.2 Procedimientos con sentencias SQL
 
-# Escribe un procedimiento que reciba el nombre de un país como parámetro de entrada y realice una consulta sobre la tabla cliente para obtener todos los clientes que existen en la tabla de ese país.
+# 1. Escribe un procedimiento que reciba el nombre de un país como parámetro de entrada y realice una consulta sobre la tabla cliente para obtener todos los clientes que existen en la tabla de ese país.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS clientesPorPais $$
@@ -155,7 +155,7 @@ DELIMITER ;
 CALL clientesPorPais('Spain');
 
 
-# Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida el pago de máximo valor realizado para esa forma de pago. Deberá hacer uso de la tabla pago de la base de datos jardineria.
+# 2. Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida el pago de máximo valor realizado para esa forma de pago. Deberá hacer uso de la tabla pago de la base de datos jardineria.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS pagoMax $$
@@ -175,7 +175,7 @@ CALL pagoMax('Transferencia');
 
 
 
-# Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida los siguientes valores teniendo en cuenta la forma de pago seleccionada como parámetro de entrada:
+# 3. Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida los siguientes valores teniendo en cuenta la forma de pago seleccionada como parámetro de entrada:
 # el pago de máximo valor,
 DELIMITER $$
 DROP PROCEDURE IF EXISTS pagoMax $$
@@ -259,7 +259,7 @@ CALL numPagos('PayPal');
 # Deberá hacer uso de la tabla pago de la base de datos jardineria.
 
 
-# Crea una base de datos llamada procedimientos que contenga una tabla llamada cuadrados. La tabla cuadrados debe tener dos columnas de tipo INT UNSIGNED, una columna llamada número y otra columna llamada cuadrado.
+# 4. Crea una base de datos llamada procedimientos que contenga una tabla llamada cuadrados. La tabla cuadrados debe tener dos columnas de tipo INT UNSIGNED, una columna llamada número y otra columna llamada cuadrado.
 
 CREATE DATABASE IF NOT EXISTS procedimientos;
 USE procedimientos;
@@ -292,7 +292,7 @@ DELIMITER ;
 CALL calcular_cuadrados(5);
 
 
-# Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+# 5. Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calcular_cuadrados $$
 
@@ -310,7 +310,7 @@ CREATE PROCEDURE calcular_cuadrados(IN tope INT UNSIGNED)
 DELIMITER ;
 CALL calcular_cuadrados(5);
 
-# Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
+# 6. Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calcular_cuadrados $$
@@ -332,7 +332,7 @@ DELIMITER ;
 CALL calcular_cuadrados(5);
 
 
-# Crea una base de datos llamada procedimientos que contenga una tabla llamada ejercicio. La tabla debe tener una única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
+# 7. Crea una base de datos llamada procedimientos que contenga una tabla llamada ejercicio. La tabla debe tener una única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 
 
 CREATE DATABASE IF NOT EXISTS procedimientos;
@@ -363,7 +363,7 @@ DELIMITER ;
 CALL calcular_numeros(50);
 
 
-# Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+# 8. Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calcular_numeros $$
@@ -380,7 +380,7 @@ CREATE PROCEDURE calcular_numeros(IN valor_inicial INT UNSIGNED)
 DELIMITER ;
 CALL calcular_numeros(40);
 
-# Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
+# 9. Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calcular_numeros $$
@@ -399,7 +399,7 @@ CREATE PROCEDURE calcular_numeros(IN valor_inicial INT UNSIGNED)
 DELIMITER ;
 CALL calcular_numeros(30);
 
-# Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
+# 10. Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 
 CREATE DATABASE IF NOT EXISTS procedimientos;
 USE procedimientos;
@@ -438,7 +438,7 @@ CREATE PROCEDURE calcular_pares_impares(IN tope INT UNSIGNED)
 DELIMITER ;
 CALL calcular_pares_impares(50);
 
-# Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+# 11. Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS calcular_pares_impares $$
@@ -462,15 +462,50 @@ CREATE PROCEDURE calcular_pares_impares(IN tope INT UNSIGNED)
 DELIMITER ;
 CALL calcular_pares_impares(40);
 
-# Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
+# 12. Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_pares_impares $$
+
+CREATE PROCEDURE calcular_pares_impares(IN tope INT UNSIGNED)
+    BEGIN
+        DECLARE contador INT UNSIGNED;
+        SET contador = 1;
+        DELETE FROM pares;
+        DELETE FROM impares;
+        bucle: LOOP
+            IF contador > tope THEN
+                LEAVE bucle;
+            END IF;
+            IF contador%2 = 0 THEN
+                INSERT INTO pares VALUES (contador);
+            ELSE
+                INSERT INTO impares VALUES (contador);
+            END IF;
+            SET contador = contador + 1;
+        END LOOP;
+    END $$
+DELIMITER ;
+CALL calcular_pares_impares(43);
 
 
 # 1.8.3 Funciones sin sentencias SQL
 
 # Escribe una función que reciba un número entero de entrada y devuelva TRUE si el número es par o FALSE en caso contrario.
 
-
+DELIMITER $$
+DROP FUNCTION IF EXISTS es_numero_par $$
+CREATE FUNCTION es_numero_par(numero INT UNSIGNED)
+    RETURNS BOOLEAN NO SQL
+    BEGIN
+        IF numero%2 = 0 THEN
+            RETURN TRUE;
+        ELSE
+            RETURN FALSE;
+        END IF;
+    END $$
+DELIMITER ;
+SELECT es_numero_par(1);
 
 # Escribe una función que devuelva el valor de la hipotenusa de un triángulo a partir de los valores de sus lados.
 
