@@ -491,7 +491,7 @@ CALL calcular_pares_impares(43);
 
 # 1.8.3 Funciones sin sentencias SQL
 
-# Escribe una función que reciba un número entero de entrada y devuelva TRUE si el número es par o FALSE en caso contrario.
+# 1. Escribe una función que reciba un número entero de entrada y devuelva TRUE si el número es par o FALSE en caso contrario.
 
 DELIMITER $$
 DROP FUNCTION IF EXISTS es_numero_par $$
@@ -505,24 +505,128 @@ CREATE FUNCTION es_numero_par(numero INT UNSIGNED)
         END IF;
     END $$
 DELIMITER ;
-SELECT es_numero_par(1);
+SELECT IF (es_numero_par(1), 'TRUE', 'FALSE') AS 'Is this number even?';
 
-# Escribe una función que devuelva el valor de la hipotenusa de un triángulo a partir de los valores de sus lados.
+# 2. Escribe una función que devuelva el valor de la hipotenusa de un triángulo a partir de los valores de sus lados.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS hipotenusa $$
+CREATE FUNCTION hipotenusa(cateto1 INT UNSIGNED, cateto2 INT UNSIGNED)
+    RETURNS VARCHAR(40) NO SQL
+    BEGIN
+        IF (cateto1 > 0 && cateto2 > 0) THEN
+            RETURN SQRT(cateto1*cateto1 + cateto2*cateto2);
+        ELSE
+            RETURN 'Cada cateto tiene que ser mayor de 0';
+        END IF;
+    END $$
+DELIMITER ;
+SELECT hipotenusa(4, 3);
+
+# 3. Escribe una función que reciba como parámetro de entrada un valor numérico que represente un día de la semana y que devuelva una cadena de caracteres con el nombre del día de la semana correspondiente. Por ejemplo, para el valor de entrada 1 debería devolver la cadena lunes.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS dia_de_la_semana $$
+CREATE FUNCTION dia_de_la_semana(dia INT UNSIGNED)
+    RETURNS VARCHAR(20) NO SQL
+    BEGIN
+        CASE
+            WHEN dia = 1 THEN RETURN 'Lunes';
+            WHEN dia = 2 THEN RETURN 'Martes';
+            WHEN dia = 3 THEN RETURN 'Miércoles';
+            WHEN dia = 4 THEN RETURN 'Jueves';
+            WHEN dia = 5 THEN RETURN 'Viernes';
+            WHEN dia = 6 THEN RETURN 'Sábado';
+            WHEN dia = 7 THEN RETURN 'Domingo';
+            ELSE RETURN 'día no valido';
+        END CASE;
+    END $$
+DELIMITER ;
+SELECT dia_de_la_semana(7);
+
+# 4. Escribe una función que reciba tres números reales como parámetros de entrada y devuelva el mayor de los tres.
+DELIMITER $$
+DROP FUNCTION IF EXISTS el_mayor_de_tres $$
+CREATE FUNCTION el_mayor_de_tres(numero1 INT UNSIGNED, numero2 INT UNSIGNED, numero3 INT UNSIGNED)
+    RETURNS INT UNSIGNED NO SQL
+    BEGIN
+        DECLARE mayor INT UNSIGNED;
+        IF (numero1 > numero2) THEN
+            SET mayor = numero1;
+        ELSE
+            SET mayor = numero2;
+        END IF;
+        IF (numero3 > mayor) THEN
+            SET mayor = numero3;
+        END IF;
+        RETURN mayor;
+END $$
+DELIMITER ;
+SELECT el_mayor_de_tres(30,20,10);
+
+# 5. Escribe una función que devuelva el valor del área de un círculo a partir del valor del radio que se recibirá como parámetro de entrada.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS area_circulo $$
+CREATE FUNCTION area_circulo(radio INT UNSIGNED)
+    RETURNS VARCHAR(40) NO SQL
+    BEGIN
+        IF (radio > 0) THEN
+            RETURN PI()*POW(radio, 2);
+        ELSE
+            RETURN 'El radio tiene que ser mayor de 0';
+        END IF;
+    END $$
+DELIMITER ;
+SELECT area_circulo(9 );
 
 
-
-# Escribe una función que reciba como parámetro de entrada un valor numérico que represente un día de la semana y que devuelva una cadena de caracteres con el nombre del día de la semana correspondiente. Por ejemplo, para el valor de entrada 1 debería devolver la cadena lunes.
-# Escribe una función que reciba tres números reales como parámetros de entrada y devuelva el mayor de los tres.
-# Escribe una función que devuelva el valor del área de un círculo a partir del valor del radio que se recibirá como parámetro de entrada.
-# Escribe una función que devuelva como salida el número de años que han transcurrido entre dos fechas que se reciben como parámetros de entrada. Por ejemplo, si pasamos como parámetros de entrada las fechas 2018-01-01 y 2008-01-01 la función tiene que devolver que han pasado 10 años.
+# 6. Escribe una función que devuelva como salida el número de años que han transcurrido entre dos fechas que se reciben como parámetros de entrada. Por ejemplo, si pasamos como parámetros de entrada las fechas 2018-01-01 y 2008-01-01 la función tiene que devolver que han pasado 10 años.
 # Para realizar esta función puede hacer uso de las siguientes funciones que nos proporciona MySQL:
-#
+
 # DATEDIFF
 # TRUNCATE
-# Escribe una función que reciba una cadena de entrada y devuelva la misma cadena pero sin acentos. La función tendrá que reemplazar todas las vocales que tengan acento por la misma vocal pero sin acento. Por ejemplo, si la función recibe como parámetro de entrada la cadena María la función debe devolver la cadena Maria.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS años_transcurridos $$
+CREATE FUNCTION años_transcurridos(fecha1 DATETIME, fecha2 DATETIME)
+    RETURNS VARCHAR(40) NO SQL
+    BEGIN
+        IF (fecha1 > fecha2) THEN
+            RETURN CONCAT('Han pasado ', TIMESTAMPDIFF(YEAR , fecha2, fecha1), ' años');
+        ELSE
+            RETURN CONCAT('Han pasado ', TIMESTAMPDIFF(YEAR , fecha1, fecha2), ' años');
+        END IF;
+    END $$
+DELIMITER ;
+SELECT años_transcurridos('1988-05-04', NOW() );
+
+# 7. Escribe una función que reciba una cadena de entrada y devuelva la misma cadena pero sin acentos. La función tendrá que reemplazar todas las vocales que tengan acento por la misma vocal pero sin acento. Por ejemplo, si la función recibe como parámetro de entrada la cadena María la función debe devolver la cadena Maria.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS desacentuar $$
+CREATE FUNCTION desacentuar(cadena VARCHAR(100))
+    RETURNS VARCHAR(100) NO SQL
+    BEGIN
+        SET cadena = REPLACE(cadena, 'á', 'a');
+        SET cadena = REPLACE(cadena, 'é', 'e');
+        SET cadena = REPLACE(cadena, 'í', 'i');
+        SET cadena = REPLACE(cadena, 'ó', 'o');
+        SET cadena = REPLACE(cadena, 'ú', 'u');
+        SET cadena = REPLACE(cadena, 'Á', 'A');
+        SET cadena = REPLACE(cadena, 'É', 'E');
+        SET cadena = REPLACE(cadena, 'Í', 'I');
+        SET cadena = REPLACE(cadena, 'Ó', 'O');
+        SET cadena = REPLACE(cadena, 'Ú', 'U');
+        RETURN cadena;
+    END $$
+DELIMITER ;
+SELECT desacentuar('ÁÉÍÓÚ áéíóú ¿desacentuará o no desacentuará?');
+
+
 # 1.8.4 Funciones con sentencias SQL
 #
-# Escribe una función para la base de datos tienda que devuelva el número total de productos que hay en la tabla productos.
+# 1. Escribe una función para la base de datos tienda que devuelva el número total de productos que hay en la tabla productos.
 # Escribe una función para la base de datos tienda que devuelva el valor medio del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
 # Escribe una función para la base de datos tienda que devuelva el valor máximo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
 # Escribe una función para la base de datos tienda que devuelva el valor mínimo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
