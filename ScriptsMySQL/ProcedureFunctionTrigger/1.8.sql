@@ -625,38 +625,140 @@ SELECT desacentuar('ÁÉÍÓÚ áéíóú ¿desacentuará o no desacentuará?');
 
 
 # 1.8.4 Funciones con sentencias SQL
-#
-# 1. Escribe una función para la base de datos tienda que devuelva el número total de productos que hay en la tabla productos.
-# Escribe una función para la base de datos tienda que devuelva el valor medio del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
-# Escribe una función para la base de datos tienda que devuelva el valor máximo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
-# Escribe una función para la base de datos tienda que devuelva el valor mínimo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
 
+# 1. Escribe una función para la base de datos tienda que devuelva el número total de productos que hay en la tabla productos.
+
+USE tienda;
+DELIMITER $$
+DROP FUNCTION IF EXISTS total_productos $$
+CREATE FUNCTION total_productos()
+    RETURNS INT UNSIGNED DETERMINISTIC
+    BEGIN
+        DECLARE total INT UNSIGNED;
+        SELECT COUNT(*) INTO total FROM producto;
+        RETURN total;
+    END $$
+DELIMITER ;
+SELECT total_productos();
+
+# 2. Escribe una función para la base de datos tienda que devuelva el valor medio del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS valor_medio_productos_por_fabricante $$
+CREATE FUNCTION valor_medio_productos_por_fabricante(fabricante VARCHAR(20))
+    RETURNS INT UNSIGNED DETERMINISTIC
+    BEGIN
+        DECLARE valorMedio INT UNSIGNED;
+        SELECT AVG(p.precio) INTO valorMedio
+        FROM producto p
+        INNER JOIN fabricante f
+            ON p.id_fabricante = f.id
+        WHERE f.nombre = fabricante;
+        RETURN valorMedio;
+    END $$
+DELIMITER ;
+SELECT valor_medio_productos_por_fabricante('Lenovo');
+
+# 3. Escribe una función para la base de datos tienda que devuelva el valor máximo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
+DELIMITER $$
+DROP FUNCTION IF EXISTS producto_mayor_valor_fabricante $$
+CREATE FUNCTION producto_mayor_valor_fabricante(fabricante VARCHAR(20))
+    RETURNS INT UNSIGNED DETERMINISTIC
+    BEGIN
+        DECLARE valorMax INT UNSIGNED;
+        SELECT MAX(p.precio) INTO valorMax
+        FROM producto p
+        INNER JOIN fabricante f
+            ON p.id_fabricante = f.id
+        WHERE f.nombre = fabricante;
+        RETURN valorMax;
+    END $$
+DELIMITER ;
+SELECT producto_mayor_valor_fabricante('Asus');
+
+# Escribe una función para la base de datos tienda que devuelva el valor mínimo del precio de los productos de un determinado fabricante que se recibirá como parámetro de entrada. El parámetro de entrada será el nombre del fabricante.
+DELIMITER $$
+DROP FUNCTION IF EXISTS producto_menor_valor_fabricante $$
+CREATE FUNCTION producto_menor_valor_fabricante(fabricante VARCHAR(20))
+    RETURNS INT UNSIGNED DETERMINISTIC
+    BEGIN
+        DECLARE valorMin INT UNSIGNED;
+        SELECT MIN(p.precio) INTO valorMin
+        FROM producto p
+        INNER JOIN fabricante f
+            ON p.id_fabricante = f.id
+        WHERE f.nombre = fabricante;
+        RETURN valorMin;
+    END $$
+DELIMITER ;
+SELECT producto_menor_valor_fabricante('Asus');
 
 
 # 1.8.5 Manejo de errores en MySQL
-#
+
 # Crea una base de datos llamada test que contenga una tabla llamada alumno. La tabla debe tener cuatro columnas:
 # id: entero sin signo (clave primaria).
 # nombre: cadena de 50 caracteres.
 # apellido1: cadena de 50 caracteres.
 # apellido2: cadena de 50 caracteres.
+
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+DROP TABLE IF EXISTS alumno;
+CREATE TABLE IF NOT EXISTS alumno(
+    id INT UNSIGNED,
+    nombre VARCHAR(50),
+    apellido1 VARCHAR(50),
+    apellido2 VARCHAR(50),
+    PRIMARY KEY (id)
+);
 # Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado insertar_alumno con las siguientes características. El procedimiento recibe cuatro parámetros de entrada (id, nombre, apellido1, apellido2) y los insertará en la tabla alumno. El procedimiento devolverá como salida un parámetro llamado error que tendrá un valor igual a 0 si la operación se ha podido realizar con éxito y un valor igual a 1 en caso contrario.
 #
 # Deberá manejar los errores que puedan ocurrir cuando se intenta insertar una fila que contiene una clave primaria repetida.
-#
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS insertar_alumno $$
+CREATE PROCEDURE insertar_alumno(IN id INT UNSIGNED, nomb VARCHAR(50), apellido1 VARCHAR(50), apellido2 VARCHAR(50), OUT error INT)
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR SQLSTATE '23000' SET error = 1;
+        SET error = 0;
+        INSERT INTO test.alumno
+            VALUES (id, nomb, apellido1, apellido2);
+        SELECT error;
+    END $$
+DELIMITER ;
+CALL insertar_alumno(1, 'Alberto', 'Saz', 'Simón', @error);
+
+
+
 # 1.8.6 Transacciones con procedimientos almacenados
-#
+
 # Crea una base de datos llamada cine que contenga dos tablas con las siguientes columnas.
 # Tabla cuentas:
-#
+
 # id_cuenta: entero sin signo (clave primaria).
 # saldo: real sin signo.
 # Tabla entradas:
-#
+
 # id_butaca: entero sin signo (clave primaria).
 # nif: cadena de 9 caracteres.
+
+CREATE DATABASE IF NOT EXISTS cine;
+USE cine;
+DROP TABLE IF EXISTS cuentas;
+CREATE TABLE IF NOT EXISTS cuentas(
+    id_cuenta INT UNSIGNED PRIMARY KEY ,
+    saldo INT UNSIGNED
+);
+DROP TABLE IF EXISTS entradas;
+CREATE TABLE IF NOT EXISTS entradas(
+    id_butaca INT UNSIGNED PRIMARY KEY ,
+    nif VARCHAR(9)
+);
+
 # Una vez creada la base de datos y las tablas deberá crear un procedimiento llamado comprar_entrada con las siguientes características. El procedimiento recibe 3 parámetros de entrada (nif, id_cuenta, id_butaca) y devolverá como salida un parámetro llamado error que tendrá un valor igual a 0 si la compra de la entrada se ha podido realizar con éxito y un valor igual a 1 en caso contrario.
-#
+
+
 # El procedimiento de compra realiza los siguientes pasos:
 #
 # Inicia una transacción.
@@ -667,8 +769,44 @@ SELECT desacentuar('ÁÉÍÓÚ áéíóú ¿desacentuará o no desacentuará?');
 #
 # ERROR 1264 (Out of range value)
 # ERROR 1062 (Duplicate entry for PRIMARY KEY)
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS comprar_entrada $$
+CREATE PROCEDURE comprar_entrada(IN nif VARCHAR(9), IN id_cuenta INT UNSIGNED, IN id_butaca INT UNSIGNED, OUT error INT UNSIGNED)
+    BEGIN
+        DECLARE EXIT HANDLER FOR 1264
+            BEGIN
+                SET error = 1;
+                SELECT error, 'Out of range value' as 'ERROR TYPE';
+            ROLLBACK;
+        END;
+        DECLARE EXIT HANDLER FOR 1062
+            BEGIN
+                SET error = 1;
+                SELECT error, 'Duplicate entry for PRIMARY KEY' as 'ERROR TYPE';
+            ROLLBACK;
+        END;
+        SET error = 0;
+        START TRANSACTION;
+            UPDATE cuentas SET saldo = saldo - 5 WHERE cuentas.id_cuenta = id_cuenta;
+            INSERT INTO entradas VALUES (id_butaca, nif);
+            SELECT error;
+        COMMIT;
+    END $$
+DELIMITER ;
+CALL comprar_entrada('18447807J', 5, 8, @error);
+
+
 # ¿Qué ocurre cuando intentamos comprar una entrada y le pasamos como parámetro un número de cuenta que no existe en la tabla cuentas? ¿Ocurre algún error o podemos comprar la entrada?
+
+-- No devuelve error  y se produce la transacción, por lo que si podemos comprar la entrada.
+
 # En caso de que exista algún error, ¿cómo podríamos resolverlo?.
+
+-- Deberiamos crear un HANDLER para ese error o uno general.
+UPDATE cuentas SET saldo = saldo - 5 WHERE cuentas.id_cuenta = 9;
+SELECT COUNT ();
+
 #
 # 1.8.7 Cursores
 #
