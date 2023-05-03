@@ -1243,20 +1243,21 @@ CREATE TABLE IF NOT EXISTS log_alumnos_eliminados(
             id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
             id_alumno INT,
             fecha_hora DATETIME,
+            nombre VARCHAR(30),
             apellido1 VARCHAR(30),
             apellido2 VARCHAR(30),
             email VARCHAR(30)
         );
 
 DELIMITER $$
-DROP TRIGGER IF EXISTS trigger_guardar_email_after_update $$
-CREATE TRIGGER trigger_guardar_email_after_update
-    AFTER UPDATE
+DROP TRIGGER IF EXISTS trigger_guardar_alumnos_eliminados $$
+CREATE TRIGGER trigger_guardar_alumnos_eliminados
+    AFTER DELETE
     ON alumnos FOR EACH ROW
     BEGIN
-        IF NEW.email != OLD.email THEN
-            INSERT INTO log_cambios_email(id_alumno, fecha_hora, old_email, new_email)
-            VALUES (OLD.id, NOW(), OLD.email, NEW.email);
-        END IF;
+        INSERT INTO log_alumnos_eliminados(id_alumno, fecha_hora, nombre, apellido1, apellido2, email)
+            VALUES (OLD.id, NOW(), OLD.nombre, OLD.apellido1, OLD.apellido2, OLD.email);
     END $$
 DELIMITER ;
+
+DELETE FROM alumnos;
