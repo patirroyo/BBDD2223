@@ -803,9 +803,40 @@ CALL comprar_entrada('18447807J', 5, 8, @error);
 
 # En caso de que exista algún error, ¿cómo podríamos resolverlo?.
 
--- Deberiamos crear un HANDLER para ese error o uno general.
-UPDATE cuentas SET saldo = saldo - 5 WHERE cuentas.id_cuenta = 9;
-SELECT COUNT ();
+-- Deberiamos crear una condición para evitarlo:
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS comprar_entrada $$
+CREATE PROCEDURE comprar_entrada(IN nif VARCHAR(9), IN id_cuenta INT UNSIGNED, IN id_butaca INT UNSIGNED, OUT error INT UNSIGNED)
+    BEGIN
+        DECLARE EXIT HANDLER FOR 1264
+            BEGIN
+                SET error = 1;
+                SELECT error, 'Out of range value' as 'ERROR TYPE';
+            ROLLBACK;
+        END;
+        DECLARE EXIT HANDLER FOR 1062
+            BEGIN
+                SET error = 1;
+                SELECT error, 'Duplicate entry for PRIMARY KEY' as 'ERROR TYPE';
+            ROLLBACK;
+        END;
+        SET error = 0;
+        START TRANSACTION;
+            IF ((SELECT COUNT(cuentas.id_cuenta)
+               FROM cuentas
+               WHERE cuentas.id_cuenta = id_cuenta) = 0) THEN
+                   SELECT 'Cuenta no encontrada';
+                   ROLLBACK;
+            ELSE
+                UPDATE cuentas SET saldo = saldo - 5 WHERE cuentas.id_cuenta = id_cuenta;
+                INSERT INTO entradas VALUES (id_butaca, nif);
+                SELECT error;
+            END IF;
+        COMMIT;
+    END $$
+DELIMITER ;
+CALL comprar_entrada('18447807J', 1, 85, @error);
 
 #
 # 1.8.7 Cursores
@@ -881,6 +912,9 @@ DELIMITER ;
 CALL actualizar_columna_edad();
 
 # Modifica la tabla alumnos del ejercicio anterior para añadir una nueva columna email. Una vez que hemos modificado la tabla necesitamos asignarle una dirección de correo electrónico de forma automática.
+
+ALTER TABLE alumno ADD COLUMN email VARCHAR(40);
+
 # Escriba un procedimiento llamado crear_email que dados los parámetros de entrada: nombre, apellido1, apellido2 y dominio, cree una dirección de email y la devuelva como salida.
 #
 # Procedimiento: crear_email
@@ -898,9 +932,97 @@ CALL actualizar_columna_edad();
 # Los tres primeros caracteres del parámetro apellido2.
 # El carácter @.
 # El dominio pasado como parámetro.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS crear_email $$
+CREATE PROCEDURE crear_email(IN nombre VARCHAR(30), IN apellido1 VARCHAR(30), IN apellido2 VARCHAR(30), IN dominio VARCHAR(30), OUT direccion VARCHAR(30))
+    BEGIN
+        SET direccion = CONCAT(
+                                LOWER(LEFT(nombre,1)),
+                                LOWER(LEFT(apellido1, 3)),
+                                LOWER(LEFT(apellido2,3)),
+                                '@',
+                                LOWER(dominio));
+    END $$
+DELIMITER ;
+CALL crear_email('Alberto', 'Saz', 'Simón', 'salesianos.edu', @direccion);
+SELECT @direccion;
+
+
 # Ahora escriba un procedimiento que permita crear un email para todos los alumnmos que ya existen en la tabla. Para esto será necesario crear un procedimiento llamado actualizar_columna_email que actualice la columna email de la tabla alumnos. Este procedimiento hará uso del procedimiento crear_email que hemos creado en el paso anterior.
-#
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS actualizar_columna_email $$
+CREATE PROCEDURE actualizar_columna_email()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE id_a INT;
+    DECLARE nomb VARCHAR(30);
+    DECLARE ap1 VARCHAR(30);
+    DECLARE ap2 VARCHAR(30);
+    DECLARE dominio VARCHAR(30) DEFAULT 'salesianos.edu';
+    DECLARE mail VARCHAR(30);
+    DECLARE cur1 CURSOR FOR
+                SELECT id,
+                       nombre,
+                       apellido1,
+                       apellido2
+                FROM alumno;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    OPEN cur1;
+    bucle: LOOP
+        FETCH cur1
+        INTO id_a,
+            nomb,
+            ap1,
+            ap2;
+        SET mail = '';
+        IF done = 1 THEN
+            LEAVE bucle;
+        END IF;
+        START TRANSACTION;
+            CALL crear_email(nomb, ap1, ap2, dominio, mail);
+            UPDATE alumno
+            SET email = mail
+            WHERE id = id_a;
+        COMMIT;
+    END LOOP bucle;
+    CLOSE cur1;
+END $$
+DELIMITER ;
+CALL actualizar_columna_email();
+
 # Escribe un procedimiento llamado crear_lista_emails_alumnos que devuelva la lista de emails de la tabla alumnos separados por un punto y coma. Ejemplo: juan@iescelia.org;maria@iescelia.org;pepe@iescelia.org;lucia@iescelia.org.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS crear_lista_emails_alumnos $$
+CREATE PROCEDURE crear_lista_emails_alumnos(OUT lista VARCHAR(300))
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE mail VARCHAR(30);
+    DECLARE cur1 CURSOR FOR
+                SELECT email
+                FROM alumno;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    OPEN cur1;
+    bucle: LOOP
+        FETCH cur1
+        INTO mail;
+        IF done = 1 THEN
+            LEAVE bucle;
+        END IF;
+        START TRANSACTION;
+            SET lista = CONCAT_WS(';',lista, mail);
+        COMMIT;
+    END LOOP bucle;
+    CLOSE cur1;
+END $$
+DELIMITER ;
+CALL crear_lista_emails_alumnos(@lista);
+SELECT @lista;
+
+
+
 # 1.8.8 Triggers
 #
 # Crea una base de datos llamada test que contenga una tabla llamada alumnos con las siguientes columnas.
@@ -911,6 +1033,19 @@ CALL actualizar_columna_edad();
 # apellido1 (cadena de caracteres)
 # apellido2 (cadena de caracteres)
 # nota (número real)
+
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+DROP TABLE IF EXISTS alumnos;
+CREATE TABLE IF NOT EXISTS alumnos(
+    id INT UNSIGNED,
+    nombre VARCHAR(50),
+    apellido1 VARCHAR(50),
+    apellido2 VARCHAR(50),
+    nota FLOAT,
+    PRIMARY KEY (id)
+);
+
 # Una vez creada la tabla escriba dos triggers con las siguientes características:
 #
 # Trigger 1: trigger_check_nota_before_insert
@@ -918,13 +1053,56 @@ CALL actualizar_columna_edad();
 # Se ejecuta antes de una operación de inserción.
 # Si el nuevo valor de la nota que se quiere insertar es negativo, se guarda como 0.
 # Si el nuevo valor de la nota que se quiere insertar es mayor que 10, se guarda como 10.
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_check_nota_before_insert $$
+CREATE TRIGGER trigger_check_nota_before_insert
+    BEFORE INSERT
+    ON alumnos FOR EACH ROW
+    BEGIN
+        IF NEW.nota < 0 THEN
+            SET NEW.nota = 0;
+        ELSEIF NEW.nota > 10 THEN
+            SET NEW.nota = 10;
+        END IF;
+    END $$
+DELIMITER ;
+
+
 # Trigger2 : trigger_check_nota_before_update
 # Se ejecuta sobre la tabla alumnos.
 # Se ejecuta antes de una operación de actualización.
 # Si el nuevo valor de la nota que se quiere actualizar es negativo, se guarda como 0.
 # Si el nuevo valor de la nota que se quiere actualizar es mayor que 10, se guarda como 10.
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_check_nota_before_update $$
+CREATE TRIGGER trigger_check_nota_before_update
+    BEFORE UPDATE
+    ON alumnos FOR EACH ROW
+    BEGIN
+        IF NEW.nota < 0 THEN
+            SET NEW.nota = 0;
+        ELSEIF NEW.nota > 10 THEN
+            SET NEW.nota = 10;
+        END IF;
+    END $$
+DELIMITER ;
+
 # Una vez creados los triggers escriba varias sentencias de inserción y actualización sobre la tabla alumnos y verifica que los triggers se están ejecutando correctamente.
-#
+
+INSERT INTO alumnos(id, nota) VALUES (1, 100);
+INSERT INTO alumnos(id, nota) VALUES (2, -100);
+INSERT INTO alumnos(id, nota) VALUES (3, 5.6);
+INSERT INTO alumnos(id, nota) VALUES (4, -0.4);
+
+UPDATE alumnos SET nota = -100 WHERE id = 1;
+UPDATE alumnos SET nota = 100 WHERE id = 2;
+UPDATE alumnos SET nota = -100 WHERE id = 3;
+UPDATE alumnos SET nota = 100 WHERE id = 4;
+
+
+
 # Crea una base de datos llamada test que contenga una tabla llamada alumnos con las siguientes columnas.
 # Tabla alumnos:
 #
@@ -933,6 +1111,20 @@ CALL actualizar_columna_edad();
 # apellido1 (cadena de caracteres)
 # apellido2 (cadena de caracteres)
 # email (cadena de caracteres)
+
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+DROP TABLE IF EXISTS alumnos;
+CREATE TABLE IF NOT EXISTS alumnos(
+    id INT UNSIGNED,
+    nombre VARCHAR(50),
+    apellido1 VARCHAR(50),
+    apellido2 VARCHAR(50),
+    email VARCHAR(30),
+    PRIMARY KEY (id)
+);
+
+
 # Escriba un procedimiento llamado crear_email que dados los parámetros de entrada: nombre, apellido1, apellido2 y dominio, cree una dirección de email y la devuelva como salida.
 #
 # Procedimiento: crear_email
@@ -950,6 +1142,21 @@ CALL actualizar_columna_edad();
 # Los tres primeros caracteres del parámetro apellido2.
 # El carácter @.
 # El dominio pasado como parámetro.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS crear_email $$
+CREATE PROCEDURE crear_email(IN nombre VARCHAR(30), IN apellido1 VARCHAR(30), IN apellido2 VARCHAR(30), IN dominio VARCHAR(30), OUT email VARCHAR(30))
+    BEGIN
+        SET email = CONCAT(
+                                LOWER(LEFT(nombre,1)),
+                                LOWER(LEFT(apellido1, 3)),
+                                LOWER(LEFT(apellido2,3)),
+                                '@',
+                                LOWER(dominio));
+    END $$
+DELIMITER ;
+
+
 # Una vez creada la tabla escriba un trigger con las siguientes características:
 #
 # Trigger: trigger_crear_email_before_insert
@@ -958,13 +1165,31 @@ CALL actualizar_columna_edad();
 # Si el nuevo valor del email que se quiere insertar es NULL, entonces se le creará automáticamente una dirección de email y se insertará en la tabla.
 # Si el nuevo valor del email no es NULL se guardará en la tabla el valor del email.
 # Nota: Para crear la nueva dirección de email se deberá hacer uso del procedimiento crear_email.
-#
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_crear_email_before_insert $$
+CREATE TRIGGER trigger_crear_email_before_insert
+    BEFORE INSERT
+    ON alumnos FOR EACH ROW
+    BEGIN
+        IF NEW.email IS NULL THEN
+            CALL crear_email(NEW.nombre, NEW.apellido1, NEW.apellido2, 'salesianos.edu', @mail);
+            SET NEW.email = @mail;
+        END IF;
+    END $$
+DELIMITER ;
+
+INSERT INTO alumnos(id, nombre, apellido1, apellido2) VALUES (1, 'Alberto', 'Saz', 'Simón');
+INSERT INTO alumnos(id, nombre, apellido1, apellido2) VALUES (2, 'Perico', 'EldeLos', 'Palotes');
+INSERT INTO alumnos VALUES (3, 'Manolo', 'Eldel', 'Bombo', 'eldelbombo@bombo.es');
+
 # Modifica el ejercicio anterior y añade un nuevo trigger que las siguientes características:
 # Trigger: trigger_guardar_email_after_update:
 #
 # Se ejecuta sobre la tabla alumnos.
 # Se ejecuta después de una operación de actualización.
 # Cada vez que un alumno modifique su dirección de email se deberá insertar un nuevo registro en una tabla llamada log_cambios_email.
+
 # La tabla log_cambios_email contiene los siguientes campos:
 #
 # id: clave primaria (entero autonumérico)
@@ -972,6 +1197,32 @@ CALL actualizar_columna_edad();
 # fecha_hora: marca de tiempo con el instante del cambio (fecha y hora)
 # old_email: valor anterior del email (cadena de caracteres)
 # new_email: nuevo valor con el que se ha actualizado
+
+CREATE TABLE IF NOT EXISTS log_cambios_email(
+            id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+            id_alumno INT,
+            fecha_hora DATETIME,
+            old_email VARCHAR(30),
+            new_email VARCHAR(30)
+        );
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_guardar_email_after_update $$
+CREATE TRIGGER trigger_guardar_email_after_update
+    AFTER UPDATE
+    ON alumnos FOR EACH ROW
+    BEGIN
+        IF NEW.email != OLD.email THEN
+            INSERT INTO log_cambios_email(id_alumno, fecha_hora, old_email, new_email)
+            VALUES (OLD.id, NOW(), OLD.email, NEW.email);
+        END IF;
+    END $$
+DELIMITER ;
+
+UPDATE alumnos SET email = 'albertosaz@gmail.com' WHERE id = 1;
+UPDATE alumnos SET email = 'periquin@gmail.com' WHERE id = 2;
+UPDATE alumnos SET email = '' WHERE id = 3;
+
 # Modifica el ejercicio anterior y añade un nuevo trigger que tenga las siguientes características:
 # Trigger: trigger_guardar_alumnos_eliminados:
 #
@@ -987,3 +1238,25 @@ CALL actualizar_columna_edad();
 # apellido1: primer apellido del alumno eliminado (cadena de caracteres)
 # apellido2: segundo apellido del alumno eliminado (cadena de caracteres)
 # email: email del alumno eliminado (cadena de caracteres)
+
+CREATE TABLE IF NOT EXISTS log_alumnos_eliminados(
+            id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+            id_alumno INT,
+            fecha_hora DATETIME,
+            apellido1 VARCHAR(30),
+            apellido2 VARCHAR(30),
+            email VARCHAR(30)
+        );
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_guardar_email_after_update $$
+CREATE TRIGGER trigger_guardar_email_after_update
+    AFTER UPDATE
+    ON alumnos FOR EACH ROW
+    BEGIN
+        IF NEW.email != OLD.email THEN
+            INSERT INTO log_cambios_email(id_alumno, fecha_hora, old_email, new_email)
+            VALUES (OLD.id, NOW(), OLD.email, NEW.email);
+        END IF;
+    END $$
+DELIMITER ;
