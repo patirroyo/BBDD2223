@@ -328,7 +328,7 @@ CREATE PROCEDURE calcular_pagos_pendientes()
 # END
 # $$
 # ¿Qué devolvería la última sentencia SELECT @x en cada caso (a y b)? Justifique su respuesta. Sin una justificación válida la respuesta será considerada incorrecta.
-#
+
 # -- a)
 # CALL handlerexam(1, 2, 3, @x);
 # SELECT @x;
@@ -336,7 +336,18 @@ CREATE PROCEDURE calcular_pagos_pendientes()
 # -- b)
 # CALL handlerexam(1, 2, 1, @x);
 # SELECT @x;
-# Dado el siguiente procedimiento:
+
+-- En el primer caso (a), se están insertando valores distintos en la tabla, por lo que no se debería producir ningún error. El valor de la variable x se establece en 4 antes de que termine la ejecución del procedimiento almacenado, por lo que la última sentencia SELECT @x devolverá el valor 4.
+
+-- En el segundo caso (b), se está intentando insertar un valor duplicado (1) en la columna que tiene una restricción de clave única. Como se ha declarado un manejador de excepción para el código de error 1062, el valor de la variable x se establecerá en 30 en lugar de seguir insertando valores. La última sentencia SET establece el valor de x en 2 antes de que se produzca el error, por lo que la última sentencia SELECT @x devolverá el valor 30.
+
+-- Por lo tanto, las respuestas serían:
+
+    -- Para el caso (a): la última sentencia SELECT @x devolverá el valor 4.
+    -- Para el caso (b): la última sentencia SELECT @x devolverá el valor 30.
+
+
+# 14. Dado el siguiente procedimiento:
 # -- Paso 1
 # CREATE TABLE t (s1 INT, PRIMARY KEY (s1));
 #
@@ -361,16 +372,63 @@ CREATE PROCEDURE calcular_pagos_pendientes()
 # -- b)
 # CALL test(10, @value);
 # SELECT @value;
-# Escriba un procedimiento llamado obtener_numero_empleados que reciba como parámetro de entrada el código de una oficina y devuelva el número de empleados que tiene.
+
+-- En el primer caso (a), el valor de 'a' es -10, por lo que el bucle 'while' no se ejecutará en absoluto. El valor de 'b' sigue siendo 0 y no se realiza ninguna inserción en la tabla 't'. El procedimiento devuelve 0 como valor de salida y la sentencia SELECT @value devolverá el valor 0.
+
+-- En el segundo caso (b), el valor de 'a' es 10, por lo que el bucle 'while' se ejecutará 10 veces. En cada iteración del bucle, se incrementará el valor de 'b' en 1 y se insertará en la tabla 't' si no es igual a 2. Por lo tanto, los valores insertados en la tabla 't' serán 1, 3, 4, 5, 6, 7, 8, 9 y 10. El procedimiento devuelve el valor 9 como valor de salida, que es el último valor que se inserta en la tabla 't' antes de que se termine el bucle. La sentencia SELECT @value devolverá el valor 9.
+
+-- Por lo tanto, las respuestas serían:
+
+    -- Para el caso (a): la tabla 't' no tendrá ningún valor y la sentencia SELECT @value devolverá el valor 0.
+    -- Para el caso (b): la tabla 't' tendrá los valores 1, 3, 4, 5, 6, 7, 8, 9 y 10 y la sentencia SELECT @value devolverá el valor 9.
+
+# 15. Escriba un procedimiento llamado obtener_numero_empleados que reciba como parámetro de entrada el código de una oficina y devuelva el número de empleados que tiene.
 # Escriba una sentencia SQL que realice una llamada al procedimiento realizado para comprobar que se ejecuta correctamente.
-#
-# Escriba una función llamada cantidad_total_de_productos_vendidos que reciba como parámetro de entrada el código de un producto y devuelva la cantidad total de productos que se han vendido con ese código.
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS obtener_numero_empleados $$
+CREATE PROCEDURE obtener_numero_empleados(IN codigo_oficina VARCHAR(10), OUT total_empleados INT)
+    BEGIN
+        SELECT COUNT(e.codigo_empleado) INTO total_empleados
+        FROM empleado e
+        WHERE e.codigo_oficina = codigo_oficina;
+    END $$
+DELIMITER ;
+CALL obtener_numero_empleados('TAL-ES', @total);
+SELECT @total;
+
+
+# 16. Escriba una función llamada cantidad_total_de_productos_vendidos que reciba como parámetro de entrada el código de un producto y devuelva la cantidad total de productos que se han vendido con ese código.
 # Escriba una sentencia SQL que realice una llamada a la función realizada para comprobar que se ejecuta correctamente.
-#
-# Crea una tabla que se llame productos_vendidos que tenga las siguientes columnas:
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS cantidad_total_de_productos_vendidos $$
+CREATE FUNCTION cantidad_total_de_productos_vendidos(codigo_producto VARCHAR(10))
+    RETURNS INT READS SQL DATA
+    BEGIN
+        DECLARE total INT;
+        SELECT SUM(dp.cantidad) INTO total
+        FROM detalle_pedido dp
+        WHERE dp.codigo_producto = codigo_producto;
+        RETURN total;
+    END $$
+DELIMITER ;
+SELECT cantidad_total_de_productos_vendidos('FR-67');
+
+
+# 17. Crea una tabla que se llame productos_vendidos que tenga las siguientes columnas:
 # id (entero sin signo, auto incremento y clave primaria)
 # codigo_producto (cadena de caracteres)
 # cantidad_total (entero)
+
+USE jardineria;
+DROP TABLE IF EXISTS productos_vendidos;
+CREATE TABLE IF NOT EXISTS productos_vendidos(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                codigo_producto VARCHAR(10),
+                                cantidad_total INTEGER);
+
+
+
 # Escriba un procedimiento llamado estadísticas_productos_vendidos que para cada uno de los productos de la tabla producto calcule la cantidad total de unidades que se han vendido y almacene esta información en la tabla productos_vendidos.
 #
 # El procedimiento tendrá que realizar las siguientes acciones:
@@ -379,11 +437,45 @@ CREATE PROCEDURE calcular_pagos_pendientes()
 # Recorrer cada uno de los productos de la tabla producto. Será necesario usar un cursor.
 # Calcular la cantidad total de productos vendidos. En este paso será necesario utilizar la función cantidad_total_de_productos_vendidos desarrollada en el ejercicio 2.
 # Insertar en la tabla productos_vendidos los valores del código de producto y la cantidad total de unidades que se han vendido para ese producto en concreto.
-# Crea una tabla que se llame notificaciones que tenga las siguientes columnas:
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS estadísticas_productos_vendidos $$
+CREATE PROCEDURE estadísticas_productos_vendidos()
+    BEGIN
+        DECLARE done INT DEFAULT 0;
+        DECLARE id_pro VARCHAR(10);
+        DECLARE productos CURSOR FOR SELECT p.codigo_producto
+                                    FROM producto p;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+        DELETE FROM productos_vendidos;
+        OPEN productos;
+        bucle: LOOP
+            FETCH productos INTO id_pro;
+            IF done = 1 THEN
+                LEAVE bucle;
+            END IF;
+            INSERT INTO productos_vendidos(codigo_producto, cantidad_total)
+                VALUES(id_pro, cantidad_total_de_productos_vendidos(id_pro));
+        END LOOP;
+        CLOSE productos;
+    END $$
+DELIMITER ;
+CALL estadísticas_productos_vendidos();
+
+
+# 18. Crea una tabla que se llame notificaciones que tenga las siguientes columnas:
 # id (entero sin signo, autoincremento y clave primaria)
 # fecha_hora: marca de tiempo con el instante del pago (fecha y hora)
 # total: el valor del pago (real)
 # codigo_cliente: código del cliente que realiza el pago (entero)
+
+USE jardineria;
+DROP TABLE IF EXISTS notificaciones;
+CREATE TABLE IF NOT EXISTS notificaciones(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                        fecha_hora DATETIME,
+                                        total FLOAT,
+                                        codigo_cliente INTEGER);
+
 # Escriba un trigger que nos permita llevar un control de los pagos que van realizando los clientes. Los detalles de implementación son los siguientes:
 #
 # Nombre: trigger_notificar_pago
@@ -391,3 +483,37 @@ CREATE PROCEDURE calcular_pagos_pendientes()
 # Se ejecuta después de hacer la inserción de un pago.
 # Cada vez que un cliente realice un pago (es decir, se hace una inserción en la tabla pago), el trigger deberá insertar un nuevo registro en una tabla llamada notificaciones.
 # Escriba algunas sentencias SQL para comprobar que el trigger funciona correctamente.
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS trigger_notificar_pago $$
+CREATE TRIGGER trigger_notificar_pago
+    AFTER INSERT
+    ON pago FOR EACH ROW
+    BEGIN
+        INSERT INTO notificaciones(fecha_hora,
+                                   total,
+                                   codigo_cliente)
+            VALUES (NOW(),
+                    NEW.total,
+                    NEW.codigo_cliente);
+    END $$
+DELIMITER ;
+
+INSERT INTO pago(codigo_cliente,
+                 forma_pago,
+                 id_transaccion,
+                 fecha_pago,
+                 total)
+VALUES (1, 'manual', 'ak-std-000039',NOW(), 1234.54);
+INSERT INTO pago(codigo_cliente,
+                 forma_pago,
+                 id_transaccion,
+                 fecha_pago,
+                 total)
+VALUES (1, 'manual', 'ak-std-000036',NOW(), 2345.77);
+INSERT INTO pago(codigo_cliente,
+                 forma_pago,
+                 id_transaccion,
+                 fecha_pago,
+                 total)
+VALUES (3, 'manual', 'ak-std-000037',NOW(), 12.45);
