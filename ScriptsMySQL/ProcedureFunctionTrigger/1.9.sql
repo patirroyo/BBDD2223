@@ -1,47 +1,95 @@
 # 1.9 Ejercicios de repaso
-# ¿Qué beneficios nos puede aportar utilizar procedimientos y funciones almacenadas?
-# Según la siguiente sentencia, ¿estamos haciendo una llamada a un procedimiento o a una función?
+# 1. ¿Qué beneficios nos puede aportar utilizar procedimientos y funciones almacenadas?
+
+-- El uso de procedimientos y funciones almacenadas en MySQL puede proporcionar varios beneficios a los desarrolladores y administradores de bases de datos. Algunos de estos beneficios incluyen:
+
+    -- Reutilización de código: Los procedimientos y funciones almacenadas permiten la reutilización de código, lo que significa que una vez que se ha creado una función o procedimiento, se puede utilizar en varias partes del código sin tener que escribir el mismo código varias veces. Esto reduce el tiempo y esfuerzo necesarios para desarrollar aplicaciones y mejora la mantenibilidad del código.
+    -- Mejora del rendimiento: Las funciones y procedimientos almacenados se ejecutan en el servidor de la base de datos, lo que puede proporcionar un mejor rendimiento en comparación con la ejecución de código en el cliente. Además, la capacidad de ejecutar múltiples operaciones en una sola llamada de procedimiento también puede mejorar el rendimiento de la aplicación.
+    -- Mejora de la seguridad: Los procedimientos almacenados pueden proporcionar una mayor seguridad al permitir que los desarrolladores restrinjan el acceso a ciertos datos y operaciones en la base de datos. Esto se logra mediante la creación de procedimientos almacenados que requieren autenticación y autorización antes de ejecutar una operación.
+    -- Facilita el mantenimiento: La implementación de funciones y procedimientos almacenados en una base de datos puede facilitar la tarea de mantenimiento de la base de datos. Al tener todo el código en un solo lugar, es más fácil de entender, depurar y mantener.
+-- En resumen, el uso de procedimientos y funciones almacenadas puede proporcionar una serie de beneficios a los desarrolladores y administradores de bases de datos, como la reutilización de código, mejoras de rendimiento, mejora de la seguridad y facilita el mantenimiento.
+
+
+# 2. Según la siguiente sentencia, ¿estamos haciendo una llamada a un procedimiento o a una función?
+
 # CALL resolver_ejercicio2()
-# ¿Cuáles de los siguientes bloques son correctos?
+
+
+-- La sentencia "CALL resolver_ejercicio2()" está haciendo una llamada a un procedimiento almacenado en MySQL. En este caso, el procedimiento se llama "resolver_ejercicio2" y se está llamando mediante la sentencia CALL.
+
+-- Es importante tener en cuenta que las funciones almacenadas también se pueden llamar utilizando la misma sintaxis de CALL, pero en este caso la sentencia sería "SELECT resolver_ejercicio2()". La principal diferencia entre los procedimientos y las funciones almacenadas es que las funciones deben devolver un valor, mientras que los procedimientos no necesitan hacerlo.
+
+# 3. ¿Cuáles de los siguientes bloques son correctos?
 # 1.
 # LOOP bucle:
 #   statements
 # END bucle:
-#
+
 # 2.
 # bucle: LOOP
 #   statements
 # END bucle;
-#
+
 # 3.
 # bucle:
 # LOOP bucle;
 #   statements;
 # END bucle;
-# ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
+
+-- El correcto es el 2, por sintaxis.
+
+# 4. ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
 # DECLARE a INT;
 # DECLARE a INT;
-# ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
+
+-- No, porque es declarar lo mismo dos veces. No se puede duplicar una variable.
+
+# 5. ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
 # DECLARE a INT;
 # DECLARE a FLOAT;
-# ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
+
+-- No, por lo mismo que en el ejercicio anterior. No se puede declarar la misma variable dos veces.
+
+# 6. ¿Pueden aparecer las siguientes sentencias en el mismo bloque de código?
 # DECLARE b VARCHAR(20);
 # DECLARE b HANDLER FOR SQLSTATE '02000';
-# ¿Para qué podemos utilizar un cursor en MySQL?
-#
-# ¿Puedo actualizar los datos de un cursor en MySQL? Si fuese posible actualizar los datos de un cursor, ¿se actualizarían automáticamente los datos de la tabla?
-#
-# Cuál o cuáles de los siguientes bucles no está soportado en MySQL: FOR, LOOP, REPEAT y WHILE.
-#
-# Si el cuerpo del bucle se debe ejecutar al menos una vez, ¿qué bucle sería más apropiado?
-#
-# ¿Qué valor devuelve la sentencia SELECT value?
+
+-- NO, por lo mismo que en los ejercicios anteriores: no se puede declarar la misma variable dos veces.
+
+# 7. ¿Para qué podemos utilizar un cursor en MySQL?
+
+
+-- En MySQL, un cursor es un objeto que permite recorrer los resultados de una consulta SELECT de forma secuencial, permitiendo así el procesamiento de cada fila individualmente. Los cursores pueden ser útiles en situaciones en las que se necesita realizar operaciones más complejas en los datos obtenidos a través de una consulta.
+
+-- Por ejemplo, supongamos que tenemos una tabla de empleados y queremos calcular el salario promedio de todos los empleados de un determinado departamento. Podemos usar un cursor para recorrer los registros del departamento seleccionado, sumar los salarios y luego dividir por el número total de empleados.
+
+-- Los cursores también pueden ser útiles en situaciones en las que se necesita procesar datos en varias etapas o cuando se necesita realizar operaciones de actualización o eliminación en los datos. Sin embargo, es importante tener en cuenta que el uso de cursores puede tener un impacto negativo en el rendimiento, por lo que se deben utilizar con cuidado y sólo cuando sea necesario.
+
+
+# 8. ¿Puedo actualizar los datos de un cursor en MySQL? Si fuese posible actualizar los datos de un cursor, ¿se actualizarían automáticamente los datos de la tabla?
+
+-- En MySQL, es posible actualizar los datos de un cursor utilizando la declaración UPDATE en combinación con la instrucción WHERE. Sin embargo, es importante tener en cuenta que la actualización de datos en un cursor no actualiza automáticamente los datos en la tabla correspondiente.
+
+-- Cuando se actualiza un registro a través de un cursor, sólo se actualiza el valor en la memoria que contiene el cursor. Para actualizar los datos en la tabla, se debe ejecutar una instrucción UPDATE adicional utilizando la clave primaria o cualquier otro identificador único para actualizar el registro correspondiente.
+
+-- Por lo tanto, si se actualizan los datos de un cursor en MySQL, es necesario realizar una actualización adicional en la tabla correspondiente para que los cambios se reflejen en la base de datos.
+
+# 9. Cuál o cuáles de los siguientes bucles no está soportado en MySQL: FOR, LOOP, REPEAT y WHILE.
+
+-- El bucle FOR no está soportado en MySQL
+
+# 10. Si el cuerpo del bucle se debe ejecutar al menos una vez, ¿qué bucle sería más apropiado?
+
+-- REPEAT, pues se ejecuta una vez y luego mientras se cumpla la condición que le hayamos dado.
+
+# 11. ¿Qué valor devuelve la sentencia SELECT value?
 #
 # 0
 # 9
 # 10
 # NULL
 # El código entra en un bucle infinito y nunca alcanza la sentencia SELECT value
+
 # DELIMITER $$
 # CREATE PROCEDURE incrementor (OUT i INT)
 # BEGIN
@@ -50,7 +98,10 @@
 #   UNTIL i > 9
 #   END REPEAT;
 # END;
-#
+
+-- Devolverá el valor 10, pues se repite hasta que 1 sea mayor de 9, y como va incrementando de uno en uno, lo lógico es que pare en el momento inmediatamente posterior a pasar el 9.
+
+
 # DELIMITER $$
 # CREATE PROCEDURE test ()
 # BEGIN
@@ -63,12 +114,19 @@
 #
 # DELIMITER ;
 # CALL test();
-# ¿Qué valor devuelve la sentencia SELECT value?
+
+
+
+# 11. ¿Qué valor devuelve la sentencia SELECT value?
 # 0
 # 9
 # 10
 # NULL
 # El código entra en un bucle infinito y nunca alcanza la sentencia SELECT value
+
+-- 10, el procedimiento test llama al procedimiento incrementor, el valor 'value' que en un primero momento es 0 se devuelve como 10 al ejecutarse incrementor() y luego se muestra por pantalla.
+
+
 # DELIMITER $$
 # CREATE PROCEDURE incrementor (IN i INT)
 # BEGIN
@@ -90,28 +148,164 @@
 #
 # DELIMITER ;
 # CALL test();
-# Realice los siguientes procedimientos y funciones sobre la base de datos jardineria.
-# Función: calcular_precio_total_pedido
-# Descripción: Dado un código de pedido la función debe calcular la suma total del pedido. Tenga en cuenta que un pedido puede contener varios productos diferentes y varias cantidades de cada producto.
-# Parámetros de entrada: codigo_pedido (INT)
-# Parámetros de salida: El precio total del pedido (FLOAT)
-# Función: calcular_suma_pedidos_cliente
-# Descripción: Dado un código de cliente la función debe calcular la suma total de todos los pedidos realizados por el cliente. Deberá hacer uso de la función calcular_precio_total_pedido que ha desarrollado en el apartado anterior.
-# Parámetros de entrada: codigo_cliente (INT)
-# Parámetros de salida: La suma total de todos los pedidos del cliente (FLOAT)
-# Función: calcular_suma_pagos_cliente
-# Descripción: Dado un código de cliente la función debe calcular la suma total de los pagos realizados por ese cliente.
-# Parámetros de entrada: codigo_cliente (INT)
-# Parámetros de salida: La suma total de todos los pagos del cliente (FLOAT)
-# Procedimiento: calcular_pagos_pendientes
-# Descripción: Deberá calcular los pagos pendientes de todos los clientes. Para saber si un cliente tiene algún pago pendiente deberemos calcular cuál es la cantidad de todos los pedidos y los pagos que ha realizado. Si la cantidad de los pedidos es mayor que la de los pagos entonces ese cliente tiene pagos pendientes.
+
+--
+
+
+# 12. Realice los siguientes procedimientos y funciones sobre la base de datos jardineria.
+# a.
+    # Función: calcular_precio_total_pedido
+    # Descripción: Dado un código de pedido la función debe calcular la suma total del pedido. Tenga en cuenta que un pedido puede contener varios productos diferentes y varias cantidades de cada producto.
+    # Parámetros de entrada: codigo_pedido (INT)
+    # Parámetros de salida: El precio total del pedido (FLOAT)
+
+    USE jardineria;
+
+    DELIMITER $$
+    DROP FUNCTION IF EXISTS calcular_precio_total_pedido $$
+    CREATE FUNCTION calcular_precio_total_pedido(codigo_pedido INT)
+        RETURNS FLOAT READS SQL DATA
+        BEGIN
+            DECLARE total FLOAT;
+            SELECT SUM(dp.precio_unidad*dp.cantidad) INTO total
+            FROM detalle_pedido dp
+            WHERE dp.codigo_pedido = codigo_pedido;
+        RETURN total;
+    END $$
+    DELIMITER ;
+    SELECT calcular_precio_total_pedido(35);
+
+# b.
+    # Función: calcular_suma_pedidos_cliente
+    # Descripción: Dado un código de cliente la función debe calcular la suma total de todos los pedidos realizados por el cliente. Deberá hacer uso de la función calcular_precio_total_pedido que ha desarrollado en el apartado anterior.
+    # Parámetros de entrada: codigo_cliente (INT)
+    # Parámetros de salida: La suma total de todos los pedidos del cliente (FLOAT)
+
+    DELIMITER $$
+    DROP FUNCTION IF EXISTS calcular_suma_pedidos_cliente $$
+    CREATE FUNCTION calcular_suma_pedidos_cliente(codigo_cliente INT)
+        RETURNS FLOAT READS SQL DATA
+        BEGIN
+            DECLARE total FLOAT;
+            DECLARE done INT DEFAULT 0;
+            DECLARE total_pedido FLOAT;
+            DECLARE pedidos_cliente CURSOR FOR SELECT calcular_precio_total_pedido(dp.codigo_pedido)
+                                                FROM detalle_pedido dp INNER JOIN pedido p
+                                                    ON dp.codigo_pedido = p.codigo_pedido
+                                                WHERE p.codigo_cliente = codigo_cliente
+                                                    AND p.estado != 'Rechazado';
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+            OPEN pedidos_cliente;
+            SET total = 0;
+            bucle: LOOP
+                SET total_pedido = 0;
+                FETCH pedidos_cliente INTO total_pedido;
+                IF done = 1 THEN
+                    LEAVE bucle;
+                END IF;
+                SET total = total + total_pedido;
+            END LOOP;
+            CLOSE pedidos_cliente;
+        RETURN total;
+    END $$
+    DELIMITER ;
+    SELECT calcular_suma_pedidos_cliente(38);
+
+-- otra forma de hacerlo sin cursor:
+    DELIMITER $$
+    DROP FUNCTION IF EXISTS calcular_suma_pedidos_cliente2 $$
+    CREATE FUNCTION calcular_suma_pedidos_cliente2(codigo_cliente INT)
+        RETURNS FLOAT READS SQL DATA
+        BEGIN
+            DECLARE total FLOAT;
+            SELECT SUM(calcular_precio_total_pedido(dp.codigo_pedido)) INTO total
+            FROM detalle_pedido dp INNER JOIN pedido p
+                ON dp.codigo_pedido = p.codigo_pedido
+            WHERE p.codigo_cliente = codigo_cliente;
+        RETURN total;
+    END $$
+    DELIMITER ;
+    SELECT calcular_suma_pedidos_cliente2(38);
+
+#c.
+    # Función: calcular_suma_pagos_cliente
+    # Descripción: Dado un código de cliente la función debe calcular la suma total de los pagos realizados por ese cliente.
+    # Parámetros de entrada: codigo_cliente (INT)
+    # Parámetros de salida: La suma total de todos los pagos del cliente (FLOAT)
+
+    DELIMITER $$
+    DROP FUNCTION IF EXISTS calcular_suma_pagos_cliente $$
+    CREATE FUNCTION calcular_suma_pagos_cliente(codigo_cliente INT)
+        RETURNS FLOAT READS SQL DATA
+        BEGIN
+            DECLARE total FLOAT;
+            DECLARE done INT DEFAULT 0;
+            DECLARE total_pedido FLOAT;
+            DECLARE pagos_cliente CURSOR FOR SELECT p.total
+                                                FROM  pago p
+                                                WHERE p.codigo_cliente = codigo_cliente;
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+            OPEN pagos_cliente;
+            SET total = 0;
+            bucle: LOOP
+                SET total_pedido = 0;
+                FETCH pagos_cliente INTO total_pedido;
+                IF done = 1 THEN
+                    LEAVE bucle;
+                END IF;
+                SET total = total + total_pedido;
+            END LOOP;
+            CLOSE pagos_cliente;
+        RETURN total;
+    END $$
+    DELIMITER ;
+    SELECT calcular_suma_pagos_cliente(1);
+
+# d.
+    # Procedimiento: calcular_pagos_pendientes
+    # Descripción: Deberá calcular los pagos pendientes de todos los clientes. Para saber si un cliente tiene algún pago pendiente deberemos calcular cuál es la cantidad de todos los pedidos y los pagos que ha realizado. Si la cantidad de los pedidos es mayor que la de los pagos entonces ese cliente tiene pagos pendientes.
 # Deberá insertar en una tabla llamada clientes_con_pagos_pendientes los siguientes datos:
 #
 # id_cliente
 # suma_total_pedidos
 # suma_total_pagos
 # pendiente_de_pago
-# Teniendo en cuenta el significado de los siguientes códigos de error:
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calcular_pagos_pendientes $$
+CREATE PROCEDURE calcular_pagos_pendientes()
+    BEGIN
+        DECLARE id INT;
+        DECLARE done INT DEFAULT 0;
+        DECLARE clientes CURSOR FOR SELECT c.codigo_cliente
+                                    FROM cliente c;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+        DROP TABLE IF EXISTS clientes_con_pagos_pendientes;
+        CREATE TABLE clientes_con_pagos_pendientes(id_cliente INT,
+                                                    suma_total_pedidos FLOAT,
+                                                    suma_total_pagos FLOAT,
+                                                    pendiente_de_pago FLOAT);
+        OPEN clientes;
+        bucle: LOOP
+            FETCH clientes INTO id;
+            IF done = 1 THEN
+                LEAVE bucle;
+            END IF;
+            INSERT INTO clientes_con_pagos_pendientes(id_cliente,
+                                                  suma_total_pedidos,
+                                                  suma_total_pagos) VALUES(id,
+                                                                            calcular_suma_pedidos_cliente(id),
+                                                                            calcular_suma_pagos_cliente(id));
+            UPDATE clientes_con_pagos_pendientes SET pendiente_de_pago = suma_total_pedidos - suma_total_pagos
+            WHERE id_cliente = id;
+        END LOOP;
+        CLOSE clientes;
+    END $$
+    DELIMITER ;
+    CALL calcular_pagos_pendientes();
+
+
+# 13. Teniendo en cuenta el significado de los siguientes códigos de error:
 # Error: 1036 (ER_OPEN_AS_READONLY). Table ‘%s’ is read only
 # Error: 1062 (ER_DUP_ENTRY). Duplicate entry ‘%s’ for key %d
 # -- Paso 1
