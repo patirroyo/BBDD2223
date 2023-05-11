@@ -4,7 +4,7 @@
 
 <body>
 <?php
-echo "Estos son los archivos de la carpeta HTML:<br>";
+echo "Estos son los archivos de la carpeta HTML:<br><br>";
 $path = ".";
 $dh = opendir($path);
 $i=1;
