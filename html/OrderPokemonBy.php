@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>OrderPokemonBy</title>
+        <link rel="stylesheet" href="estilos.css"type="text/css">
+    </head>
 	<body>
 	<?php
 
@@ -18,13 +22,16 @@ if(!$result){
     die('Invalid query: ' . mysql_error());
 }else{
     echo "<p>Query correcto<p>";
+    echo "<table><tr><th>#</th><th>Nombre</th><th>Peso</th><th>Altura</th></tr>";
     //iterate all rows
     while($row = mysqli_fetch_assoc($result)){
+        echo "<tr>";
         foreach($row as $col){
-            echo $col . " ";
+            echo "<td>". $col . "</td>";
         }
-        echo "<br>";
+        echo "</tr>";
     }
+    echo "</table>";
 }
 
 include 'close.php';
