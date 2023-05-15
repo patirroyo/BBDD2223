@@ -1,15 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-<TITLE> Formulario Ordenar todos Pokemon</TITLE>
-<META NAME="Generator" CONTENT="EditPlus">
-<META NAME="Author" CONTENT="">
-<META NAME="Keywords" CONTENT="">
-<META NAME="Description" CONTENT="">
-<script type="text/javascript">
 
-</script>
-<style>
  * {
     margin: 0;
     padding: 0;
@@ -56,6 +45,9 @@ th {
     font-weight: 500;
 }
 
+tbody tr{
+    transition: all .25s ease;
+}
 
 tbody tr:hover {
     background-color: #e3e1e1;
@@ -70,6 +62,7 @@ td:last-child {
     text-align: center;
     padding-right: 10px;
 }
+
 img{
   display: block;
   margin: 0 auto;
@@ -96,26 +89,60 @@ img:active{
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+.content-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
 
-</style>
-</HEAD>
-
-<BODY>
-<h1>Formulario Insertar Pokemon</h1>
-<form id="datos" name="datos" method="post" action="insertarPokemon.php">
-<table align="center" border="1">
-    <tr><td>Nombre</td>
-      <td><input type="text" name="nombre" id="nombre"></td>
-    </tr>
-    <tr><td>Peso</td>
-      <td><input type="text" name="peso" id="peso"></td>
-    </tr>
-    <tr><td>Altura</td>
-      <td><input type="text" name="altura" id="altura"></td>
-    </tr>
-</table>
-<img src="./imagenes/e.png" onclick="datos.submit()">
-</form>
-
-</BODY>
-</HTML>
+/* Eliminamos la fecha que por defecto aparece en el desplegable */
+.content-select select::-ms-expand {
+    display: none;
+}
+.content-select{
+	max-width: 150px;
+	position: relative;
+}
+ 
+.content-select select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background-color: transparent;
+	color: #7b7b7b;
+	font-size: 1em;
+    position: relative;
+    transition: all 0.25s ease;
+}
+ 
+.content-select select:hover{
+	background-color: #e3e1e1;
+}
+ 
+/* 
+Creamos la fecha que aparece a la izquierda del select.
+Realmente este elemento es un cuadrado que sólo tienen
+dos bordes con color y que giramos con transform: rotate(-45deg);
+*/
+.content-select i{
+	position: absolute;
+	right: 20px;
+	top: calc(50% - 13px);
+	width: 16px;
+	height: 16px;
+	display: block;
+	border-left:4px solid #ed1c40;
+	border-bottom:4px solid #ed1c40;
+	transform: rotate(-45deg); /* Giramos el cuadrado */
+	transition: all 0.25s ease;
+}
+ 
+.content-select:hover i{
+	margin-top: 3px;
+    background-color: #e3e1e1;
+}
