@@ -10,31 +10,37 @@ body {
     color: #333;
     background: #f2f2f2;
     border-top: 4px solid #ed1c40;
+    align-content: center;
+    text-align: center;
 }
 h1 {
     text-align: center;
-    margin: 100px 0;
+    margin: 100px 0 50px;
 }
 table {
+    position:relative;
+    display: inline-table;
+    margin: 15px;
     text-align: left;
     line-height: 40px;
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #ed1c40;
-    width: 400px;
-    margin: 50px auto;
+    width: auto;
     border-radius: .25rem;
+    left: 20px;
+    right: 20px;
+   
+    
 }
 
 th {
     background: #ed1c40;
     color: #fff;
     border: none;
-}
-th:last-child,
-td:last-child{
     text-align: center;
 }
+
 
 th:first-child,
 td:first-child {
@@ -59,18 +65,22 @@ tbody td {
 }
 
 td:last-child {
-    text-align: center;
-    padding-right: 10px;
+    text-align: left;
+    padding-right: 20px;
+}
+tfoot tr:last-child td {
+    border-bottom-left-radius: .25rem;
+    height: 100px;
 }
 
 img{
-  display: block;
-  margin: 0 auto;
-  width: 100;
-  cursor: pointer;
+    margin:auto;
+    display: block;
+    height: 56px;
+    cursor: pointer;
 }
 img:hover{
-  width: 110;
+  height: 60px;
 }
 img:active{
   animation: shake 0.5s;
@@ -100,18 +110,17 @@ img:active{
     display: none;
 }
 .content-select{
-	max-width: 150px;
+	max-width: 250px;
 	position: relative;
 }
- 
+
 .content-select select{
 	display: inline-block;
-	width: 100%;
 	cursor: pointer;
-  	padding: 7px 10px;
-  	height: 42px;
-  	outline: 0; 
-  	border: 0;
+    padding: 7px 10px;
+    height: 42px;
+    outline: 0; 
+    border: 0;
 	border-radius: 0;
 	background-color: transparent;
 	color: #7b7b7b;
@@ -119,11 +128,11 @@ img:active{
     position: relative;
     transition: all 0.25s ease;
 }
- 
+
 .content-select select:hover{
 	background-color: #e3e1e1;
 }
- 
+
 /* 
 Creamos la fecha que aparece a la izquierda del select.
 Realmente este elemento es un cuadrado que sólo tienen
@@ -131,7 +140,7 @@ dos bordes con color y que giramos con transform: rotate(-45deg);
 */
 .content-select i{
 	position: absolute;
-	right: 20px;
+	right: 10px;
 	top: calc(50% - 13px);
 	width: 16px;
 	height: 16px;
@@ -141,7 +150,7 @@ dos bordes con color y que giramos con transform: rotate(-45deg);
 	transform: rotate(-45deg); /* Giramos el cuadrado */
 	transition: all 0.25s ease;
 }
- 
+
 .content-select:hover i{
 	margin-top: 3px;
     background-color: #e3e1e1;

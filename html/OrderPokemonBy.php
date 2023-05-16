@@ -20,9 +20,10 @@
                 orderby = 'ASC';
             orderfield = field;
             //llamar a la página OrderPokemonBy.php con los parámetros orderfield y orderby por GET
-            document.location.href = "OrderPokemonBy.php?orderfield=" + orderfield + "&orderby=" + orderby;
-            
-            
+            document.location.href = window.location.href.split('?')[0] + "?orderfield="+orderfield + "&orderby=" + orderby;
+        }
+        function editar(numero){
+            document.location.href = "FormularioEditar.php?numero_pokedex="+numero;
         }
         
 
@@ -46,7 +47,7 @@ $result = mysqli_query($mysqli, $sql);
 
 
 if(!$result){
-    die('Invalid query: ' . mysql_error());
+    die('Invalid query: ' . mysqli_error($mysqli));
 }else{ 
     echo "<p>Query correcto<p>";
     echo "<table>";
@@ -54,6 +55,7 @@ if(!$result){
     echo "<th>Nombre<i onclick=ordenar("."'"."nombre','".$order."')"."></i></th>";
     echo "<th>Peso<i onclick=ordenar("."'"."peso','".$order."')"."></i></th>";
     echo "<th>Altura<i onclick=ordenar("."'"."altura','".$order."')"."></i></th>";
+    echo "<th>Edición</th>";
     echo "</tr>";
     //iterate all rows
     while($row = mysqli_fetch_assoc($result)){
@@ -61,7 +63,7 @@ if(!$result){
         foreach($row as $col){
             echo "<td>". $col . "</td>";
         }
-        echo "</tr>";
+        echo "<td><button onclick=editar(".$row['numero_pokedex'].")>Editar</button></td></tr>";
     }
     echo "</table>";
 }
@@ -69,4 +71,5 @@ if(!$result){
 include 'close.php';
 ?>
     </body>
+    
 </html>
