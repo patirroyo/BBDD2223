@@ -124,3 +124,5 @@ WHERE p.numero_pokedex = pmf.numero_pokedex
 	AND pt.id_tipo = t.id_tipo 
 GROUP BY t.nombre , m.nombre 
 HAVING COUNT(p.numero_pokedex) < 2 ;
+
+INSERT INTO pokemon VALUES(165,'ALBERTO',80,90);

@@ -7,8 +7,8 @@
 </head>
 <script>
     <?php
-    echo "var orderfield = '" . $_GET['orderfield'] . "';";
-    echo "var orderby = '" . $_GET['orderby'] . "';";
+    echo "var orderfield = '" . htmlentities($_GET['orderfield']) . "';";
+    echo "var orderby = '" . htmlentities($_GET['orderby']) . "';";
     ?>
 
 
@@ -34,8 +34,8 @@
 
     include 'config.php';
 
-    $orderfield = $_GET['orderfield'];
-    $order = $_GET['orderby'];
+    $orderfield = htmlentities($_GET['orderfield']);
+    $order = htmlentities($_GET['orderby']);
 
 
 

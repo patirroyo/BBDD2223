@@ -21,10 +21,10 @@
 
     include 'config.php';
 
-    $numero_pokedex = $_GET['numero_pokedex'];
-    $nombre = $_GET['nombre'];
-    $altura = $_GET['altura'];
-    $peso = $_GET['peso'];
+    $numero_pokedex = htmlentities($_GET['numero_pokedex']);
+    $nombre = htmlentities($_GET['nombre']);
+    $altura = htmlentities($_GET['altura']);
+    $peso = htmlentities($_GET['peso']);
 
     $sql = 'INSERT INTO pokemon VALUES(' . $numero_pokedex . ', "' . $nombre . '", ' . $altura . ', ' . $peso . ')';
 
