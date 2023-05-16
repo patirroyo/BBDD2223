@@ -1,22 +1,21 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="estilosFormularios.css"type="text/css">
-<script type="text/javascript">
-    function eliminar(numero_pokedex){
-        var respuesta = confirm("¿Estás seguro de que quieres eliminar a " + document.getElementById('nombreEliminar').value + "?");
-        if(respuesta){
-            document.location.href = "EliminarPokemon.php?numero_pokedex=" + numero_pokedex;
-        }else{
-            return false;
+    <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+    <script type="text/javascript">
+        function eliminar(numero_pokedex) {
+            var respuesta = confirm("¿Estás seguro de que quieres eliminar a " + document.getElementById('nombreEliminar').value + "?");
+            if (respuesta) {
+                document.location.href = "EliminarPokemon.php?numero_pokedex=" + numero_pokedex;
+            } else {
+                return false;
+            }
         }
-    }
-    function editar(numero_pokedex){
-        document.location.href = "FormularioEditar.php?numero_pokedex=" + numero_pokedex;
-    }
-    
 
-</script>
+        function editar(numero_pokedex) {
+            document.location.href = "FormularioEditar.php?numero_pokedex=" + numero_pokedex;
+        }
+    </script>
 </head>
 
 <body>
@@ -27,20 +26,20 @@
     $result = mysqli_query($mysqli, $sql);
     $fila = mysqli_fetch_assoc($result);
     $siguienteNumero = $fila['numero_pokedex'] + 1;
-  
-    if(isset($_GET['numero_pokedexEliminar'])){
+
+    if (isset($_GET['numero_pokedexEliminar'])) {
         $numero_pokedexEliminar = $_GET['numero_pokedexEliminar'];
         $sql = "SELECT nombre FROM pokemon WHERE numero_pokedex = $numero_pokedexEliminar";
         $result = mysqli_query($mysqli, $sql);
         $fila = mysqli_fetch_assoc($result);
         $nombreEliminar = $fila['nombre'];
-    }else{
+    } else {
         $numero_pokedexEliminar = "";
         $nombreEliminar = "";
     }
 
 
-    if(isset($_GET['numero_pokedex'])){
+    if (isset($_GET['numero_pokedex'])) {
         $numero_pokedex = $_GET['numero_pokedex'];
         $sql = "SELECT * FROM pokemon WHERE numero_pokedex = $numero_pokedex";
         $result = mysqli_query($mysqli, $sql);
@@ -48,7 +47,7 @@
         $nombre = $fila['nombre'];
         $peso = $fila['peso'];
         $altura = $fila['altura'];
-    }else{
+    } else {
         $numero_pokedex = "";
         $nombre = "";
         $peso = "";
@@ -69,7 +68,7 @@
                         <option value="altura">Altura</option>
                     </select><i></i>
                 </td>
-                
+
             <tr>
                 <td>Order</td>
                 <td class="content-select">
@@ -89,20 +88,24 @@
         </form>
     </table>
 
-    
-    
+
+
     <table>
         <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
             <th colspan=2>Insertar Pokemon</th>
-            <tr><td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero?>"></td>
-            <tr><td>Nombre</td>
+            <tr>
+                <td>Número pokedex</td>
+                <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero ?>"></td>
+            <tr>
+                <td>Nombre</td>
                 <td><input type="text" name="nombre" id="nombre"></td>
             </tr>
-            <tr><td>Peso</td>
+            <tr>
+                <td>Peso</td>
                 <td><input type="number" name="peso" id="peso"></td>
             </tr>
-            <tr><td>Altura</td>
+            <tr>
+                <td>Altura</td>
                 <td><input type="number" name="altura" id="altura"></td>
             </tr>
             <tfoot>
@@ -112,37 +115,39 @@
                     </td>
                 </tr>
             </tfoot>
-            </form>
-        </table>
-    </table> 
+        </form>
+    </table>
+    </table>
 
 
     <table>
         <form id="eliminar_pokemon" name="eliminar_pokemon" method="get" action="index.php">
             <th colspan=2>Eliminar Pokemon</th>
-            <tr><td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedexEliminar" id="numero_pokedexEliminar" onchange="eliminar_pokemon.submit()" value="<?php echo $numero_pokedexEliminar?>"></td>
-            <tr><td>Nombre</td>
-                <td><input type="text" name="nombreEliminar" id="nombreEliminar" value="<?php echo $nombreEliminar?>"></td>
+            <tr>
+                <td>Número pokedex</td>
+                <td><input type="number" name="numero_pokedexEliminar" id="numero_pokedexEliminar" onchange="eliminar_pokemon.submit()" value="<?php echo $numero_pokedexEliminar ?>"></td>
+            <tr>
+                <td>Nombre</td>
+                <td><input type="text" name="nombreEliminar" id="nombreEliminar" value="<?php echo $nombreEliminar ?>"></td>
             </tr>
             <tfoot>
                 <tr>
                     <td colspan=2>
-                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(".$numero_pokedexEliminar.")"?>>
+                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedexEliminar . ")" ?>>
                     </td>
                 </tr>
             </tfoot>
-            </form>
-        </table>
-    </table> 
-    
+        </form>
+    </table>
+    </table>
+
 
     <table>
         <form id="editar_pokemon" name="editar_pokemon" method="get" action="index.php">
             <th colspan=2>Editar Pokemon</th>
             <tr>
                 <td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedex" id="numero_pokedex" onchange="editar_pokemon.submit()" value="<?php echo $numero_pokedex ?>" ></td>
+                <td><input type="number" name="numero_pokedex" id="numero_pokedex" onchange="editar_pokemon.submit()" value="<?php echo $numero_pokedex ?>"></td>
             <tr>
                 <td>Nombre</td>
                 <td><input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>"></td>
@@ -162,7 +167,7 @@
                         <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
                     </td>
                     <td>
-                        <img src="./imagenes/edit.png" <?php echo "onclick=editar(". $numero_pokedex. ")" ?>>
+                        <img src="./imagenes/edit.png" <?php echo "onclick=editar(" . $numero_pokedex . ")" ?>>
                     </td>
                 </tr>
             </tfoot>

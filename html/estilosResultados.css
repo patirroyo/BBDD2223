@@ -10,10 +10,12 @@ body {
     background: #f2f2f2;
     text-align: center;
 }
+
 h1 {
     text-align: center;
     margin: 50px 0;
 }
+
 table {
     text-align: left;
     line-height: 40px;
@@ -55,7 +57,7 @@ tbody td {
     border-bottom: 1px solid #ddd;
 }
 
-tbody td:hover{
+tbody td:hover {
     border-bottom: 1px solid #000;
 }
 
@@ -63,23 +65,26 @@ td:last-child {
     text-align: center;
     padding-right: 10px;
 }
+
 i {
-	position: absolute;
-	margin-top: 12px;
+    position: absolute;
+    margin-top: 12px;
     margin-left: 20px;
-	width: 16px;
-	height: 16px;
-	/*display: block;*/
-	border-left:4px solid #fff;
-	border-bottom:4px solid #fff;
-	transform: rotate(-45deg); /* Giramos el cuadrado */
-	transition: all 0.25s ease;
+    width: 16px;
+    height: 16px;
+    /*display: block;*/
+    border-left: 4px solid #fff;
+    border-bottom: 4px solid #fff;
+    transform: rotate(-45deg);
+    /* Giramos el cuadrado */
+    transition: all 0.25s ease;
 }
+
 i:hover {
     background-color: transparent;
     transform: rotate(135deg);
 }
+
 i:active {
     margin-top: 15px;
 }
-

@@ -47,7 +47,7 @@
             <th colspan=2>Editar Pokemon</th>
             <tr>
                 <td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $numero_pokedex ?>" readonly ></td>
+                <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $numero_pokedex ?>" readonly></td>
             <tr>
                 <td>Nombre</td>
                 <td><input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>"></td>
