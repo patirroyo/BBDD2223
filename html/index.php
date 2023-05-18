@@ -4,12 +4,14 @@
     <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
     <script type="text/javascript">
         function eliminar(numero_pokedex) {
-            var respuesta = confirm("¿Estás seguro de que quieres eliminar a " + document.getElementById('nombreEliminar').value + "?");
+            setTimeout(function() {
+                var respuesta = confirm("¿Estás seguro de que quieres eliminar a " + document.getElementById('nombreEliminar').value + "?");
             if (respuesta) {
                 document.location.href = "EliminarPokemon.php?numero_pokedex=" + numero_pokedex;
             } else {
                 return false;
-            }
+            }}, 500);
+            
         }
 
         function editar(numero_pokedex) {
@@ -28,7 +30,7 @@
     $siguienteNumero = $fila['numero_pokedex'] + 1;
 
     if (isset($_GET['numero_pokedexEliminar'])) {
-        $numero_pokedexEliminar = $_GET['numero_pokedexEliminar'];
+        $numero_pokedexEliminar = htmlentities($_GET['numero_pokedexEliminar']);
         $sql = "SELECT nombre FROM pokemon WHERE numero_pokedex = $numero_pokedexEliminar";
         $result = mysqli_query($mysqli, $sql);
         $fila = mysqli_fetch_assoc($result);
@@ -40,7 +42,7 @@
 
 
     if (isset($_GET['numero_pokedex'])) {
-        $numero_pokedex = $_GET['numero_pokedex'];
+        $numero_pokedex = htmlentities($_GET['numero_pokedex']);
         $sql = "SELECT * FROM pokemon WHERE numero_pokedex = $numero_pokedex";
         $result = mysqli_query($mysqli, $sql);
         $fila = mysqli_fetch_assoc($result);

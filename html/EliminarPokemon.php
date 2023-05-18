@@ -11,10 +11,10 @@
 
 	include 'config.php';
 
-	$numero_pokedex = $_GET['numero_pokedex'];
-	$nombre = $_GET['nombre'];
-	$altura = $_GET['altura'];
-	$peso = $_GET['peso'];
+	$numero_pokedex = htmlentities($_GET['numero_pokedex']);
+	$nombre = htmlentities($_GET['nombre']);
+	$altura = htmlentities($_GET['altura']);
+	$peso = htmlentities($_GET['peso']);
 
 	$sql = 'DELETE FROM pokemon WHERE numero_pokedex =' . $numero_pokedex;
 

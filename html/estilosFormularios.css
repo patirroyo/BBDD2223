@@ -29,7 +29,6 @@ table {
     border: 2px solid #ed1c40;
     width: auto;
     border-radius: .25rem;
-    left: 20px;
     right: 20px;
 
 
@@ -82,11 +81,11 @@ img {
     cursor: pointer;
 }
 
-img:hover {
+img:active {
     height: 60px;
 }
 
-img:active {
+img:hover {
     animation: shake 0.5s;
 }
 

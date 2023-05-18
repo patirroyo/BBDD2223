@@ -20,7 +20,7 @@
 <BODY>
     <h1>Formulario Editar Pokemon</h1>
     <?php
-    $numero_pokedex = $_GET['numero_pokedex'];
+    $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
     include "config.php";
     $sql = "SELECT * FROM pokemon WHERE numero_pokedex=" . $numero_pokedex;
     echo '<br><br>' . $sql . '<br><br>';
