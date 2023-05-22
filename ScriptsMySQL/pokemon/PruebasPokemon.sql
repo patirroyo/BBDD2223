@@ -149,3 +149,12 @@ INNER JOIN forma_evolucion fe on pfm.id_forma_evolucion = fe.id_forma_evolucion
 INNER JOIN tipo_evolucion te on fe.tipo_evolucion = te.id_tipo_evolucion
 
 WHERE p.numero_pokedex = 1;
+
+SELECT DISTINCT p.*, t.nombre as tipo
+FROM pokemon p
+    INNER JOIN pokemon_tipo pt
+        on p.numero_pokedex = pt.numero_pokedex
+    INNER JOIN tipo t
+        on pt.id_tipo = t.id_tipo
+GROUP BY t.nombre
+ORDER BY p.numero_pokedex ASC;

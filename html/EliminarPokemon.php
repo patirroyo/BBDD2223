@@ -8,6 +8,7 @@
 </head>
 
 <body>
+<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
 	<?php
 
 	include 'config.php';

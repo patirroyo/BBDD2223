@@ -60,7 +60,7 @@
     }
     include "close.php";
     ?>
-    <table>
+    <table class="card">
         <th colspan=2>Búsqueda</th>
         <form id="busqueda" name="busqueda" method="get" action="OrderPokemonBy.php">
             <tr>
@@ -73,7 +73,7 @@
                         <option value="altura">Altura</option>
                     </select><i></i>
                 </td>
-
+            </tr>
             <tr>
                 <td>Order</td>
                 <td class="content-select">
@@ -95,7 +95,7 @@
 
 
 
-    <table>
+    <table class="card">
         <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
             <th colspan=2>Insertar Pokemon</th>
             <tr>
@@ -125,7 +125,7 @@
     </table>
 
 
-    <table>
+    <table class="card">
         <form id="eliminar_pokemon" name="eliminar_pokemon" method="get" action="index.php">
             <th colspan=2>Eliminar Pokemon</th>
             <tr>
@@ -147,7 +147,7 @@
     </table>
 
 
-    <table>
+    <table class="card">
         <form id="editar_pokemon" name="editar_pokemon" method="get" action="index.php">
             <th colspan=2>Editar Pokemon</th>
             <tr>

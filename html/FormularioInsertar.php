@@ -9,6 +9,7 @@
 </HEAD>
 
 <BODY>
+<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
   <h1>Formulario Insertar Pokemon</h1>
   <?php
   include 'config.php';

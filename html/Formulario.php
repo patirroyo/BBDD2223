@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
   <h1>Formulario Ordenar todos Pokemon</h1>
   <form id="datos" name="datos" method="get" action="OrderPokemonBy.php">
     <table align="center" border="1">

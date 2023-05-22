@@ -24,6 +24,20 @@ input{
     width: 120px;
     height: 30px;
 }
+table {
+    position: relative;
+    display: inline-table;
+    margin: 15px;
+    text-align: center;
+    line-height: 40px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #ed1c40;
+    width: 95%;
+    border-radius: .25rem;
+    
+    
+}
 .card {
     position: relative;
     display: inline-table;

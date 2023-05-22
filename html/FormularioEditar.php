@@ -20,6 +20,7 @@
 </HEAD>
 
 <BODY>
+<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
     <h1>Editar Pokemon</h1>
     <?php
     $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
@@ -42,19 +43,19 @@
         die('Invalid query: ' . mysqli_error($mysqli));
     }
     if ($numero_pokedex < 10)
-                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $numero_pokedex . ".png";
-            else if ($row['numero_pokedex'] < 100)
-                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $numero_pokedex . ".png";
-            else
-                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $numero_pokedex . ".png";
+        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $numero_pokedex . ".png";
+    else if ($numero_pokedex < 100)
+        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $numero_pokedex . ".png";
+    else
+        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $numero_pokedex . ".png";
     
     //include "close.php";
     ?>
     <table>
         <form id="editar_pokemon" name="editar_pokemon" method="get" action="EditarPokemon.php">
-            <th colspan= 10 style="text-align:center"># <?php echo $numero_pokedex ?></th>
+            <th colspan=10 style="text-align:center"># <?php echo $numero_pokedex ?></th>
             <tr>
-                <td rowspan="4"><img class="portada" <?php echo $imagen?>></img></td>
+                <td rowspan="5"><img class="portada" <?php echo $imagen ?>></img></td>
             </tr>
             <tr>
                 <td>Nombre</td>
