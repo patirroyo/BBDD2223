@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>OrderPokemonBy</title>
+    <title>Pokedex</title>
     <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
@@ -68,9 +68,13 @@
                 WHERE t.nombre = '" .$tipo."' ";
     if (isset($orderfield)&& $orderfield != "")
         $sql = $sql . 'ORDER BY p.'. $orderfield;
+    else
+        $sql = $sql . 'ORDER BY p.numero_pokedex';
     
     if (isset($order)&& $order != "")
         $sql = $sql . " " .$order;
+    else
+        $sql = $sql . " ASC";
     
     echo "<p>Query: " . $sql . "<p>";
     $result = mysqli_query($mysqli, $sql);
@@ -194,7 +198,7 @@
             $result3 = mysqli_query($mysqli, $sqlMovimientos);
             echo "<tr><td><b>Movimientos:</b></td>";
             while ($row3 = mysqli_fetch_assoc($result3)) {
-                echo "<td colspan= 2><div class='tipo'>" . $row3['movimientos'] . "</div></td>";
+                echo "<td colspan= 2><a href='movimientos.php?numero_pokedex=".$row['numero_pokedex']."'<div class='tipo'>" . $row3['movimientos'] . "</div></td>";
         
             }
             

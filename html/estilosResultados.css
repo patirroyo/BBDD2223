@@ -125,6 +125,15 @@ tfoot tr:last-child td {
     top: 20px;
     right: 50px;
 }
+.inicio {
+    position: absolute;
+    margin: auto;
+    display: block;
+    height: 56px;
+    cursor: pointer;
+    top: 20px;
+    left: 50px;
+}
 .edicion:hover,
 .add:hover {
     animation: shake 0.5s;

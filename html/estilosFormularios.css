@@ -33,16 +33,18 @@ input{
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #ed1c40;
-    width: 300px;
+    width: 320px;
     border-radius: .25rem;
 }
 .filtros td:first-child{
-    text-align: left;
     padding-left: 20px;
 }
-.filtros td:last-child {
-    text-align: right;
+.filtros td{
     padding-right: 30px;
+}
+.card td:last-child {
+    text-align: center;
+    padding-right: 20px;
 }
 th {
     background: #ed1c40;
@@ -85,8 +87,38 @@ th {
     padding: 0 0px 0 10px;
     
 }
+.movimientos {
+    position: relative;
+    display: inline-table;
+    margin: 15px;
+    text-align: center;
+    line-height: 40px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #ed1c40;
+    width: 80%;
+    border-radius: .25rem;
 
-
+}
+.movimientos th{
+    min-width: 100px;
+}
+.movimientos td:first-child{
+    text-align: left;
+    padding-left: 20px;
+    width:150px;
+}
+.descripcion{
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    padding: 0px;
+    overflow-y: scroll;
+    width: 400px;
+    height: 60px;
+    background-color: white;
+    margin: 0;
+}
 .portada {
     margin: auto;
     display: block;
@@ -114,10 +146,7 @@ tbody td {
     border-bottom: 1px solid #ddd;
 }
 
-td:last-child {
-    text-align: center;
-    padding-right: 20px;
-}
+
 
 tfoot tr:last-child td {
     border-bottom-left-radius: .25rem;
