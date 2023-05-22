@@ -28,7 +28,7 @@
     $altura = htmlentities($_GET['altura']);
     $peso = htmlentities($_GET['peso']);
 
-    $sql = 'INSERT INTO pokemon VALUES(' . $numero_pokedex . ', "' . $nombre . '", ' . $altura . ', ' . $peso . ')';
+    $sql = 'INSERT INTO pokemon VALUES(' . $numero_pokedex . ', "' . $nombre . '", ' . $peso . ', ' . $altura . ')';
 
     $resultado = mysqli_query($mysqli, $sql);
     if ($resultado) {
