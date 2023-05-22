@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="estilos.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
 </head>
 
 <body>

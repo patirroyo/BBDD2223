@@ -2,8 +2,10 @@
 <HTML>
 
 <HEAD>
-    <TITLE> Formulario Ordenar todos Pokemon</TITLE>
-    <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+    <TITLE>Editar pokemon</TITLE>
+    <link rel="stylesheet" href="estilosResultados.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
+    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <script type="text/javascript">
         function eliminar(numero_pokedex) {
             var respuesta = confirm("¿Estás seguro de que quieres eliminar este pokemon?");
@@ -18,7 +20,7 @@
 </HEAD>
 
 <BODY>
-    <h1>Formulario Editar Pokemon</h1>
+    <h1>Editar Pokemon</h1>
     <?php
     $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
     include "config.php";
@@ -39,15 +41,21 @@
     if (!$result) {
         die('Invalid query: ' . mysqli_error($mysqli));
     }
-
+    if ($numero_pokedex < 10)
+                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $numero_pokedex . ".png";
+            else if ($row['numero_pokedex'] < 100)
+                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $numero_pokedex . ".png";
+            else
+                $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $numero_pokedex . ".png";
+    
     //include "close.php";
     ?>
     <table>
         <form id="editar_pokemon" name="editar_pokemon" method="get" action="EditarPokemon.php">
-            <th colspan=2>Editar Pokemon</th>
+            <th colspan= 10 style="text-align:center"># <?php echo $numero_pokedex ?></th>
             <tr>
-                <td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $numero_pokedex ?>" readonly></td>
+                <td rowspan="4"><img class="portada" <?php echo $imagen?>></img></td>
+            </tr>
             <tr>
                 <td>Nombre</td>
                 <td><input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>"></td>
@@ -63,11 +71,12 @@
             <tfoot>
                 <tr>
                 <tr>
+                    <td></td>
                     <td>
-                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
+                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
                     </td>
                     <td>
-                        <img src="./imagenes/edit.png" onclick="editar_pokemon.submit()">
+                        <img src="./imagenes/edit.png" class='edicion' onclick="editar_pokemon.submit()">
                     </td>
                 </tr>
             </tfoot>

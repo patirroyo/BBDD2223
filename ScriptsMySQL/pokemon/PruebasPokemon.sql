@@ -126,3 +126,26 @@ GROUP BY t.nombre , m.nombre
 HAVING COUNT(p.numero_pokedex) < 2 ;
 
 INSERT INTO pokemon VALUES(165,'ALBERTO',80,90);
+
+SELECT t.nombre
+FROM pokemon p
+    INNER JOIN pokemon_tipo pt
+        on p.numero_pokedex = pt.numero_pokedex
+    INNER JOIN tipo t on pt.id_tipo = t.id_tipo
+WHERE p.numero_pokedex = 1;
+
+Select COUNT(m.id_movimiento)
+FROM pokemon p
+INNER JOIN pokemon_movimiento_forma pmf
+    ON p.numero_pokedex = pmf.numero_pokedex
+INNER JOIN movimiento m
+    ON pmf.id_movimiento = m.id_movimiento;
+
+SELECT p.nombre, p.peso, p.altura, te.tipo_evolucion
+FROM pokemon p
+INNER JOIN estadisticas_base eb on p.numero_pokedex = eb.numero_pokedex
+INNER JOIN pokemon_forma_evolucion pfm on p.numero_pokedex = pfm.numero_pokedex
+INNER JOIN forma_evolucion fe on pfm.id_forma_evolucion = fe.id_forma_evolucion
+INNER JOIN tipo_evolucion te on fe.tipo_evolucion = te.id_tipo_evolucion
+
+WHERE p.numero_pokedex = 1;

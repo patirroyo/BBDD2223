@@ -2,8 +2,9 @@
 <HTML>
 
 <HEAD>
-  <TITLE> Formulario Insertar todos Pokemon</TITLE>
+  <TITLE> Formulario Insertar </TITLE>
   <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
 
 </HEAD>
 
@@ -21,7 +22,7 @@
   ?>
   <table>
     <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
-      <th colspan=2>Insertar Pokemon</th>
+      <th colspan=2 style="text-align:center">Insertar Pokemon</th>
       <tr>
         <td>Número pokedex</td>
         <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero ?>"></td>
@@ -40,7 +41,7 @@
       <tfoot>
         <tr>
           <td colspan=2>
-            <img src="./imagenes/e.png" onclick="insertar.submit()">
+            <img class="edicion" src="./imagenes/add.png" onclick="insertar.submit()">
           </td>
         </tr>
       </tfoot>

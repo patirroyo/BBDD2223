@@ -1,7 +1,10 @@
 <html>
 
 <head>
+    <title>UT8 Bases de datos y aplicaciones web</title>
     <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
+    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <script type="text/javascript">
         function eliminar(numero_pokedex) {
             setTimeout(function() {
@@ -83,7 +86,7 @@
             <tfoot>
                 <tr>
                     <td colspan=2>
-                        <img src="./imagenes/e.png" onclick="busqueda.submit()">
+                        <img src="./imagenes/e.png" class='edicion' onclick="busqueda.submit()">
                     </td>
                 </tr>
             </tfoot>
@@ -113,7 +116,7 @@
             <tfoot>
                 <tr>
                     <td colspan=2>
-                        <img src="./imagenes/e.png" onclick="insertar.submit()">
+                        <img src="./imagenes/e.png" class='edicion' onclick="insertar.submit()">
                     </td>
                 </tr>
             </tfoot>
@@ -135,7 +138,7 @@
             <tfoot>
                 <tr>
                     <td colspan=2>
-                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedexEliminar . ")" ?>>
+                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedexEliminar . ")" ?>>
                     </td>
                 </tr>
             </tfoot>
@@ -166,10 +169,10 @@
                 <tr>
                 <tr>
                     <td>
-                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
+                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
                     </td>
                     <td>
-                        <img src="./imagenes/edit.png" <?php echo "onclick=editar(" . $numero_pokedex . ")" ?>>
+                        <img src="./imagenes/edit.png" class='edicion'  <?php echo "onclick=editar(" . $numero_pokedex . ")" ?>>
                     </td>
                 </tr>
             </tfoot>

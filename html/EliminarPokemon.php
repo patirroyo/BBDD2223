@@ -4,6 +4,7 @@
 <head>
 	<title>Eliminar Pokemon</title>
 	<link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+	<link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
 </head>
 
 <body>

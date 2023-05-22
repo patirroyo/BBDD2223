@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-	<body>
-	<?php
+<?php
     mysqli_close($mysqli);
     echo "<p>Conexión cerrada<p>";
 ?>
-    </body>
-</html>

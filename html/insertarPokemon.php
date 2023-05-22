@@ -4,6 +4,7 @@
 <head>
     <title>Insertar Pokemon</title>
     <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
     <script type="text/javascript">
         function eliminar(numero_pokedex) {
             var respuesta = confirm("¿Estás seguro de que quieres eliminar este pokemon?");
@@ -79,10 +80,10 @@
                 <tr>
                 <tr>
                     <td>
-                        <img src="./imagenes/b.png" <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
+                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
                     </td>
                     <td>
-                        <img src="./imagenes/edit.png" onclick="Editar.submit()">
+                        <img src="./imagenes/edit.png" class='edicion' onclick="Editar.submit()">
                     </td>
                 </tr>
             </tfoot>
