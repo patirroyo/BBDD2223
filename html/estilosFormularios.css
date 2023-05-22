@@ -108,6 +108,11 @@ th {
     padding-left: 20px;
     width:150px;
 }
+.movimientos td:last-child{
+    text-align: right;
+    padding-right: 20px;
+    
+}
 .descripcion{
     position: relative;
     display: inline-block;

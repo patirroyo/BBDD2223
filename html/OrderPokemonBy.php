@@ -8,24 +8,16 @@
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 </head>
 <script>
-    <?php
-    echo "var orderfield = '" . htmlentities($_GET['orderfield']) . "';";
-    echo "var orderby = '" . htmlentities($_GET['orderby']) . "';";
-    ?>
+  
 
-    function ordenar(field, order, tipo) {
-        if (field != orderfield)
-            orderby = 'ASC';
-        else if (order == 'ASC')
+    function ordenar(field, order, tipo, nombre, pesomin, pesomax, alturamin, alturamax) {
+        if (order == 'ASC')
             orderby = 'DESC';
         else
             orderby = 'ASC';
         orderfield = field;
-        //llamar a la página OrderPokemonBy.php con los parámetros orderfield y orderby por GET
-        if(tipo == undefined)
-            document.location.href = window.location.href.split('?')[0] + "?orderfield=" + orderfield + "&orderby=" + orderby;
-        else
-            document.location.href = window.location.href.split('?')[0] + "?orderfield=" + orderfield + "&orderby=" + orderby + "&tipo="+ tipo;
+        
+        document.location.href = window.location.href.split('?')[0] + "?orderfield=" + orderfield + "&orderby=" + orderby + "&tipo="+ tipo + "&nombre="+ nombre + "&pesomin="+ pesomin + "&pesomax=" + pesomax + "&alturamin=" + alturamin + "&alturamax=" + alturamax;
     }
 
     function editar(numero) {
@@ -36,11 +28,13 @@
             orderby = 'DESC';
         else
             orderby = 'ASC';
-        ordenar(orderfield, orderby, filtro);
+        
+        ordenar(orderfield, orderby, filtro, nombre, pesomin, pesomax, alturamin, alturamax);
     }
     function limpiar(){
         document.location.href = window.location.href.split('?')[0];
     }
+    
 </script>
 
 <body>
@@ -50,22 +44,90 @@
     <?php
 
     include 'config.php';
+    $pesomin = 0;
+    $sql = 'SELECT p.peso FROM pokemon p ORDER BY p.peso DESC LIMIT 1';
+    $result = mysqli_query($mysqli, $sql);
+    $pesomaximo = mysqli_fetch_array($result)['peso'];
+    $alturamin = 0;
+    $sql = 'SELECT p.altura FROM pokemon p ORDER BY p.altura DESC LIMIT 1';
+    $result = mysqli_query($mysqli, $sql);
+    $alturamaxima = mysqli_fetch_array($result)['altura'];
     
 
     $orderfield = htmlentities($_GET['orderfield']);
     $order = htmlentities($_GET['orderby']);
     $tipo = $_GET['tipo'];
-    echo "<h1>Pokedex </h1>";
-    
+    $nombre = htmlentities($_GET['nombre']);
+    if (isset($_GET['pesomin']))
+        $pesomin = htmlentities($_GET['pesomin']);
+    if (isset($_GET['pesomax']))
+        $pesomax = htmlentities($_GET['pesomax']);
+    else
+        $pesomax = $pesomaximo;
+    if (isset($_GET['alturamin']))
+        $alturamin = htmlentities($_GET['alturamin']);
+    if (isset($_GET['alturamax']))
+        $alturamax = htmlentities($_GET['alturamax']);
+    else
+        $alturamax = $alturamaxima;
 
-    $sql = 'SELECT * FROM pokemon p 
-                ';
-    if (isset($tipo)&& $tipo != "")
+    
+    echo "<h1>Pokedex </h1>";
+
+    $sql = 'SELECT * FROM pokemon p ';
+    if (isset($tipo)&& $tipo != ""){
         $sql = "SELECT p.*, t.nombre as tipo FROM pokemon p 
                 INNER JOIN pokemon_tipo pt
                     on p.numero_pokedex = pt.numero_pokedex
                 INNER JOIN tipo t on pt.id_tipo = t.id_tipo 
                 WHERE t.nombre = '" .$tipo."' ";
+        if (isset($nombre)&&$nombre != "")
+            $sql = $sql . "AND p.nombre LIKE '%" . $nombre . "%' ";
+        if (isset($pesomin)&&$pesomin != "")
+            $sql = $sql . "AND p.peso >= " . $pesomin . " ";
+        if (isset($pesomax)&&$pesomax != "")
+            $sql = $sql . "AND p.peso <= " . $pesomax . " ";
+        if (isset($alturamin)&&$alturamin != "")
+            $sql = $sql . "AND p.altura >= " . $alturamin . " ";
+        if (isset($alturamax)&&$alturamax != "")
+            $sql = $sql . "AND p.altura <= " . $alturamax . " ";
+    }
+    else if (isset($nombre)&&$nombre != ""){
+        $sql = $sql . "WHERE p.nombre LIKE '%" . $nombre . "%' ";
+        if (isset($pesomin)&&$pesomin != "")
+            $sql = $sql . "AND p.peso >= " . $pesomin . " ";
+        if (isset($pesomax)&&$pesomax != "")
+            $sql = $sql . "AND p.peso <= " . $pesomax . " ";
+        if (isset($alturamin)&&$alturamin != "")
+            $sql = $sql . "AND p.altura >= " . $alturamin . " ";
+        if (isset($alturamax)&&$alturamax != "")
+            $sql = $sql . "AND p.altura <= " . $alturamax . " ";
+    }
+    else if (isset($pesomin)&&$pesomin != ""){
+        $sql = $sql . "WHERE p.peso >= " . $pesomin . " ";
+        if (isset($pesomax)&&$pesomax != "")
+            $sql = $sql . "AND p.peso <= " . $pesomax . " ";
+        if (isset($alturamin)&&$alturamin != "")
+            $sql = $sql . "AND p.altura >= " . $alturamin . " ";
+        if (isset($alturamax)&&$alturamax != "")
+            $sql = $sql . "AND p.altura <= " . $alturamax . " ";
+    }
+    else if (isset($pesomax)&&$pesomax != ""){
+        $sql = $sql . "WHERE p.peso <= " . $pesomax . " ";
+        if (isset($alturamin)&&$alturamin != "")
+            $sql = $sql . "AND p.altura >= " . $alturamin . " ";
+        if (isset($alturamax)&&$alturamax != "")
+            $sql = $sql . "AND p.altura <= " . $alturamax . " ";
+    }
+    else if (isset($alturamin)&&$alturamin != ""){
+        $sql = $sql . "WHERE p.altura >= " . $alturamin . " ";
+        if (isset($alturamax)&&$alturamax != "")
+            $sql = $sql . "AND p.altura <= " . $alturamax . " ";
+    }
+    else if (isset($alturamax)&&$alturamax != ""){
+        $sql = $sql . "WHERE p.altura <= " . $alturamax . " ";
+    }
+
     if (isset($orderfield)&& $orderfield != "")
         $sql = $sql . 'ORDER BY p.'. $orderfield;
     else
@@ -85,7 +147,7 @@
     } else {
         echo "<p>Query correcto<p>";
         echo '<table class="filtros">
-                <th colspan=20>Filtro</th>
+                <th colspan=20>Filtro(s)</th>
                 <form id="filtro" name="filtro" method="get" action="OrderPokemonBy.php" >
                     <tr>
                         
@@ -105,8 +167,36 @@
                             </select><i></i>
                         </td>
                     </tr>
-                    </table>
-                    <table class="filtros">
+                    <tr>
+                        <td>Nombre</td>
+                        <td class="content-select">
+                            <input name="nombre" id="nombre" onchange=filtro.submit() value='.$nombre.'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Peso Mímino</td>
+                        <td class="content-select">
+                            <input type="number" min="0" max="'.$pesomaximo.'" name="pesomin" id="pesomin" onchange=filtro.submit() value='.$pesomin. '>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Peso Máximo</td>
+                        <td class="content-select">
+                            <input type="number" min="0" max="'.$pesomaximo.'" name="pesomax" id="pesomax" onchange=filtro.submit() value='.$pesomax. '>
+                        </td>
+                    </tr>
+                        <td>Altura Mínima</td>
+                        <td class="content-select">
+                            <input type="number" min="0" max="'.$alturamaxima.'" name="alturamin" id="alturamin" step=0.1 onchange=filtro.submit() value='.$alturamin. '>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Altura Máxima</td>
+                        <td class="content-select">
+                            <input type="number" min="0" max="'.$alturamaxima.'" name="alturamax" id="alturamax" step=0.1 onchange=filtro.submit() value='.$alturamax. '>
+                        </td>
+                </table>
+                <table class="filtros">
                     <th colspan=20>Ordenación</th>
                     <tr>
                         <td>Order field</td>
@@ -160,8 +250,8 @@
 
             echo "<table class='card'>";
             echo "<tr>";
-            echo "<th># " . $row['numero_pokedex'] . "<i onclick=ordenar('numero_pokedex','" . $order . "','".$tipo."')></i></th>";
-            echo "<th colspan= 2>" . " " . $row['nombre'] . "<i onclick=ordenar(" . "'" . "nombre','" . $order . "','".$tipo."')></i></th>";
+            echo "<th># " . $row['numero_pokedex'] . "<i onclick=ordenar('numero_pokedex','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>";
+            echo "<th colspan= 2>" . " " . $row['nombre'] . "<i onclick=ordenar(" . "'" . "nombre','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>";
             echo "</tr>";
             if ($row['numero_pokedex'] < 10)
                 echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
@@ -169,9 +259,9 @@
                 echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
             else
                 echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
-            echo "<tr><td><b>Peso:</b><i onclick=ordenar('peso','".$order. "','".$tipo . "')></i></td><td colspan=2>" . 
+            echo "<tr><td><b>Peso:</b><i onclick=ordenar('peso','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></td><td colspan=2>" . 
                     $row['peso'] . 
-                "</tr><tr></td><td><b>Altura:</b><i onclick=ordenar('peso','".$order. "','".$tipo . "')></i></td><td colspan=2>" . 
+                "</tr><tr></td><td><b>Altura:</b><i onclick=ordenar('altura','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></td><td colspan=2>" . 
                     $row['altura'] . 
                 "</td></tr>";
             $sqlTipo = 'SELECT t.nombre as tipo
@@ -185,7 +275,7 @@
             echo "<tr><td><b>Tipo:</b></td>";
             while ($row2 = mysqli_fetch_assoc($result2)) {
                 foreach ($row2 as $col2) {
-                    echo "<td onclick=filtrar('". $col2. "')><div class='tipo'>" . $col2 . "</div></td>";
+                    echo "<td onclick=ordenar('".$orderfield ."','".$order. "','".$col2 . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")><div class='tipo'>" . $col2 . "</div></td>";
                 }
             }
             $sqlMovimientos = 'SELECT COUNT(m.id_movimiento) as movimientos

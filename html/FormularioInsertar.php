@@ -5,6 +5,7 @@
   <TITLE> Formulario Insertar </TITLE>
   <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
   <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
+  <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 
 </HEAD>
 
@@ -21,7 +22,7 @@
 
   include "close.php";
   ?>
-  <table>
+  <table class="movimientos">
     <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
       <th colspan=2 style="text-align:center">Insertar Pokemon</th>
       <tr>
