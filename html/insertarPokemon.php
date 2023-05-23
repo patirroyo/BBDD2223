@@ -59,7 +59,7 @@
     //include "close.php";
     ?>
 
-    <table>
+    <table class="movimientos">
         <form id="Editar" name="datos" method="get" action="EditarPokemon.php">
             <th colspan=2>Editar Pokemon</th>
             <tr>

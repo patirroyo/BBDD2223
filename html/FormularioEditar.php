@@ -8,7 +8,7 @@
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <script type="text/javascript">
         function eliminar(numero_pokedex) {
-            var respuesta = confirm("¿Estás seguro de que quieres eliminar este pokemon?");
+            var respuesta = confirm("¿Estás seguro de que quieres eliminar a " + document.getElementById('nombre').value + "?");
             if (respuesta) {
                 document.location.href = "EliminarPokemon.php?numero_pokedex=" + numero_pokedex;
             } else {
