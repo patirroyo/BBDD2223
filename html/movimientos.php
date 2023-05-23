@@ -44,13 +44,18 @@
                     m.precision_mov as preciso,
                     m.pp as pp,
                     m.descripcion as descripcion,
-                    t.nombre as tipo
+                    t.nombre as tipo,
+                    tfa.tipo_aprendizaje as aprendizaje
             FROM pokemon p
             INNER JOIN pokemon_movimiento_forma pmf
                 ON p.numero_pokedex = pmf.numero_pokedex
             INNER JOIN movimiento m
                 ON pmf.id_movimiento = m.id_movimiento
             INNER JOIN tipo t on m.id_tipo = t.id_tipo
+            INNER JOIN forma_aprendizaje fa
+                on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje
+            INNER JOIN tipo_forma_aprendizaje tfa
+                on fa.id_tipo_aprendizaje = tfa.id_tipo_aprendizaje
             WHERE p.numero_pokedex = " . $numero_pokedex;
     if (isset($orderfield) && $orderfield != "")
         $sql .= " ORDER BY " . $orderfield. " ";
@@ -97,6 +102,7 @@
             <th>Precisión<i onclick=ordenar('preciso','".$order."')></i></th>
             <th>PP<i onclick=ordenar('pp','".$order."')></i></th>
             <th>Tipo<i onclick=ordenar('tipo','".$order."')></i></th>
+            <th>Forma de aprendizaje<i onclick=ordenar('aprendizaje','".$order."')></i></th>
             <th>Descripción</th>
     </tr>";
     $result = mysqli_query($mysqli, $sql);
@@ -108,6 +114,7 @@
         echo "<td>" . $row['preciso'] . "</td>";
         echo "<td>" . $row['pp'] . "</td>";
         echo "<td>" . $row['tipo'] . "</td>";
+        echo "<td>" . $row['aprendizaje'] . "</td>";
         echo '<td class="descripcion">' . $row['descripcion'] . "</td>";
         echo "</tr>";
     }

@@ -139,13 +139,18 @@ Select p.nombre as pokemon,
        m.potencia as potencia,
        m.precision_mov as 'precision',
        m.pp as pp,
-       t.nombre as tipo
+       t.nombre as tipo,
+       tfa.tipo_aprendizaje as aprendizaje
 FROM pokemon p
 INNER JOIN pokemon_movimiento_forma pmf
     ON p.numero_pokedex = pmf.numero_pokedex
 INNER JOIN movimiento m
     ON pmf.id_movimiento = m.id_movimiento
 INNER JOIN tipo t on m.id_tipo = t.id_tipo
+INNER JOIN forma_aprendizaje fa
+    on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje
+INNER JOIN tipo_forma_aprendizaje tfa
+    on fa.id_tipo_aprendizaje = tfa.id_tipo_aprendizaje
 WHERE p.numero_pokedex = 1;
 
 SELECT p.nombre, p.peso, p.altura, te.tipo_evolucion
@@ -163,5 +168,29 @@ FROM pokemon p
         on p.numero_pokedex = pt.numero_pokedex
     INNER JOIN tipo t
         on pt.id_tipo = t.id_tipo
-GROUP BY t.nombre
 ORDER BY p.numero_pokedex ASC;
+
+-- funcion para generar IdTipos aleatorios
+
+DELIMITER $$
+DROP FUNCTION IF EXISTS generarTipo;
+CREATE FUNCTION generarTipo()
+    RETURNS INT READS SQL DATA
+    BEGIN
+        RETURN RAND()*(SELECT COUNT(t.id_tipo)
+                        FROM tipo t) + 1;
+    END $$
+DELIMITER ;
+SELECT generarTipo();
+
+-- funcion para generar movimientos aleatorios
+DELIMITER $$
+DROP FUNCTION IF EXISTS generarMovimiento;
+CREATE FUNCTION generarMovimiento()
+    RETURNS INT READS SQL DATA
+    BEGIN
+        RETURN RAND()*(SELECT COUNT(m.id_movimiento)
+                        FROM movimiento m) + 1;
+    END $$
+DELIMITER ;
+SELECT generarMovimiento();
