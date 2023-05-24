@@ -9,16 +9,21 @@ body {
     color: #333;
     background: #f2f2f2;
     border-top: 4px solid #ed1c40;
+    border-bottom: 4px solid #ed1c40;
+
     align-content: center;
     text-align: center;
+    margin-left: 90px;
+    margin-right: 90px;
 }
 
 h1 {
     text-align: center;
     margin: 50px 0 50px;
     font-family: 'Pokemon Solid', sans-serif;
-    font-size: 50px;
+    font-size: 75px;
     top: 100px;
+
 }
 input{
     font-size: 15px;
@@ -70,6 +75,7 @@ th {
 table th {
     border-bottom: #e3e1e1 1px solid;
 }
+
 .card {
     position: relative;
     display: inline-table;
@@ -81,8 +87,7 @@ table th {
     border: 2px solid #ed1c40;
     width: 290px;
     border-radius: .25rem;
-    right: 20px;
-    left: 10px;
+    
 }
 
 .card th, .administracion th {
@@ -115,7 +120,7 @@ table th {
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #ed1c40;
-    width: 60%;
+    width: 90%;
     border-radius: .25rem;
     right: 20px;
     left: 10px;
@@ -129,12 +134,11 @@ table th {
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #ed1c40;
-    width: 80%;
     border-radius: .25rem;
 
 }
 .movimientos th{
-    min-width: 100px;
+    min-width: 90px;
 }
 .movimientos td:first-child{
     text-align: center;
@@ -198,7 +202,7 @@ tfoot tr:last-child td {
     margin: auto;
     height: 56px;
     cursor: pointer;
-    top: 20px;
+    top: 10px;
 }
 .order, .add, .inicio, .tumba {
     left: 20px;
@@ -352,8 +356,6 @@ tbody td i{
     display: inline-block;
     text-align: center;
     padding: 0px;
-    width: 299px;
-    background-color: white;
     margin: 0;
     align-items: center;
 }
@@ -388,11 +390,13 @@ width: 100%;
 height: 0;
 overflow: hidden;
 opacity: 0;
-text-align: left
+text-align: left;
+width: auto;
 
 }
 /* Estilo caja SPOILER cuando su INPUT está seleccionado */
 input[id^="spoiler"]:checked + label + .spoiler{
 height: auto;
 opacity: 1;
+width: 300px;
 }

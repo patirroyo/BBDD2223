@@ -10,7 +10,7 @@
 </HEAD>
 
 <BODY>
-  <h1>Formulario Insertar Pokemon</h1>
+  <h1>Crear Pokemon</h1>
   <?php
   include 'config.php';
   $sql = 'SELECT numero_pokedex FROM pokemon ORDER BY numero_pokedex DESC LIMIT 1';
@@ -23,7 +23,7 @@
   ?>
   <table class="card">
     <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
-      <th colspan=2 style="text-align:center">Insertar Pokemon</th>
+      <th colspan=2 style="text-align:center">Crear Pokemon</th>
       <tr>
         <td>Número pokedex</td>
         <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero ?>"></td>

@@ -29,7 +29,7 @@
     <table class="card">
         <th colspan=2 style="text-align:center">Administración</th>
         <tfoot>
-            <tr><td><img src="/imagenes/config.png" class='edicion' onclick="document.location.href='admin.php'"></td></tr>
+            <tr><td><img src="/imagenes/admin.png" class='edicion' onclick="document.location.href='admin.php'"></td></tr>
         </tfoot>
     </table>
     

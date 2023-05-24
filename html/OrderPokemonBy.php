@@ -135,14 +135,14 @@
     else
         $sql = $sql . " ASC";
     
-    echo "<p>Query: " . $sql . "<p>";
+    //echo "<p>Query: " . $sql . "<p>";
     $result = mysqli_query($mysqli, $sql);
     
 
     if (!$result) {
         die('Invalid query: ' . mysqli_error($mysqli));
     } else {
-        echo "<p>Query correcto<p>";
+       // echo "<p>Query correcto<p>";
         echo '<table class="filtros">
                 <th colspan=20>Filtro(s)</th>
                 <form id="filtro" name="filtro" method="get" action="OrderPokemonBy.php" >
@@ -240,7 +240,7 @@
                             <input type="button" value="Limpiar" onclick=limpiar()></button>
                         <br><br>';
 
-    echo "<h3>Ordenar por: " . $sql. "</h3>";
+    //echo "<h3>Ordenar por: " . $sql. "</h3>";
         //iterate all rows
         while ($row = mysqli_fetch_assoc($result)) {
 

@@ -34,6 +34,7 @@
     if ($resultado) {
 		header("refresh:2;url=FormularioEditar.php?numero_pokedex=" . $numero_pokedex);
 		echo "<h2>Creación correcta</h2>
+                <img src='imagenes/gotcha.png'>
 			<h3>Redirigiendo a tu nuevo pokemon...</h3>";
 	} else {
 		echo "<h2>Creación incorrecta</h2>";

@@ -19,7 +19,7 @@
 </head>
 
 <BODY>
-  <h1>Formulario Eliminar Pokemon</h1>
+  <h1>Eliminar Pokemon</h1>
   <?php
   include 'config.php';
   
@@ -46,14 +46,16 @@
   ?>
   <table class="card">
         <form id="eliminar_pokemon" name="eliminar_pokemon" method="get" action="FormularioEliminar.php">
-            <th colspan=2>Eliminar Pokemon</th>
+            <th colspan=2 style="text-align:center">Eliminar Pokemon</th>
+            <tr>
+                <td>Número pokedex</td>
+                <td><input type="number" name="numero_pokedexEliminar" id="numero_pokedexEliminar" onchange="eliminar_pokemon.submit()" value="<?php echo $numero_pokedexEliminar ?>"></td>
+            </tr>
             <tr>
                 <td colspan=2>
                     <?php if (isset($imagen)){ echo "<img class='portada'" . $imagen . '>';} ?>
                 </td>
-            <tr>
-                <td>Número pokedex</td>
-                <td><input type="number" name="numero_pokedexEliminar" id="numero_pokedexEliminar" onchange="eliminar_pokemon.submit()" value="<?php echo $numero_pokedexEliminar ?>"></td>
+            </tr>
             <tr>
                 <td>Nombre</td>
                 <td><input type="text" name="nombreEliminar" id="nombreEliminar" value="<?php echo $nombreEliminar ?>"></td>
