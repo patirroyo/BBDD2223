@@ -8,7 +8,6 @@
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 </head>
 <script>
-  
 
     function ordenar(field, order, tipo, nombre, pesomin, pesomax, alturamin, alturamax) {
         if (order == 'ASC')
@@ -38,8 +37,6 @@
 </script>
 
 <body>
-    <a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
-    <a href='FormularioInsertar.php'><img class='add' src="imagenes/add.png"></a>
     
     <?php
 
@@ -288,7 +285,7 @@
             $result3 = mysqli_query($mysqli, $sqlMovimientos);
             echo "<tr><td><b>Movimientos:</b></td>";
             while ($row3 = mysqli_fetch_assoc($result3)) {
-                echo "<td colspan= 2><a href='movimientos.php?numero_pokedex=".$row['numero_pokedex']."'<div class='tipo'>" . $row3['movimientos'] . "</div></td>";
+                echo "<td colspan= 2><a href='FormularioEditar.php?numero_pokedex=".$row['numero_pokedex']."#movimientos'<div class='tipo'>" . $row3['movimientos'] . "</div></td>";
         
             }
             

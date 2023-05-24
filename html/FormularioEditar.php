@@ -3,7 +3,7 @@
 
 <HEAD>
     <TITLE>Editar pokemon</TITLE>
-    <link rel="stylesheet" href="estilosResultados.css" type="text/css">
+    <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <script type="text/javascript">
@@ -15,18 +15,29 @@
                 return false;
             }
         }
+        <?php
+        include 'funcionesMovimientos.php';
+        ?>
     </script>
 
 </HEAD>
 
 <BODY>
-<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
-    <h1>Editar Pokemon</h1>
+
+
     <?php
     $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
     include "config.php";
-    $sql = "SELECT * FROM pokemon WHERE numero_pokedex=" . $numero_pokedex;
-    echo '<br><br>' . $sql . '<br><br>';
+    $sql = "SELECT p.*, 
+                    t.nombre as tipo 
+            FROM pokemon p 
+            INNER JOIN pokemon_tipo pt
+                on p.numero_pokedex = pt.numero_pokedex
+            INNER JOIN tipo t 
+                on pt.id_tipo = t.id_tipo 
+            WHERE p.numero_pokedex= " . $numero_pokedex;
+    //echo $sql;
+
 
     $result = mysqli_query($mysqli, $sql);
 
@@ -39,33 +50,29 @@
     $altura = $fila['altura'];
 
 
-    if (!$result) {
-        die('Invalid query: ' . mysqli_error($mysqli));
-    }
+
     if ($numero_pokedex < 10)
         $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $numero_pokedex . ".png";
     else if ($numero_pokedex < 100)
         $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $numero_pokedex . ".png";
     else
         $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $numero_pokedex . ".png";
-    
+
+    echo "<div class='nombre'><h1>#" . $numero_pokedex . " " . $nombre . "</h1></div>";
+    echo "<div class='pokemon'><img " . $imagen . "></div>";
+
+
     //include "close.php";
     ?>
     <table>
         <form id="editar_pokemon" name="editar_pokemon" method="get" action="EditarPokemon.php">
             <th colspan=10 style="text-align:center"># <?php echo $numero_pokedex ?></th>
-            <tr>
-                <td rowspan="5"><img class="portada" <?php echo $imagen ?>></img></td>
-            </tr>
+
             <tr>
                 <td>Nombre</td>
                 <td><input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>"></td>
-            </tr>
-            <tr>
                 <td>Peso</td>
                 <td><input type="number" name="peso" id="peso" step="0.1" value="<?php echo $peso ?>"></td>
-            </tr>
-            <tr>
                 <td>Altura</td>
                 <td><input type="number" name="altura" id="altura" value="<?php echo $altura ?>"></td>
             </tr>
@@ -74,7 +81,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
+                        <img src="./imagenes/tumba.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
                     </td>
                     <td>
                         <img src="./imagenes/edit.png" class='edicion' onclick="editar_pokemon.submit()">
@@ -84,6 +91,7 @@
         </form>
     </table>
     <?php
+    include 'bodyMovimientos.php';
     include "close.php";
     ?>
 </BODY>

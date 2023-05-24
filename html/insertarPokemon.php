@@ -18,7 +18,7 @@
 </head>
 
 <body >
-<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
+
     <?php
 
     include 'config.php';
@@ -32,66 +32,13 @@
 
     $resultado = mysqli_query($mysqli, $sql);
     if ($resultado) {
-        echo "<h2>Inserción correcta</h2>";
-    } else {
-        echo "<h2>Inserción incorrecta</h2>";
-    }
+		header("refresh:2;url=FormularioEditar.php?numero_pokedex=" . $numero_pokedex);
+		echo "<h2>Creación correcta</h2>
+			<h3>Redirigiendo a tu nuevo pokemon...</h3>";
+	} else {
+		echo "<h2>Creación incorrecta</h2>";
+	}
 
-    $sql = "SELECT * FROM pokemon WHERE numero_pokedex=" . $numero_pokedex;
-
-    $result = mysqli_query($mysqli, $sql);
-
-    if (!$result) {
-        die('Invalid query: ' . mysqli_error($mysqli));
-    }
-
-    $fila = mysqli_fetch_assoc($result);
-
-    $nombre = $fila['nombre'];
-    $peso = $fila['peso'];
-    $altura = $fila['altura'];
-
-    $result = mysqli_query($mysqli, $sql);
-    if (!$result) {
-        die('Invalid query: ' . mysqli_error($mysqli));
-    }
-
-    //include "close.php";
-    ?>
-
-    <table class="movimientos">
-        <form id="Editar" name="datos" method="get" action="EditarPokemon.php">
-            <th colspan=2>Editar Pokemon</th>
-            <tr>
-                <td>Número pokedex</td>
-                <td><input type="text" name="numero_pokedex" id="numero_pokedex" value="<?php echo $numero_pokedex ?>"></td>
-            <tr>
-                <td>Nombre</td>
-                <td><input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>"></td>
-            </tr>
-            <tr>
-                <td>Peso</td>
-                <td><input type="text" name="peso" id="peso" value="<?php echo $peso ?>"></td>
-            </tr>
-            <tr>
-                <td>Altura</td>
-                <td><input type="text" name="altura" id="altura" value="<?php echo $altura ?>"></td>
-            </tr>
-            <tfoot>
-                <tr>
-                <tr>
-                    <td>
-                        <img src="./imagenes/b.png" class='edicion' <?php echo "onclick=eliminar(" . $numero_pokedex . ")" ?>>
-                    </td>
-                    <td>
-                        <img src="./imagenes/edit.png" class='edicion' onclick="Editar.submit()">
-                    </td>
-                </tr>
-            </tfoot>
-        </form>
-    </table>
-    </table>
-    <?php
     include "close.php";
     ?>
 

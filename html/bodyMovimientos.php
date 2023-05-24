@@ -1,36 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-
-<HEAD>
-    <TITLE>Movimientos</TITLE>
-    <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
-    <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
-    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
-    <script type="text/javascript">
-    <?php
-    echo "var orderfield = '" . htmlentities($_GET['orderfield']) . "';";
-    echo "var orderby = '" . htmlentities($_GET['orderby']) . "';";
-    echo "var numero_pokedex = '" . htmlentities($_GET['numero_pokedex']) . "';";
-    ?>
-        function ordenar(field, order) {
-            if (field != orderfield)
-                orderby = 'ASC';
-            else if (order == 'ASC')
-                orderby = 'DESC';
-            else
-                orderby = 'ASC';
-            orderfield = field;
-            document.location.href = window.location.href.split('?')[0] + "?numero_pokedex=" + numero_pokedex +"&orderfield=" + orderfield + "&orderby=" + orderby;
-    }
-    </script>
-
-</HEAD>
-
-<BODY>
-    <a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
-    <h1>Movimientos</h1>
-    <?php
-    include "config.php";
+<?php
     $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
     
     $orderfield = htmlentities($_GET['orderfield']);
@@ -68,7 +36,7 @@
         $sql .= " ASC";
     
     
-    echo '<br><br>' . $sql . '<br><br>';
+    //echo '<br><br>' . $sql . '<br><br>';
 
     $result = mysqli_query($mysqli, $sql);
 
@@ -82,16 +50,9 @@
     if (!$result) {
         die('Invalid query: ' . mysqli_error($mysqli));
     }
-    if ($numero_pokedex < 10)
-        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $numero_pokedex . ".png";
-    else if ($numero_pokedex < 100)
-        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $numero_pokedex . ".png";
-    else
-        $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $numero_pokedex . ".png";
-    echo "<div class='pokemon'><img " . $imagen . "></div>";
-    echo "<div class='nombre'><h2>#".$numero_pokedex . " " . $nombre . "</h2></div>";
+    
 
-    echo "<table class='movimientos'>
+    echo "<table class='movimientos' id='movimientos'>
             <tr>
             <th colspan=12>Movimientos: " . $total . "</th>
             </tr>
@@ -102,8 +63,9 @@
             <th>Precisión<i onclick=ordenar('preciso','".$order."')></i></th>
             <th>PP<i onclick=ordenar('pp','".$order."')></i></th>
             <th>Tipo<i onclick=ordenar('tipo','".$order."')></i></th>
-            <th>Forma de aprendizaje<i onclick=ordenar('aprendizaje','".$order."')></i></th>
+            <th>Aprendizaje<i onclick=ordenar('aprendizaje','".$order."')></i></th>
             <th>Descripción</th>
+            <th>Eliminar</th>
     </tr>";
     $result = mysqli_query($mysqli, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
@@ -115,16 +77,11 @@
         echo "<td>" . $row['pp'] . "</td>";
         echo "<td>" . $row['tipo'] . "</td>";
         echo "<td>" . $row['aprendizaje'] . "</td>";
-        echo '<td class="descripcion">' . $row['descripcion'] . "</td>";
+        echo '<td class="descripcion"><input type="checkbox" id="spoiler'.$row['id'].'"></input>
+            <label for="spoiler'.$row['id'].'">Ver</label><div class="spoiler">
+            ' . $row['descripcion'] . "</div></td>";
+        echo "<td><input type='button' value='Eliminar' onclick='eliminarMov(" .$numero_pokedex . "," . $row['id'] . ")'></td>";
         echo "</tr>";
     }
     echo "</table>";
-    
-
-        //include "close.php";
-
-    include "close.php";
     ?>
-</BODY>
-
-</HTML>

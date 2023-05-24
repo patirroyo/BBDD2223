@@ -170,6 +170,16 @@ FROM pokemon p
         on pt.id_tipo = t.id_tipo
 ORDER BY p.numero_pokedex ASC;
 
+
+SELECT p.*,
+                    t.nombre as tipo
+            FROM pokemon p
+            INNER JOIN pokemon_tipo pt
+                on p.numero_pokedex = pt.numero_pokedex
+            INNER JOIN tipo t
+                on pt.id_tipo = t.id_tipo
+            WHERE p.numero_pokedex= 1;
+
 -- funcion para generar IdTipos aleatorios
 
 DELIMITER $$

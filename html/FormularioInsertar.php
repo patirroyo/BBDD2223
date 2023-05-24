@@ -10,7 +10,6 @@
 </HEAD>
 
 <BODY>
-<a href='index.php'><img class='inicio' src="imagenes/e.png"></a>
   <h1>Formulario Insertar Pokemon</h1>
   <?php
   include 'config.php';
@@ -22,7 +21,7 @@
 
   include "close.php";
   ?>
-  <table class="movimientos">
+  <table class="card">
     <form id="insertar" name="insertar" method="get" action="insertarPokemon.php">
       <th colspan=2 style="text-align:center">Insertar Pokemon</th>
       <tr>
@@ -49,7 +48,7 @@
       </tfoot>
     </form>
   </table>
-  </table>
+  
 
 </BODY>
 
