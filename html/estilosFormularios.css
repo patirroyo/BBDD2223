@@ -23,6 +23,7 @@ h1 {
     font-family: 'Pokemon Solid', sans-serif;
     font-size: 75px;
     top: 100px;
+    
 
 }
 input{
@@ -70,7 +71,7 @@ th {
     border: none;
     text-align: center;
     font-family: 'Pokemon Solid', sans-serif;
-    
+    -webkit-text-stroke: 1px black;
 }
 table th {
     border-bottom: #e3e1e1 1px solid;
@@ -367,8 +368,6 @@ border-radius: 20%;
 border: #aaa8a8 solid 1px;
 color:#ccc;
 height: 35px;
-
-
 }
 /* Estilo botón cuando su INPUT está seleccionado */
 input[id^="spoiler"]:checked + label {

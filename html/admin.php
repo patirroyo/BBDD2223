@@ -3,7 +3,7 @@
         <title>Administración</title>
         <link rel="stylesheet" href="estilosFormularios.css" type="text/css">
         <link rel="icon" type="image/x-icon" href="/imagenes/favicon.ico">
-        <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/pokemon-hollow" rel="stylesheet">
         <script>
 
         </script>
