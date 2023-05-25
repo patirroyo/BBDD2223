@@ -351,14 +351,7 @@ tbody td i{
     border-left: 4px solid #ed1c40;
     border-bottom: 4px solid #ed1c40;
 }
-.descripcion{
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    padding: 0px;
-    margin: 0;
-    align-items: center;
-}
+
 /* Ocultar botón radio */
 input[id^="spoiler"]{
 display: none;
@@ -367,14 +360,13 @@ display: none;
 input[id^="spoiler"] + label {
 display:inline-block;
 width: 50px;
-margin: 0;
-padding: 0px 0px;
 background: #ed1c40;
 cursor: pointer;
 text-align: center;
 border-radius: 20%;
 border: #aaa8a8 solid 1px;
 color:#ccc;
+height: 35px;
 
 
 }
