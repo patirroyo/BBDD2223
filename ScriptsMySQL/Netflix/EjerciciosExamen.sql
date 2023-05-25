@@ -3,7 +3,7 @@
 DELIMITER $$
 DROP FUNCTION IF EXISTS es_jefe $$
 CREATE FUNCTION es_jefe(nombre VARCHAR(45), apellidos VARCHAR(45))
-    RETURNS BOOLEAN DETERMINISTIC
+    RETURNS INT DETERMINISTIC
     BEGIN
         DECLARE id TINYINT UNSIGNED;
         SET id = (SELECT e.id_empleado
@@ -12,23 +12,96 @@ CREATE FUNCTION es_jefe(nombre VARCHAR(45), apellidos VARCHAR(45))
                     AND e. apellidos = apellidos);
         IF id IN (SELECT a.id_empleado_jefe
                     FROM almacen a) THEN
-            RETURN TRUE;
+            RETURN id;
         ELSE
             RETURN FALSE;
         END IF;
     END $$
 DELIMITER ;
-SELECT es_jefe('Ringo', 'Rooksby');
+SELECT es_jefe('Jon', 'Stephens');
 SELECT es_jefe('Ada', 'Byron');
 
 
 # 2)En caso afirmativo deberemos recuperar todos los empleados de ese almacén.
+DELIMITER $$
+DROP FUNCTION IF EXISTS empleados_por_jefe $$
+CREATE FUNCTION empleados_por_jefe(nombre VARCHAR(45), apellidos VARCHAR(45))
+    RETURNS
+    BEGIN
+    DECLARE jefe INT;
+        IF (SELECT es_jefe(nombre, apellidos) != 0) THEN
+            SET jefe = es_jefe(nombre, apellidos);
+            SELECT e.id_empleado
+            FROM empleado e
+            WHERE id_almacen = (SELECT id_almacen
+                                FROM almacen
+                                WHERE id_empleado_jefe = jefe);
 
+        END IF;
+    END $$
+DELIMITER ;
 
+CALL empleados_por_jefe('Jon', 'Stephens');
 
 # 3)De cada empleado de ese almacén calcularemos  el tiempo medio de devolución de los alquileres de ese empleado.
+DELIMITER $$
+DROP FUNCTION IF EXISTS tiempo_medio_devolucion $$
+CREATE FUNCTION tiempo_medio_devolucion(id_emple INTEGER)
+    RETURNS FLOAT READS SQL DATA
+    BEGIN
+        DECLARE resultado FLOAT;
+        SELECT AVG(DATEDIFF(a.fecha_devolucion,a.fecha_alquiler))
+        INTO resultado
+        FROM alquiler a
+        WHERE a.id_empleado = id_emple;
+        RETURN resultado;
+    END $$
+DELIMITER ;
+
+SELECT tiempo_medio_devolucion(1);
+
 # 4)Al final del procedimiento devolveremos la suma de todos los tiempos medios de devolución de alquileres(apartado 3)
 #
+DELIMITER $$
+DROP PROCEDURE IF EXISTS tiempo_devolucion_por_jefe $$
+CREATE PROCEDURE tiempo_devolucion_por_jefe(IN nombre VARCHAR(30), IN apellidos VARCHAR(30), OUT tiempo FLOAT)
+BEGIN
+    DECLARE num_empleados INT;
+    DECLARE sum_tiempo FLOAT;
+    DECLARE avg_empleado FLOAT;
+    DECLARE done INT;
+    DECLARE id_e INT;
+    DECLARE id_alma INT;
+    DECLARE empleados CURSOR FOR SELECT e.id_empleado
+                                        FROM empleado e
+                                        WHERE e.id_almacen = id_alma;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    SET done = 0;
+    SET num_empleados = 0;
+    SET sum_tiempo = 0;
+    SET id_alma = es_jefe(nombre, apellidos);
+    OPEN empleados;
+        bucle: LOOP
+        FETCH empleados
+        INTO id_e;
+        SET avg_empleado = 0;
+            IF done = 1 THEN
+                LEAVE bucle;
+            END IF;
+        IF (tiempo_medio_devolucion(id_e) IS NOT NULL) THEN
+            SET avg_empleado = tiempo_medio_devolucion(id_e);
+            SET num_empleados = num_empleados +1;
+        END IF;
+        SET sum_tiempo = sum_tiempo + avg_empleado;
+        END LOOP;
+    CLOSE empleados;
+    SET tiempo = sum_tiempo/num_empleados;
+END $$
+DELIMITER ;
+CALL tiempo_devolucion_por_jefe('Jon', 'Stephens', @suma);
+SELECT @suma;
+
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS tiempo_medio_devolucion_por_jefe $$
 CREATE PROCEDURE tiempo_medio_devolucion_por_jefe(IN nombre VARCHAR(45), IN apellidos VARCHAR(45), OUT sum_avg_time INTEGER)
