@@ -51,8 +51,8 @@
                         <th>id</th>
                         <th>Fecha</th>
                         <th>Usuario</th>
-                        <th>Numero Eliminado</th>
-                        <th>Nombre Eliminado</th>
+                        <th>Numero Creado</th>
+                        <th>Nombre Creado</th>
                     </tr>
                     <tr>";
             while ($row = mysqli_fetch_assoc($result)) {
