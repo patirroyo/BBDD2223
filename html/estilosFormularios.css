@@ -26,11 +26,7 @@ h1 {
     
 
 }
-input{
-    font-size: 15px;
-    width: 120px;
-    height: 30px;
-}
+
 table {
     position: relative;
     display: inline-table;
@@ -202,6 +198,7 @@ tfoot tr:last-child td {
     display: block;
     margin: auto;
     height: 56px;
+    width: 56px;
     cursor: pointer;
     top: 10px;
 }
@@ -352,7 +349,15 @@ tbody td i{
     border-left: 4px solid #ed1c40;
     border-bottom: 4px solid #ed1c40;
 }
-
+input{
+    font-size: 15px;
+    width: 120px;
+    height: 30px;
+}
+.submit{
+    width: 56px;
+    height: 56px;
+}
 /* Ocultar botón radio */
 input[id^="spoiler"]{
 display: none;

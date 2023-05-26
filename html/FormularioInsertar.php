@@ -26,23 +26,23 @@
       <th colspan=2 style="text-align:center">Crear Pokemon</th>
       <tr>
         <td>Número pokedex</td>
-        <td><input type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero ?>"></td>
+        <td><input required type="number" name="numero_pokedex" id="numero_pokedex" value="<?php echo $siguienteNumero ?>" ></td>
       <tr>
         <td>Nombre</td>
-        <td><input type="text" name="nombre" id="nombre"></td>
+        <td><input required type="text" name="nombre" id="nombre" autofocus></td>
       </tr>
       <tr>
         <td>Peso</td>
-        <td><input type="number" name="peso" id="peso"></td>
+        <td><input required type="number" min="0" max="1000" step="1" name="peso" id="peso"></td>
       </tr>
       <tr>
         <td>Altura</td>
-        <td><input type="number" name="altura" id="altura"></td>
+        <td><input required type="number" name="altura" min="0" max="100" step="0.1" id="altura"></td>
       </tr>
       <tfoot>
         <tr>
           <td colspan=2>
-            <img class="edicion" src="./imagenes/add.png" onclick="insertar.submit()">
+            <input type=image class="submit" src="./imagenes/add.png">
           </td>
         </tr>
       </tfoot>
