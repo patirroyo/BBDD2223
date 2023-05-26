@@ -19,7 +19,7 @@
         } else {
             echo "<table class='administracion'>
                     <tr>
-                        <th colspan='5'>Borrados</th>
+                        <th colspan='50'>Borrados</th>
                     </tr>
                     <tr>
                         <th>id</th>
@@ -27,12 +27,21 @@
                         <th>Usuario</th>
                         <th>Numero Eliminado</th>
                         <th>Nombre Eliminado</th>
+                        <th>IP</th>
+                        <th class='userAgent'>User Agent</th>
                     </tr>
                     <tr>";
             while ($row = mysqli_fetch_assoc($result)) {
-                foreach ($row as $col) 
-                    echo "<td>$col</td>";
-                echo "</tr>";
+                echo "<tr>
+                        <td><b>" . $row['id'] . "</b></td>".
+                        "<td>" . $row['fecha'] . "</td>".
+                        "<td>" . $row['usuario'] . "</td>".
+                        "<td>" . $row['numero_eliminado'] . "</td>".
+                        "<td>" . $row['nombre_eliminado'] . "</td>".
+                        "<td>" . $row['ip_cliente'] . "</td>".
+                        '<td class="descripcion"><input type="checkbox" id="spoiler'.$row['id'].'"></input>
+            <label for="spoiler'.$row['id'].'">Ver</label><div class="spoiler">
+            ' . $row['user_agent'] . "</div></td>";
             }
             echo "</table>";
         }
@@ -45,7 +54,7 @@
         } else {
             echo "<table class='administracion'>
                     <tr>
-                        <th colspan='5'>Creados</th>
+                        <th colspan='50'>Creados</th>
                     </tr>
                     <tr>
                         <th>id</th>
@@ -53,12 +62,21 @@
                         <th>Usuario</th>
                         <th>Numero Creado</th>
                         <th>Nombre Creado</th>
+                        <th>IP</th>
+                        <th class='userAgent'>User Agent</th>
                     </tr>
                     <tr>";
             while ($row = mysqli_fetch_assoc($result)) {
-                foreach ($row as $col) 
-                    echo "<td>$col</td>";
-                echo "</tr>";
+                echo "<tr>
+                        <td><b>" . $row['id'] . "</b></td>".
+                        "<td>" . $row['fecha'] . "</td>".
+                        "<td>" . $row['usuario'] . "</td>".
+                        "<td>" . $row['numero_creado'] . "</td>".
+                        "<td>" . $row['nombre'] . "</td>".
+                        "<td>" . $row['ip_cliente'] . "</td>".
+                        '<td class="descripcion"><input type="checkbox" id="spoiler'.$row['id'].'"></input>
+                        <label for="spoiler'.$row['id'].'">Ver</label><div class="spoiler">
+            ' . $row['user_agent'] . "</div></td>";
             }
             echo "</table>";
         }

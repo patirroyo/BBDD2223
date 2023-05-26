@@ -10,7 +10,7 @@
 <script>
 
     function ordenar(field, order, tipo, nombre, pesomin, pesomax, alturamin, alturamax) {
-        if (order == 'ASC')
+        if (order == 'ASC' || order == "")
             orderby = 'DESC';
         else
             orderby = 'ASC';

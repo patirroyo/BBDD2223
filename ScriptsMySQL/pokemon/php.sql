@@ -123,6 +123,11 @@ CREATE TRIGGER matarPokemon
     END $$
 DELIMITER ;
 
--- DELETE FROM pokemon p WHERE p.numero_pokedex = 156;
 
-CALL muestraPokemonByTipo('Volador');
+
+-- Guardar IP del cliente
+ALTER TABLE Borrados ADD COLUMN (ip_cliente VARCHAR(30));
+ALTER TABLE Borrados ADD COLUMN (user_agent VARCHAR(255));
+ALTER TABLE Creados ADD COLUMN (ip_cliente VARCHAR(30));
+ALTER TABLE Creados ADD COLUMN (user_agent VARCHAR(255));
+

@@ -122,6 +122,11 @@ table th {
     right: 20px;
     left: 10px;
 }
+.userAgent{
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
 .movimientos {
     position: relative;
     display: inline-table;
