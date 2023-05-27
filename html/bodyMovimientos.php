@@ -1,11 +1,12 @@
 <?php
+    include 'config.php';
     $numero_pokedex = htmlentities($_GET['numero_pokedex'], ENT_QUOTES);
     
     $orderfield = htmlentities($_GET['orderfield']);
     $order = htmlentities($_GET['orderby']);
 
 
-    $sql = "SELECT DISTINCT p.nombre as pokemon,
+    $sqlMovimientos = "SELECT DISTINCT p.nombre as pokemon,
                     m.id_movimiento as id,
                     m.nombre as nombre,
                     m.potencia as potencia,
@@ -26,28 +27,28 @@
                 on fa.id_tipo_aprendizaje = tfa.id_tipo_aprendizaje
             WHERE p.numero_pokedex = " . $numero_pokedex;
     if (isset($orderfield) && $orderfield != "")
-        $sql .= " ORDER BY " . $orderfield. " ";
+        $sqlMovimientos .= " ORDER BY " . $orderfield. " ";
     else 
-        $sql .= " ORDER BY id ";
+        $sqlMovimientos .= " ORDER BY id ";
     
     if (isset($order) && $order != "")
-        $sql .=  $order;
+        $sqlMovimientos .=  $order;
     else
-        $sql .= " ASC";
+        $sqlMovimientos .= " ASC";
     
     
-    //echo '<br><br>' . $sql . '<br><br>';
+    
 
-    $result = mysqli_query($mysqli, $sql);
+    $resultMovis = mysqli_query($mysqli, $sqlMovimientos);
 
 
 
-    $row = mysqli_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($resultMovis);
 
     $nombre = $row['pokemon'];
-    $total = $result->num_rows;
+    $total = $resultMovis->num_rows;
 
-    if (!$result) {
+    if (!$resultMovis) {
         die('Invalid query: ' . mysqli_error($mysqli));
     }
     
@@ -67,8 +68,8 @@
             <th>Descripción</th>
             <th>Eliminar</th>
     </tr>";
-    $result = mysqli_query($mysqli, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
+    $resultMovis = mysqli_query($mysqli, $sqlMovimientos);
+    while ($row = mysqli_fetch_assoc($resultMovis)) {
         echo "<tr>";
         echo "<td><b>" . $row['id'] . "</b></td>";
         echo "<td><b>" . $row['nombre'] . "</b></td>";

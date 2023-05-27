@@ -180,6 +180,9 @@ tbody tr:hover {
 tbody td {
     border-bottom: 1px solid #ddd;
 }
+tbody td:first-child {
+    padding-left: 10px;
+}
 
 
 

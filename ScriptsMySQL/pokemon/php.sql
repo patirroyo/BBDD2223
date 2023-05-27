@@ -131,3 +131,59 @@ ALTER TABLE Borrados ADD COLUMN (user_agent VARCHAR(255));
 ALTER TABLE Creados ADD COLUMN (ip_cliente VARCHAR(30));
 ALTER TABLE Creados ADD COLUMN (user_agent VARCHAR(255));
 
+-- Índice para los movimientos y los tipos
+
+CREATE INDEX idx_idMovimiento_Aprendizaje ON pokemon_movimiento_forma(id_movimiento, id_forma_aprendizaje);
+CREATE INDEX idx_idTipo_Nombre ON tipo(id_tipo, nombre);
+CREATE INDEX idx_idTipoFormaAprendizaje_Nombre ON tipo_forma_aprendizaje(id_tipo_aprendizaje, tipo_aprendizaje);
+
+-- Índice para los filtros
+
+CREATE INDEX idx_peso ON pokemon(peso);
+CREATE INDEX idx_altura ON pokemon(altura);
+CREATE INDEX idx_pokemon ON pokemon(numero_pokedex, nombre, peso, altura);
+
+
+-- optimizada EXPLAIN SELECT nombre FROM tipo;
+-- optimizada EXPLAIN SELECT p.peso FROM pokemon p ORDER BY p.peso DESC LIMIT 1;
+-- optimizada EXPLAIN SELECT p.altura FROM pokemon p ORDER BY p.altura DESC LIMIT 1;
+-- optimizada EXPLAIN SELECT * FROM pokemon p;
+-- optimizada EXPLAIN SELECT p.*, t.nombre as tipo FROM pokemon p INNER JOIN pokemon_tipo pt on p.numero_pokedex = pt.numero_pokedex INNER JOIN tipo t on pt.id_tipo = t.id_tipo;
+-- optimizada EXPLAIN SELECT t.nombre as tipo FROM pokemon p INNER JOIN pokemon_tipo pt on p.numero_pokedex = pt.numero_pokedex INNER JOIN tipo t on pt.id_tipo = t.id_tipo;
+-- optimizada EXPLAIN SELECT COUNT(m.id_movimiento) as movimientos FROM pokemon p INNER JOIN pokemon_movimiento_forma pmf ON p.numero_pokedex = pmf.numero_pokedex INNER JOIN movimiento m ON pmf.id_movimiento = m.id_movimiento;
+
+-- Un procedimiento con cursor para sacar los tipos del pokemon
+DELIMITER $$
+DROP PROCEDURE IF EXISTS tiposDeUnPokemon;
+CREATE PROCEDURE tiposDeUnPokemon(IN numero int, OUT tipo1 VARCHAR(30), OUT tipo2 VARCHAR(30))
+    BEGIN
+    DECLARE done INT;
+    DECLARE numTipos INT;
+    DECLARE tipo CURSOR FOR SELECT nombre
+                            FROM tipo t
+                            INNER JOIN pokemon_tipo pt
+                                ON t.id_tipo = pt.id_tipo
+                            WHERE pt.numero_pokedex = numero;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    SET done = 0;
+    SET numTipos = 0;
+    OPEN tipo;
+    bucle : LOOP
+        IF done = 1 THEN
+            LEAVE bucle;
+        END IF;
+        FETCH tipo INTO tipo2;
+            IF tipo1 IS NULL THEN
+                SET tipo1 = tipo2;
+            END IF;
+            SET numTipos = numTipos + 1;
+    END LOOP;
+    CLOSE tipo;
+    IF numTipos < 3 THEN
+        SET tipo2 = 'No tiene';
+    END IF;
+    SELECT tipo1, tipo2;
+END $$
+
+-- CALL tiposDeUnPokemon(8, @tipo1, @tipo2);
+

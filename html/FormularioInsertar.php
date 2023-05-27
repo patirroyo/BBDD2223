@@ -13,6 +13,7 @@
   <h1>Crear Pokemon</h1>
   <?php
   include 'config.php';
+  include 'iconos.php';
   $sql = 'SELECT numero_pokedex FROM pokemon ORDER BY numero_pokedex DESC LIMIT 1';
   $result = mysqli_query($mysqli, $sql);
   $fila = mysqli_fetch_assoc($result);
@@ -33,7 +34,7 @@
       </tr>
       <tr>
         <td>Peso</td>
-        <td><input required type="number" min="0" max="1000" step="1" name="peso" id="peso"></td>
+        <td><input required type="number" min="0" max="1000" step="0.1" name="peso" id="peso"></td>
       </tr>
       <tr>
         <td>Altura</td>

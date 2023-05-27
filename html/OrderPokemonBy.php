@@ -41,6 +41,7 @@
     <?php
 
     include 'config.php';
+    include 'iconos.php';
     $pesomin = 0;
     $sql = 'SELECT p.peso FROM pokemon p ORDER BY p.peso DESC LIMIT 1';
     $result = mysqli_query($mysqli, $sql);
@@ -152,7 +153,7 @@
                         <td class="content-select">
                             <select name="tipo" id="tipo" onchange=filtro.submit()>
                                 <option value="">Todos</option>';
-                                $sqlTipo = 'SELECT * FROM tipo';
+                                $sqlTipo = 'SELECT nombre FROM tipo';
                                 $resultTipo = mysqli_query($mysqli, $sqlTipo);
                                 while ($row2 = mysqli_fetch_assoc($resultTipo)) {
                                     if ($row2['nombre'] == $tipo)

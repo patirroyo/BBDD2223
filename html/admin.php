@@ -12,6 +12,7 @@
         <h1>Administración</h1>
         <?php
         include 'config.php';
+        include 'iconos.php';
         $sql = 'SELECT * FROM Borrados;';
         $result = mysqli_query($mysqli, $sql);
         if (!$result) {

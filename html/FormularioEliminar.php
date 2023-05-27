@@ -22,7 +22,7 @@
   <h1>Eliminar Pokemon</h1>
   <?php
   include 'config.php';
-  
+  include 'iconos.php';
   if (isset($_GET['numero_pokedexEliminar'])){
     $numero_pokedexEliminar = $_GET['numero_pokedexEliminar'];
     $sql = 'SELECT * FROM pokemon 
