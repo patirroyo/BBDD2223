@@ -123,7 +123,39 @@ CREATE TRIGGER matarPokemon
     END $$
 DELIMITER ;
 
-
+-- Una función para contar el total de movimientos de todos los pokemon
+DELIMITER $$
+DROP FUNCTION IF EXISTS totalMovimientos;
+CREATE FUNCTION totalMovimientos()
+    RETURNS INT READS SQL DATA
+    BEGIN
+    DECLARE done INT;
+    DECLARE movimientos INT;
+    DECLARE total INT;
+    DECLARE movis CURSOR FOR SELECT COUNT(m.id_movimiento)
+                            FROM pokemon p
+                            INNER JOIN pokemon_movimiento_forma pmf
+                                ON p.numero_pokedex = pmf.numero_pokedex
+                            INNER JOIN movimiento m
+                                ON pmf.id_movimiento = m.id_movimiento
+                            GROUP BY p.numero_pokedex
+                            ORDER BY p.numero_pokedex;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    SET done = 0;
+    SET movimientos = 0;
+    SET total = 0;
+    OPEN movis;
+    bucle : LOOP
+        IF done = 1 THEN
+            LEAVE bucle;
+        END IF;
+        FETCH movis INTO movimientos;
+        SET total = total + movimientos;
+    END LOOP;
+    CLOSE movis;
+    RETURN total;
+END $$
+-- SELECT totalMovimientos();
 
 -- Guardar IP del cliente
 ALTER TABLE Borrados ADD COLUMN (ip_cliente VARCHAR(30));
@@ -142,6 +174,9 @@ CREATE INDEX idx_idTipoFormaAprendizaje_Nombre ON tipo_forma_aprendizaje(id_tipo
 CREATE INDEX idx_peso ON pokemon(peso);
 CREATE INDEX idx_altura ON pokemon(altura);
 CREATE INDEX idx_pokemon ON pokemon(numero_pokedex, nombre, peso, altura);
+
+-- Índice para descripción de los movimientos
+CREATE FULLTEXT INDEX idx_descripcion ON movimiento(descripcion);
 
 
 -- optimizada EXPLAIN SELECT nombre FROM tipo;
@@ -186,4 +221,4 @@ CREATE PROCEDURE tiposDeUnPokemon(IN numero int, OUT tipo1 VARCHAR(30), OUT tipo
 END $$
 
 -- CALL tiposDeUnPokemon(8, @tipo1, @tipo2);
-
+SELECT DISTINCT m.id_movimiento as id, m.nombre as nombre, m.potencia as potencia, m.precision_mov as preciso, m.pp as pp, m.descripcion as descripcion, t.nombre as tipo FROM pokemon p INNER JOIN pokemon_movimiento_forma pmf ON p.numero_pokedex = pmf.numero_pokedex INNER JOIN movimiento m ON pmf.id_movimiento = m.id_movimiento INNER JOIN tipo t on m.id_tipo = t.id_tipo INNER JOIN forma_aprendizaje fa on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje WHERE MATCH(m.descripcion) AGAINST ('+CAUSA' IN BOOLEAN MODE) ORDER BY id ASC

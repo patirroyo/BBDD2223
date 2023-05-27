@@ -1,9 +1,9 @@
 	<?php
 
 	//echo "conectando a database";
-	//$mysqli = mysqli_connect("pokemon.cpc0r2xnn9kp.us-east-1.rds.amazonaws.com", "admin", "adminadmin", "pokemondb");
+	$mysqli = mysqli_connect("pokemon.cpc0r2xnn9kp.us-east-1.rds.amazonaws.com", "admin", "adminadmin", "pokemondb");
 	
-	$mysqli = mysqli_connect("172.17.0.3", "root", "adminadmin", "pokemondb");
+	//$mysqli = mysqli_connect("172.17.0.3", "root", "adminadmin", "pokemondb");
 	//echo "<p>conectado a database<p>";
 	
 	

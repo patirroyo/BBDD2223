@@ -201,7 +201,7 @@ tfoot tr:last-child td {
 .edicion:active {
     height: 60px;
 }
-.add, .inicio, .order, .admin, .tumba {
+.add, .inicio, .order, .admin, .tumba, .moves{
     position: fixed;
     display: block;
     margin: auto;
@@ -210,7 +210,7 @@ tfoot tr:last-child td {
     cursor: pointer;
     top: 10px;
 }
-.order, .add, .inicio, .tumba {
+.order, .add, .inicio, .tumba, .moves {
     left: 20px;
 }
 .order{
@@ -221,6 +221,9 @@ tfoot tr:last-child td {
 }
 .tumba{
     top: 230px;
+}
+.moves{
+    top: 300px;
 }
 .admin{
     right: 20px; 
@@ -361,6 +364,9 @@ input{
     font-size: 15px;
     width: 120px;
     height: 30px;
+}
+.boolean{
+    width: 300px;
 }
 .submit{
     width: 56px;

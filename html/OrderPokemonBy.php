@@ -243,57 +243,100 @@
 
     //echo "<h3>Ordenar por: " . $sql. "</h3>";
         //iterate all rows
-        while ($row = mysqli_fetch_assoc($result)) {
+        $sqlTotal = 'SELECT COUNT(numero_pokedex) as total FROM pokemon p';
+        $resultTotal = mysqli_query($mysqli, $sqlTotal);
+        $total = mysqli_fetch_assoc($resultTotal);
+    
+        $sqlTotalMovis = 'SELECT totalMovimientos()';
+        $resultTotalMovis = mysqli_query($mysqli, $sqlTotalMovis);
+        $totalMovis = mysqli_fetch_assoc($resultTotalMovis);
+    
+        echo "<br><br>
+                <table>
+                    <tr>
+                        <th>Total de pokemons</th>
+                        <th>Total de movimientos</th>
+                    </tr>
+                    <tr>
+                        <td><b>" . $total['total'] . "</b></td>
+                        <td><b>" . $totalMovis['totalMovimientos()'] . "</b></td>
+                    </tr>
+                </table>";
+        echo "<br><br>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['numero_pokedex'] < 10)
+            $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $row['numero_pokedex'] . ".png";
+        else if ($row['numero_pokedex'] < 100)
+            $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $row['numero_pokedex'] . ".png";
+        else
+            $imagen = "src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $row['numero_pokedex'] . ".png";
+        echo "<table class='card'>
+                <tr>
+                    <th># " . $row['numero_pokedex'] . "<i onclick=ordenar('numero_pokedex','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>
+                    <th colspan= 2>" . " " . $row['nombre'] . "<i onclick=ordenar(" . "'" . "nombre','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>
+                </tr>
+                <tr>
+                    <td colspan=3>
+                        <img class='portada' $imagen onclick=editar(" . $row['numero_pokedex'] . ")>
+                        </img>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Peso:</b>
+                        <i onclick=ordenar('peso','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i>
+                    </td>
+                    <td colspan=2>" .
+                        $row['peso'] . 
+                    "</tr>
+                <tr>
+                    </td><td><b>Altura:</b>
+                        <i onclick=ordenar('altura','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i>
+                    </td><td colspan=2>" . 
+                        $row['altura'] . 
+                    "</td>
+                </tr>";
 
 
-            echo "<table class='card'>";
-            echo "<tr>";
-            echo "<th># " . $row['numero_pokedex'] . "<i onclick=ordenar('numero_pokedex','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>";
-            echo "<th colspan= 2>" . " " . $row['nombre'] . "<i onclick=ordenar(" . "'" . "nombre','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></th>";
-            echo "</tr>";
-            if ($row['numero_pokedex'] < 10)
-                echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/00" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
-            else if ($row['numero_pokedex'] < 100)
-                echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/0" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
-            else
-                echo "<tr><td colspan=3><img class='portada' src=https://assets.pokemon.com/assets/cms2/img/pokedex/full/" . $row['numero_pokedex'] . ".png onclick=editar(" . $row['numero_pokedex'] . ")></img></td></tr>";
-            echo "<tr><td><b>Peso:</b><i onclick=ordenar('peso','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></td><td colspan=2>" . 
-                    $row['peso'] . 
-                "</tr><tr></td><td><b>Altura:</b><i onclick=ordenar('altura','" .$order. "','".$tipo . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")></i></td><td colspan=2>" . 
-                    $row['altura'] . 
-                "</td></tr>";
-            $sqlTipo = 'SELECT t.nombre as tipo
-                    FROM pokemon p
-                        INNER JOIN pokemon_tipo pt
-                            on p.numero_pokedex = pt.numero_pokedex
-                        INNER JOIN tipo t 
-                            on pt.id_tipo = t.id_tipo
-                        WHERE p.numero_pokedex = ' . $row['numero_pokedex'] . ';';
-            $result2 = mysqli_query($mysqli, $sqlTipo);
-            echo "<tr><td><b>Tipo:</b></td>";
-            while ($row2 = mysqli_fetch_assoc($result2)) {
-                foreach ($row2 as $col2) {
-                    echo "<td onclick=ordenar('".$orderfield ."','".$order. "','".$col2 . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")><div class='tipo'>" . $col2 . "</div></td>";
-                }
-            }
-            $sqlMovimientos = 'SELECT COUNT(m.id_movimiento) as movimientos
-                                FROM pokemon p
-                                INNER JOIN pokemon_movimiento_forma pmf
-                                    ON p.numero_pokedex = pmf.numero_pokedex
-                                INNER JOIN movimiento m
-                                    ON pmf.id_movimiento = m.id_movimiento
-                                WHERE p.numero_pokedex = ' . $row['numero_pokedex'] . ';';
-            $result3 = mysqli_query($mysqli, $sqlMovimientos);
-            echo "<tr><td><b>Movimientos:</b></td>";
-            while ($row3 = mysqli_fetch_assoc($result3)) {
-                echo "<td colspan= 2><a href='FormularioEditar.php?numero_pokedex=".$row['numero_pokedex']."#movimientos'<div class='tipo'>" . $row3['movimientos'] . "</div></td>";
+        $sqlTipo = 'SELECT t.nombre as tipo
+                FROM pokemon p
+                    INNER JOIN pokemon_tipo pt
+                        on p.numero_pokedex = pt.numero_pokedex
+                    INNER JOIN tipo t 
+                        on pt.id_tipo = t.id_tipo
+                    WHERE p.numero_pokedex = ' . $row['numero_pokedex'] . ';';
+        $result2 = mysqli_query($mysqli, $sqlTipo);
         
+        
+        echo "<tr><td><b>Tipo:</b></td>";
+        
+        
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            foreach ($row2 as $col2) {
+                echo "<td onclick=ordenar('".$orderfield ."','".$order. "','".$col2 . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")><div class='tipo'>" . $col2 . "</div></td>";
             }
-            
-            echo "</tr>";
-            echo "</table>";
         }
-        echo "</table>";
+        $sqlMovimientos = 'SELECT COUNT(m.id_movimiento) as movimientos
+                            FROM pokemon p
+                            INNER JOIN pokemon_movimiento_forma pmf
+                                ON p.numero_pokedex = pmf.numero_pokedex
+                            INNER JOIN movimiento m
+                                ON pmf.id_movimiento = m.id_movimiento
+                            WHERE p.numero_pokedex = ' . $row['numero_pokedex'] . ';';
+        $result3 = mysqli_query($mysqli, $sqlMovimientos);
+        
+        echo "<tr><td><b>Movimientos:</b></td>";
+        
+        while ($row3 = mysqli_fetch_assoc($result3)) {
+            echo "<td colspan= 2>
+                    <a href='FormularioEditar.php?numero_pokedex=".$row['numero_pokedex']. "#movimientos'
+                    <div class='tipo'>" . $row3['movimientos'] . 
+                    "</div>
+                </td>";
+        }
+        echo "</tr>
+        </table>";
+    }
+    echo "</table>";
     }
 
     include 'close.php';

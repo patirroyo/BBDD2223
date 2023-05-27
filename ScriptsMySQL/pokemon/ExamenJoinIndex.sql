@@ -125,7 +125,7 @@ WHERE t.nombre = 'Fuego';
 la tabla movimientos y busca aquellos ataques
 que causa daño y probabilidad*/
 
-CREATE FULLTEXT INDEX idx_descripcion2 ON movimiento(descripcion);
+CREATE FULLTEXT INDEX idx_descripcion ON movimiento(descripcion);
 
 SELECT *
 FROM movimiento
