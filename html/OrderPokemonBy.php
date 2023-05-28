@@ -144,7 +144,10 @@
         die('Invalid query: ' . mysqli_error($mysqli));
     } else {
        // echo "<p>Query correcto<p>";
-        echo '<table class="filtros">
+        echo '  <br><br>
+                <br><br><br>
+                
+                <table class="filtros">
                 <th colspan=20>Filtro(s)</th>
                 <form id="filtro" name="filtro" method="get" action="OrderPokemonBy.php" >
                     <tr>
@@ -237,9 +240,8 @@
                 </form>
                 </table>
                     
-                        <br>
-                            <input type="button" value="Limpiar" onclick=limpiar()></button>
-                        <br><br>';
+                        <br><br>
+                            <input type="button" value="Limpiar" onclick=limpiar()></button>';
 
     //echo "<h3>Ordenar por: " . $sql. "</h3>";
         //iterate all rows
@@ -331,7 +333,7 @@
         $totalMovis = mysqli_fetch_assoc($resultTotalMovis);
     
         echo "<br><br>
-                <table>
+                <table class='totales'>
                     <tr>
                         <th>Pokemons</th>
                         <th>Movimientos</th>

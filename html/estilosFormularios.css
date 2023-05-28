@@ -39,6 +39,15 @@ table {
     width: 80%;
     border-radius: .25rem;
 }
+.totales{
+    position:absolute;
+    width: 50%;
+    top: 200px;
+    text-align: center;
+    left: 25%;
+    right: 25%;
+    min-width: 600px;
+}
 .filtros {
     position: relative;
     display: inline-table;
