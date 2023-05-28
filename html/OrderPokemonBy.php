@@ -138,7 +138,7 @@
     
     //echo "<p>Query: " . $sql . "<p>";
     $result = mysqli_query($mysqli, $sql);
-    
+    $movisFiltrados = 0;
 
     if (!$result) {
         die('Invalid query: ' . mysqli_error($mysqli));
@@ -243,25 +243,7 @@
 
     //echo "<h3>Ordenar por: " . $sql. "</h3>";
         //iterate all rows
-        $sqlTotal = 'SELECT COUNT(numero_pokedex) as total FROM pokemon p';
-        $resultTotal = mysqli_query($mysqli, $sqlTotal);
-        $total = mysqli_fetch_assoc($resultTotal);
-    
-        $sqlTotalMovis = 'SELECT totalMovimientos()';
-        $resultTotalMovis = mysqli_query($mysqli, $sqlTotalMovis);
-        $totalMovis = mysqli_fetch_assoc($resultTotalMovis);
-    
-        echo "<br><br>
-                <table>
-                    <tr>
-                        <th>Total de pokemons</th>
-                        <th>Total de movimientos</th>
-                    </tr>
-                    <tr>
-                        <td><b>" . $total['total'] . "</b></td>
-                        <td><b>" . $totalMovis['totalMovimientos()'] . "</b></td>
-                    </tr>
-                </table>";
+        
         echo "<br><br>";
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['numero_pokedex'] < 10)
@@ -332,13 +314,33 @@
                     <div class='tipo'>" . $row3['movimientos'] . 
                     "</div>
                 </td>";
+            $movisFiltrados += $row3['movimientos'];
         }
+        
         echo "</tr>
         </table>";
     }
     echo "</table>";
     }
-
+    $sqlTotal = 'SELECT COUNT(numero_pokedex) as total FROM pokemon p';
+        $resultTotal = mysqli_query($mysqli, $sqlTotal);
+        $total = mysqli_fetch_assoc($resultTotal);
+    
+        $sqlTotalMovis = 'SELECT totalMovimientos()';
+        $resultTotalMovis = mysqli_query($mysqli, $sqlTotalMovis);
+        $totalMovis = mysqli_fetch_assoc($resultTotalMovis);
+    
+        echo "<br><br>
+                <table>
+                    <tr>
+                        <th>Pokemons</th>
+                        <th>Movimientos</th>
+                    </tr>
+                    <tr>
+                        <td>" . $result->num_rows . "/<b>" . $total['total'] . "</b></td>
+                        <td>". $movisFiltrados. "/<b>" . $totalMovis['totalMovimientos()'] . "</b></td>
+                    </tr>
+                </table>";
     include 'close.php';
     ?>
 </body>

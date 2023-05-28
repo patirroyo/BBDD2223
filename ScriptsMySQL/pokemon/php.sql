@@ -147,6 +147,7 @@ CREATE FUNCTION totalMovimientos()
     OPEN movis;
     bucle : LOOP
         IF done = 1 THEN
+            SET total = total - movimientos;
             LEAVE bucle;
         END IF;
         FETCH movis INTO movimientos;
@@ -221,4 +222,3 @@ CREATE PROCEDURE tiposDeUnPokemon(IN numero int, OUT tipo1 VARCHAR(30), OUT tipo
 END $$
 
 -- CALL tiposDeUnPokemon(8, @tipo1, @tipo2);
-SELECT DISTINCT m.id_movimiento as id, m.nombre as nombre, m.potencia as potencia, m.precision_mov as preciso, m.pp as pp, m.descripcion as descripcion, t.nombre as tipo FROM pokemon p INNER JOIN pokemon_movimiento_forma pmf ON p.numero_pokedex = pmf.numero_pokedex INNER JOIN movimiento m ON pmf.id_movimiento = m.id_movimiento INNER JOIN tipo t on m.id_tipo = t.id_tipo INNER JOIN forma_aprendizaje fa on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje WHERE MATCH(m.descripcion) AGAINST ('+CAUSA' IN BOOLEAN MODE) ORDER BY id ASC
