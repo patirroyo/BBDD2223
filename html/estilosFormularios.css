@@ -43,9 +43,9 @@ table {
     position:absolute;
     width: 50%;
     top: 200px;
-    text-align: center;
-    left: 25%;
-    right: 25%;
+    left: 0;
+    right: 0;
+    margin: auto;
     min-width: 600px;
 }
 .filtros {
