@@ -299,25 +299,40 @@
                 echo "<td onclick=ordenar('".$orderfield ."','".$order. "','".$col2 . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")><div class='tipo'>" . $col2 . "</div></td>";
             }
         }
-        $sqlMovimientos = 'SELECT DISTINCT COUNT(m.id_movimiento) as movimientos
+        $sqlMovimientos = 'SELECT DISTINCT p.nombre as pokemon,
+                                m.id_movimiento as id,
+                                m.nombre as nombre,
+                                m.potencia as potencia,
+                                m.precision_mov as preciso,
+                                m.pp as pp,
+                                m.descripcion as descripcion,
+                                t.nombre as tipo,
+                                tfa.tipo_aprendizaje as aprendizaje
                             FROM pokemon p
                             INNER JOIN pokemon_movimiento_forma pmf
                                 ON p.numero_pokedex = pmf.numero_pokedex
                             INNER JOIN movimiento m
                                 ON pmf.id_movimiento = m.id_movimiento
+                            INNER JOIN tipo t on m.id_tipo = t.id_tipo
+                            INNER JOIN forma_aprendizaje fa
+                                on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje
+                            INNER JOIN tipo_forma_aprendizaje tfa
+                                on fa.id_tipo_aprendizaje = tfa.id_tipo_aprendizaje
                             WHERE p.numero_pokedex = ' . $row['numero_pokedex'] . ';';
         $result3 = mysqli_query($mysqli, $sqlMovimientos);
+        $totalMovis = $result3->num_rows;
         
         echo "<tr><td><b>Movimientos:</b></td>";
         
-        while ($row3 = mysqli_fetch_assoc($result3)) {
+        $row3 = mysqli_fetch_assoc($result3);
+            
             echo "<td colspan= 2>
                     <a href='FormularioEditar.php?numero_pokedex=".$row['numero_pokedex']. "#movimientos'
-                    <div class='tipo'>" . $row3['movimientos'] . 
+                    <div class='tipo'>" . $totalMovis . 
                     "</div>
                 </td>";
             $movisFiltrados += $row3['movimientos'];
-        }
+        
         
         echo "</tr>
         </table>";
