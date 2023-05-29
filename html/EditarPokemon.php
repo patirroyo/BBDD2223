@@ -69,7 +69,7 @@
         } else {
             echo "<h2>Actualización tabla pokemon_tipo incorrecta</h2>";
         }
-        header("refresh:5;url=FormularioEditar.php?numero_pokedex=" . $numero_pokedex);
+        header("refresh:3;url=FormularioEditar.php?numero_pokedex=" . $numero_pokedex);
 	} else {
 		echo "<h2>Actualización incorrecta</h2>";
 	}
