@@ -48,9 +48,15 @@
         $resultado3 = mysqli_query($mysqli, $sql3);
         if ($resultado3) {
             echo "<h2>Actualización tabla pokemon_tipo correcta</h2>";
-            $sql4 = "DELETE FROM estadisticas_base WHERE numero_pokedex = " . $numero_pokedex . ";";
+            $sql4 = "SELECT COUNT(numero_pokedex) FROM estadisticas_base WHERE numero_pokedex = " . $numero_pokedex . ";";
             $resultado4 = mysqli_query($mysqli, $sql4);
-            $sql5 = "INSERT INTO estadisticas_base VALUES (" . $numero_pokedex . ", " . $ps . ", " . $ataque . ", " . $defensa . ", " . $especial . ", " . $velocidad . ");";
+            $row = mysqli_fetch_array($resultado4);
+            if($row[0] == 0){
+                $sql5 = "INSERT INTO estadisticas_base VALUES (" . $numero_pokedex . ", " . $ps . ", " . $ataque . ", " . $defensa . ", " . $especial . ", " . $velocidad . ");";
+            }else{
+                $sql5 = "UPDATE estadisticas_base SET ps = " . $ps . ", ataque = " . $ataque . ", defensa = " . $defensa . ", especial = " . $especial . ", velocidad = " . $velocidad . " WHERE numero_pokedex = " . $numero_pokedex . ";";
+            }
+            
             $resultado5 = mysqli_query($mysqli, $sql5);
             if ($resultado5) {
                 echo "<h2>Actualización tabla pokemon_estadisticas correcta</h2>

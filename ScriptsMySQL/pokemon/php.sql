@@ -123,6 +123,70 @@ CREATE TRIGGER matarPokemon
     END $$
 DELIMITER ;
 
+-- un trigger para cuando eliminamos movimientos de un pokemon
+
+CREATE TABLE IF NOT EXISTS MovimientosBorrados(id INT UNSIGNED UNIQUE AUTO_INCREMENT NOT NULL ,fecha DATETIME,  usuario VARCHAR(20), nombre_pokemon VARCHAR(30), id_movimiento INT UNSIGNED, nombre_movimiento VARCHAR(30));
+
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS eliminarMovimiento $$
+CREATE TRIGGER eliminarMovimiento
+    AFTER DELETE
+    ON pokemon_movimiento_forma FOR EACH ROW
+    BEGIN
+        INSERT INTO MovimientosBorrados(fecha, usuario, nombre_pokemon, id_movimiento, nombre_movimiento) VALUES (NOW(), USER(), (SELECT nombre FROM pokemon WHERE numero_pokedex = OLD.numero_pokedex), OLD.id_movimiento, (SELECT nombre FROM movimiento WHERE id_movimiento = OLD.id_movimiento));
+    END $$
+
+-- Un trigger para cuando actualizamos un pokemon
+
+CREATE TABLE IF NOT EXISTS Actualizados(id INT UNSIGNED UNIQUE AUTO_INCREMENT NOT NULL ,fecha DATETIME,  usuario VARCHAR(20), numero_pokedex INT UNSIGNED, campo_actualizado VARCHAR(30), valor_anterior VARCHAR(30), valor_nuevo VARCHAR(30));
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS actualizarPokemon $$
+CREATE TRIGGER actualizarPokemon
+    AFTER UPDATE
+    ON pokemon FOR EACH ROW
+    BEGIN
+        IF (OLD.nombre != NEW.nombre) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), NEW.numero_pokedex, 'nombre', OLD.nombre, NEW.nombre);
+        END IF;
+        IF (OLD.altura != NEW.altura) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), NEW.numero_pokedex, 'altura', OLD.altura, NEW.altura);
+        END IF;
+        IF (OLD.peso != NEW.peso) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), NEW.numero_pokedex, 'peso', OLD.peso, NEW.peso);
+        END IF;
+    END $$
+DELIMITER ;
+
+-- Un trigger para cuando actualizamos las estadisticas base de un pokemon
+DELIMITER $$
+DROP TRIGGER IF EXISTS actualizarEstadisticasBase $$
+CREATE TRIGGER actualizarEstadisticasBase
+    AFTER UPDATE
+    ON estadisticas_base FOR EACH ROW
+    BEGIN
+        IF (OLD.ps != NEW.ps) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), OLD.numero_pokedex, 'ps', OLD.ps, NEW.ps);
+        END IF;
+        IF (OLD.ataque != NEW.ataque) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), OLD.numero_pokedex, 'ataque', OLD.ataque, NEW.ataque);
+        END IF;
+        IF (OLD.defensa != NEW.defensa) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), OLD.numero_pokedex, 'defensa', OLD.defensa, NEW.defensa);
+        END IF;
+        IF (OLD.especial != NEW.especial) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), OLD.numero_pokedex, 'especial', OLD.especial, NEW.especial);
+        END IF;
+        IF (OLD.velocidad != NEW.velocidad) THEN
+            INSERT INTO Actualizados(fecha, usuario, numero_pokedex, campo_actualizado, valor_anterior, valor_nuevo) VALUES (NOW(), USER(), OLD.numero_pokedex, 'velocidad', OLD.velocidad, NEW.velocidad);
+        END IF;
+    END $$
+DELIMITER ;
+
+
+
+
 -- Una función para contar el total de movimientos de todos los pokemon
 DELIMITER $$
 DROP FUNCTION IF EXISTS totalMovimientos;

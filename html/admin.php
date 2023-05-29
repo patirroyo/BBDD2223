@@ -20,7 +20,7 @@
         } else {
             echo "<table class='administracion'>
                     <tr>
-                        <th colspan='50'>Borrados</th>
+                        <th colspan='50'>Pokémons Borrados</th>
                     </tr>
                     <tr>
                         <th>id</th>
@@ -47,7 +47,36 @@
             echo "</table>";
         }
         echo "<br><br>";
-
+        $sql = 'SELECT * FROM MovimientosBorrados;';
+        $result = mysqli_query($mysqli, $sql);
+        if(!$result){
+            die('Invalid query: ' . mysqli_error($mysqli));
+        } else {
+            echo "<table class='administracion'
+                    <tr>
+                        <th colspan='50'>Movimientos Borrados</th>
+                    </tr>
+                    <tr>
+                        <th>id</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Nombre Pokemon</th>
+                        <th>Id movimiento</th>
+                        <th>Nombre movimiento</th>
+                    </tr>
+                    <tr>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>
+                        <td><b>" . $row['id'] . "</b></td>".
+                        "<td>" . $row['fecha'] . "</td>".
+                        "<td>" . $row['usuario'] . "</td>".
+                        "<td>" . $row['nombre_pokemon'] . "</td>".
+                        "<td>" . $row['id_movimiento'] . "</td>".
+                        "<td>" . $row['nombre_movimiento'] . "</td>";
+            }
+            echo "</table>";
+        }
+        echo "<br><br>";
         $sql = 'SELECT * FROM Creados;';
         $result = mysqli_query($mysqli, $sql);
         if (!$result) {
@@ -55,7 +84,7 @@
         } else {
             echo "<table class='administracion'>
                     <tr>
-                        <th colspan='50'>Creados</th>
+                        <th colspan='50'>Pokemon Creados</th>
                     </tr>
                     <tr>
                         <th>id</th>
@@ -81,6 +110,40 @@
             }
             echo "</table>";
         }
+        echo "<br><br>";
+        $sql = 'SELECT * FROM Actualizados;';
+        $result = mysqli_query($mysqli, $sql);
+        if (!$result) {
+            die('Invalid query: ' . mysqli_error($mysqli));
+        } else {
+            echo "<table class='administracion'>
+                    <tr>
+                        <th colspan='50'>Pokemon Actualizados</th>
+                    </tr>
+                    <tr>
+                        <th>id</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Numero Pokedex</th>
+                        <th>Campo Actualizado</th>
+                        <th>Valor anterior</th>
+                        <th>Valor actualizado</th>
+                    </tr>
+                    <tr>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>
+                        <td><b>" . $row['id'] . "</b></td>".
+                        "<td>" . $row['fecha'] . "</td>".
+                        "<td>" . $row['usuario'] . "</td>".
+                        "<td>" . $row['numero_pokedex'] . "</td>".
+                        "<td>" . $row['campo_actualizado'] . "</td>".
+                        "<td>" . $row['valor_anterior'] . "</td>".
+                        "<td>" . $row['valor_nuevo'] . "</td>";
+            }
+            echo "</table>";
+        }
+
+        
 
         ?>
     </body>
