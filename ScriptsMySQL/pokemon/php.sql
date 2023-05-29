@@ -196,7 +196,7 @@ CREATE FUNCTION totalMovimientos()
     DECLARE done INT;
     DECLARE movimientos INT;
     DECLARE total INT;
-    DECLARE movis CURSOR FOR SELECT COUNT(m.id_movimiento)
+    DECLARE movis CURSOR FOR SELECT COUNT(DISTINCT m.id_movimiento)
                             FROM pokemon p
                             INNER JOIN pokemon_movimiento_forma pmf
                                 ON p.numero_pokedex = pmf.numero_pokedex
@@ -220,6 +220,10 @@ CREATE FUNCTION totalMovimientos()
     CLOSE movis;
     RETURN total;
 END $$
+DELIMITER ;
+
+
+
 -- SELECT totalMovimientos();
 
 -- Guardar IP del cliente

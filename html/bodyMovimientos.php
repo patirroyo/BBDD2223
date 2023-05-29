@@ -4,7 +4,17 @@
     
     $orderfield = htmlentities($_GET['orderfield']);
     $order = htmlentities($_GET['orderby']);
-
+    $sqlMovimientosDistintos = "SELECT COUNT(DISTINCT m.id_movimiento) as 'total'
+                                            FROM pokemon p
+                                            INNER JOIN pokemon_movimiento_forma pmf
+                                            ON p.numero_pokedex = pmf.numero_pokedex
+                                            INNER JOIN movimiento m
+                                            ON pmf.id_movimiento = m.id_movimiento
+                                            WHERE p.numero_pokedex = " . $numero_pokedex;
+    $resultMovisDistintos = mysqli_query($mysqli, $sqlMovimientosDistintos);
+    
+    
+    $totalDistintos = $resultMovisDistintos->fetch_assoc()['total'];
 
     $sqlMovimientos = "SELECT DISTINCT p.nombre as pokemon,
                     m.id_movimiento as id,
@@ -40,13 +50,13 @@
     
 
     $resultMovis = mysqli_query($mysqli, $sqlMovimientos);
-
+    $total = $resultMovis->num_rows;
 
 
     $row = mysqli_fetch_assoc($resultMovis);
 
     $nombre = $row['pokemon'];
-    $total = $resultMovis->num_rows;
+    
 
     if (!$resultMovis) {
         die('Invalid query: ' . mysqli_error($mysqli));
@@ -55,7 +65,7 @@
 
     echo "<table class='movimientos' id='movimientos'>
             <tr>
-            <th colspan=12>Movimientos: " . $total . "</th>
+            <th colspan=12>Movimientos: " . $total . " / Distintos: ". $totalDistintos ."</th>
             </tr>
             <tr>
             <th>ID<i onclick=ordenar('id','".$order."')></i></th>
