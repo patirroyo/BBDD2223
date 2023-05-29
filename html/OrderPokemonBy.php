@@ -299,7 +299,7 @@
                 echo "<td onclick=ordenar('".$orderfield ."','".$order. "','".$col2 . "','".$nombre."',".$pesomin ."," .$pesomax,"," .$alturamin ."," .$alturamax.")><div class='tipo'>" . $col2 . "</div></td>";
             }
         }
-        $sqlMovimientos = 'SELECT COUNT(m.id_movimiento) as movimientos
+        $sqlMovimientos = 'SELECT DISTINCT COUNT(m.id_movimiento) as movimientos
                             FROM pokemon p
                             INNER JOIN pokemon_movimiento_forma pmf
                                 ON p.numero_pokedex = pmf.numero_pokedex
