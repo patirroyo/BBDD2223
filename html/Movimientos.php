@@ -46,7 +46,7 @@
     $order = htmlentities($_GET['orderby']);
     $buscador = $_GET['buscador'];
 
-    $sqlMovimientos = "SELECT DISTINCT 
+    $sqlMovimientos = "SELECT
                     m.id_movimiento as id,
                     m.nombre as nombre,
                     m.potencia as potencia,
@@ -54,14 +54,8 @@
                     m.pp as pp,
                     m.descripcion as descripcion,
                     t.nombre as tipo
-            FROM pokemon p
-            INNER JOIN pokemon_movimiento_forma pmf
-                ON p.numero_pokedex = pmf.numero_pokedex
-            INNER JOIN movimiento m
-                ON pmf.id_movimiento = m.id_movimiento
-            INNER JOIN tipo t on m.id_tipo = t.id_tipo
-            INNER JOIN forma_aprendizaje fa
-                on pmf.id_forma_aprendizaje = fa.id_forma_aprendizaje";
+            FROM movimiento m
+            INNER JOIN tipo t on m.id_tipo = t.id_tipo";
     if (isset($buscador) && $buscador != "")
         $sqlMovimientos .= " WHERE MATCH(m.descripcion) AGAINST ('" . $buscador . "' IN BOOLEAN MODE)";
     

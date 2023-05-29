@@ -6,7 +6,7 @@
     $order = htmlentities($_GET['orderby']);
 
 
-    $sqlMovimientos = "SELECT DISTINCT p.nombre as pokemon,
+    $sqlMovimientos = "SELECT  p.nombre as pokemon,
                     m.id_movimiento as id,
                     m.nombre as nombre,
                     m.potencia as potencia,

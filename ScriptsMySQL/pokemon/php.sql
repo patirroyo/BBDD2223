@@ -251,6 +251,8 @@ CREATE FULLTEXT INDEX idx_descripcion ON movimiento(descripcion);
 -- optimizada EXPLAIN SELECT p.*, t.nombre as tipo FROM pokemon p INNER JOIN pokemon_tipo pt on p.numero_pokedex = pt.numero_pokedex INNER JOIN tipo t on pt.id_tipo = t.id_tipo;
 -- optimizada EXPLAIN SELECT t.nombre as tipo FROM pokemon p INNER JOIN pokemon_tipo pt on p.numero_pokedex = pt.numero_pokedex INNER JOIN tipo t on pt.id_tipo = t.id_tipo;
 -- optimizada EXPLAIN SELECT COUNT(m.id_movimiento) as movimientos FROM pokemon p INNER JOIN pokemon_movimiento_forma pmf ON p.numero_pokedex = pmf.numero_pokedex INNER JOIN movimiento m ON pmf.id_movimiento = m.id_movimiento;
+-- optimizada EXPLAIN SELECT m.id_movimiento as id, m.nombre as nombre, m.potencia as potencia,m.precision_mov as preciso, m.pp as pp, m.descripcion as descripcion, t.nombre as tipo FROM movimiento m INNER JOIN tipo t on m.id_tipo = t.id_tipo;
+
 
 -- Un procedimiento con cursor para sacar los tipos del pokemon
 DELIMITER $$
