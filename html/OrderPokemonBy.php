@@ -144,7 +144,7 @@
         die('Invalid query: ' . mysqli_error($mysqli));
     } else {
        // echo "<p>Query correcto<p>";
-        echo '  <br><br>
+        echo '  <br><br><br>
                 <br><br><br>
                 
                 <table class="filtros">
